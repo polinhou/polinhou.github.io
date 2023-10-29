@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  
+    
+  <title>About Me | Polin‘s Blog</title>
+  <meta name="author" content="Polin">
+  <meta name="description" content="Polin, 侯柏麟, 工程師, 開發者, 熱愛技術">
+  <meta name="keywords" content="Polin,polin,polinhou,侯柏麟,cloud,雲端,雲原生,DevOps,Microservice,微服務,Kubernetes,developer,personal,blog,">
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="About Me"/>
+<meta name="twitter:description" content="Polin, 侯柏麟, 工程師, 開發者, 熱愛技術"/>
+
+  <meta property="og:title" content="About Me" />
+<meta property="og:description" content="Polin, 侯柏麟, 工程師, 開發者, 熱愛技術" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://polinhou.github.io/about/" />
+
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
+  
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/sass/main.css">
+
+  <link rel="stylesheet" href="/zoomjs/zoom.min.css">
+
+  <script src=/js/lazysizes.min.js></script>
+
+  <link rel="alternate" type="application/rss+xml" href="/about/index.xml" title="Polin‘s Blog" />
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+
+</head>
+
+
+
+<body ontouchstart="">
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+  <div class="container-fluid">
+    
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s Blog</a>
+    </div>
+    
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li><a href="/" title="Home">Home</a></li>
+          
+          <li><a href="/tech/" title="Tech">Tech</a></li>
+          
+          <li><a href="/archive/" title="Archive">Archive</a></li>
+          
+          <li><a href="/about" title="About">About</a></li>
+          
+          <li><a href="https://github.com/polinhou/" title="Github">Github</a></li>
+          
+
+          <li class="search-icon">
+            <a href="javascript:void(0)">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+</nav>
+<script>
+  
+  
+  
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#huxblog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  var __HuxNav__ = {
+    close: function () {
+      $navbar.className = " ";
+      
+      setTimeout(function () {
+        
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    },
+    open: function () {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    },
+  };
+
+  
+  $toggle.addEventListener("click", function (e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      __HuxNav__.close();
+    } else {
+      __HuxNav__.open();
+    }
+  });
+
+  
+
+  document.addEventListener("click", function (e) {
+    if (e.target == $toggle) return;
+    if (e.target.className == "icon-bar") return;
+    __HuxNav__.close();
+  });
+</script>
+  
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+
+
+<header class="intro-header style-text">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <div class="site-heading">
+        
+          <h1>About Me</h1>
+          
+          
+          <span class="subheading">Polin, 侯柏麟, 工程師, 開發者, 熱愛技術</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+  
+  <div class="container">
+    <div class="row">
+      
+      
+      
+      <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12
+      col-xs-12 postlist-container">
+        
+
+<div class="post-container">
+ 
+  <p>我是 <span style="font-size: 20pt;font-weight: bold;">Polin</span></p>
+<p>我從PHP Developer，後來轉向了Site Reliability Engineering（SRE）領域。在我的工作和自學過程中，我接觸了許多有關DevOps和SRE的工具和技術，並持續學習，以使整個團隊更自動化，並確保服務的穩定性。</p>
+<p>我對Coding和學習新技術充滿熱情，喜歡酷酷的技術。</p>
+<p>我的專業技術主要涉及雲原生, 容器化和DevOps相關領域。</p>
+<p>目前，我在CTBC擔任襄理，負責平台SRE和DevOps相關的工作。</p>
+<p>歡迎與我互相交流，討論技術問題，並擴展我們的技術知識。期待與大家交朋友！</p>
+<h3 id="技術技能">技術技能<a class="anchorjs-link" href="#%e6%8a%80%e8%a1%93%e6%8a%80%e8%83%bd"></a></h3><ul>
+<li>
+<p>Python, Golang 程式開發</p>
+</li>
+<li>
+<p>GCP、AWS、Azure 系統建置</p>
+</li>
+<li>
+<p>Ansible 自動化腳本</p>
+</li>
+<li>
+<p>Terraform IaC腳本</p>
+</li>
+<li>
+<p>GitOps實作：Jenkins + Gitlab，Cloud Build + Cloud Source Repositories</p>
+</li>
+<li>
+<p>Elastic Stack(Kibana + Logstash + Elasticsearch + Filebeat/Fluentd) 建置與管理</p>
+</li>
+<li>
+<p>Kubernetes(Google Kubernetes Engine) 導入、部署和管理</p>
+</li>
+<li>
+<p>Zabbix 監控系統及應用程式</p>
+</li>
+<li>
+<p>Prometheus + Grafana + Alertmanager 導入監控系統及應用程式</p>
+</li>
+</ul>
+<h3 id="證照">證照<a class="anchorjs-link" href="#%e8%ad%89%e7%85%a7"></a></h3><style>
+  .badge-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .badge {
+    width: 300px;
+    padding: 10px;
+    background-color: #fff;
+    text-align: center;
+
+  }
+
+  .badge img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .truncate-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px;
+  }
+</style>
+<div class="badge-container">
+  <div class="badge">
+    <a href="https://www.credly.com/badges/d6d9cad8-6523-4dd1-bb9f-91d0cf856f68/embedded" target="_block">
+      <img src="https://images.credly.com/size/680x680/images/8b8ed108-e77d-4396-ac59-2504583b9d54/cka_from_cncfsite__281_29.png" alt="CKA: Certified Kubernetes Administrator badge image. Certification. Intermediate level. Issued by The Linux Foundation">
+    </a>
+    <div>
+      <a href="https://www.credly.com/badges/d6d9cad8-6523-4dd1-bb9f-91d0cf856f68/embedded" target="_block">
+        <p class="truncate-text" style="font-weight: bold;font-size: 15pt">CKA: Certified Kubernetes Administrator</p>
+      </a>
+      <p class="truncate-text" style="color: gray; font-size: 10pt;">Issued by The Linux Foundation</p>
+    </div>
+  </div>
+  <div class="badge">
+    <a href="https://www.credly.com/badges/f3eb99ca-c65e-462b-83a1-789fd914b1ba/embedded" target="_block">
+      <img src="https://images.credly.com/size/680x680/images/f88d800c-5261-45c6-9515-0458e31c3e16/ckad_from_cncfsite.png" alt="CKAD: Certified Kubernetes Application Developer badge image. Certification. Intermediate level. Issued by The Linux Foundation">
+    </a>
+    <div>
+      <a href="https://www.credly.com/badges/f3eb99ca-c65e-462b-83a1-789fd914b1ba/embedded" target="_block">
+        <p class="truncate-text" style="font-weight: bold;font-size: 15pt">CKAD: Certified Kubernetes Application Developer</p>
+      </a>
+      <p class="truncate-text" style="color: gray; font-size: 10pt;">Issued by The Linux Foundation</p>
+    </div>
+  </div>
+  <div class="badge">
+    <a href="https://www.credly.com/badges/810474a1-450b-4855-97a9-01ece61222e0/embedded" target="_block">
+      <img src="https://images.credly.com/size/680x680/images/9945dfcb-1cca-4529-85e6-db1be3782210/kubernetes-security-specialist-logo2.png" alt="CKS: Certified Kubernetes Security Specialist badge image. Certification. Intermediate level. Issued by The Linux Foundation">
+    </a>
+    <div>
+      <a href="https://www.credly.com/badges/810474a1-450b-4855-97a9-01ece61222e0/embedded" target="_block">
+        <p class="truncate-text" style="font-weight: bold;font-size: 15pt">CKS: Certified Kubernetes Security Specialist</p>
+      </a>
+      <p class="truncate-text" style="color: gray; font-size: 10pt;">Issued by The Linux Foundation</p>
+    </div>
+  </div>
+  <div class="badge">
+    <a href="https://www.credly.com/badges/c2792363-907c-4dce-8bd4-993ba208bb1d/embedded" target="_block">
+      <img src="https://images.credly.com/size/680x680/images/9d7dc4c0-5681-41fc-b96b-26e9157786d7/image.png" alt="AZ-305: Designing Microsoft Azure Infrastructure Solutions badge image. Issued by Microsoft">
+    </a>
+    <div>
+      <a href="https://www.credly.com/badges/c2792363-907c-4dce-8bd4-993ba208bb1d/embedded" target="_block">
+        <p class="truncate-text" style="font-weight: bold;font-size: 15pt">AZ-305: Designing Microsoft Azure Infrastructure Solutions</p>
+      </a>
+      <p class="truncate-text" style="color: gray; font-size: 10pt;">Issued by Microsoft</p>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      
+      <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-12
+      col-xs-12 sidebar-container">
+
+        
+        <section>
+  
+  
+  <h5>FEATURED TAGS</h5>
+  <div class="tags">
+    
+    <a href="/tags/blog/">blog</a>
+    
+    <a href="/tags/github/">github</a>
+    
+    <a href="/tags/hugo/">hugo</a>
+    
+  </div>
+</section>
+        
+<section class="visible-md visible-lg">
+  <hr>
+  
+  <h5><a href=/about/>ABOUT ME</a></h5>
+  
+
+  
+  <div class="short-about">
+    
+    <img src="/img/person.png" />
+    
+    
+    <p>SRE/DevOps Engineer｜AWS｜GCP｜Azure｜Kubernetes｜CKA｜CKS｜CKAD｜Developer</p>
+    
+    
+    <ul class="list-inline">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+  </div>
+</section>
+
+        
+        
+
+
+      </div>
+      
+
+    </div>
+  </div>
+
+  
+
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <ul class="list-inline text-center">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+        <p class="copyright text-muted">
+          Copyright &copy; Polin‘s Blog 2023  
+          <br>
+          Powered by <a href="https://gohugo.io">Hugo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js crossorigin="anonymous"></script>
+
+
+
+<script src="/js/hux-blog.min.c4ea77041cd3edbfc8b2622cd887a9a5d8760a4162d14489e36d2a3fa4c90172.js"></script>
+
+
+<script src=/js/simple-jekyll-search.min.js></script>
+
+
+<script src="/js/search.min.53bce5da475b4d362500e5ce5dddfa22e20e1b9018777411d2020b4b839c9310.js"></script>
+
+
+
+
+
+
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-K5XHM4QCLL', { 'anonymize_ip': false });
+}
+</script>
+
+
+
+
+<script src="/zoomjs/zoom.min.js"></script>
+
+</body>
+
+</html>
