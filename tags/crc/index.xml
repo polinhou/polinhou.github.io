@@ -1,26 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tech on Polin‘s Blog</title>
-    <link>https://polinhou.github.io/tech/</link>
-    <description>Recent content in Tech on Polin‘s Blog</description>
+    <title>crc on Polin‘s Blog</title>
+    <link>https://polinhou.github.io/tags/crc/</link>
+    <description>Recent content in crc on Polin‘s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 04 Nov 2023 05:31:31 +0800</lastBuildDate>
-    <atom:link href="https://polinhou.github.io/tech/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://polinhou.github.io/tags/crc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在本機用CRC建立Opehshift</title>
       <link>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</link>
       <pubDate>Sat, 04 Nov 2023 05:31:31 +0800</pubDate>
       <guid>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</guid>
       <description>當你開始進行開發或測試基於 OpenShift 的容器應用程式時，一個快速、方便且低成本的方式是在你的本地環境中建立一個 OpenShift 環境。CodeReady Contain</description>
-    </item>
-    <item>
-      <title>使用Hugo&#43;Github製作Blog</title>
-      <link>https://polinhou.github.io/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</link>
-      <pubDate>Sun, 29 Oct 2023 15:38:30 +0800</pubDate>
-      <guid>https://polinhou.github.io/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</guid>
-      <description>當你希望分享自己的知識、經驗，或創建一個靜態網頁時，GitHub Pages 是一個強大的平台。它允許你輕鬆地將你的靜態網頁託管在 GitHub 上，而且是免費的。 特</description>
     </item>
   </channel>
 </rss>

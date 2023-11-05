@@ -2,6 +2,33 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://polinhou.github.io/tags/codeready-containers/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/crc/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/openshift/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/red-hat/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/%E7%B4%85%E5%B8%BD/</loc>
+    <lastmod>2023-11-04T05:31:31+08:00</lastmod>
+  </url><url>
     <loc>https://polinhou.github.io/tags/blog/</loc>
     <lastmod>2023-10-29T15:38:30+08:00</lastmod>
   </url><url>
@@ -9,15 +36,6 @@
     <lastmod>2023-10-29T15:38:30+08:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tags/hugo/</loc>
-    <lastmod>2023-10-29T15:38:30+08:00</lastmod>
-  </url><url>
-    <loc>https://polinhou.github.io/</loc>
-    <lastmod>2023-10-29T15:38:30+08:00</lastmod>
-  </url><url>
-    <loc>https://polinhou.github.io/tags/</loc>
-    <lastmod>2023-10-29T15:38:30+08:00</lastmod>
-  </url><url>
-    <loc>https://polinhou.github.io/tech/</loc>
     <lastmod>2023-10-29T15:38:30+08:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</loc>
