@@ -13,7 +13,7 @@
       <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
-      <description>關閉所有防火牆 systemctl disable --now firewalld 關閉SELinux sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config reboot now 加入 sysctl.conf net.ipv4.ip_forward = 1 &amp;gt;&amp;gt; /etc/sysctl.conf 安裝OpenVPN首先安裝OpenVPN2.4 跟 easy-rsa 3 yum install epel-release -y yum install openvpn easy-rsa -y 複</description>
+      <description>在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更</description>
     </item>
   </channel>
 </rss>

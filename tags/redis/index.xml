@@ -13,7 +13,7 @@
       <link>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
-      <description>查看當前版號進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。 選擇更新版號點選 UPGRADE 的選項後</description>
+      <description>在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。 查看當前版號</description>
     </item>
   </channel>
 </rss>

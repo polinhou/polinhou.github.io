@@ -10,18 +10,18 @@
     
   <title>自建VPN並Google Authenticator MFA驗證 | Polin‘s 技術筆記</title>
   <meta name="author" content="Polin">
-  <meta name="description" content="自建VPN並Google Authenticator MFA驗證">
+  <meta name="description" content="在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。">
   <meta name="keywords" content="openvpn,google,authenticator,mfa,linux">
 
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="自建VPN並Google Authenticator MFA驗證">
-  <meta name="twitter:description" content="自建VPN並Google Authenticator MFA驗證">
+  <meta name="twitter:description" content="在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。">
 
   <meta property="og:url" content="https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
   <meta property="og:title" content="自建VPN並Google Authenticator MFA驗證">
-  <meta property="og:description" content="自建VPN並Google Authenticator MFA驗證">
+  <meta property="og:description" content="在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="tech">
@@ -210,7 +210,8 @@
               col-lg-8 col-lg-offset-2
               col-md-10 col-md-offset-1
               post-container">
-        <p>關閉所有防火牆</p>
+        <p>在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。</p>
+<p>關閉所有防火牆</p>
 <pre tabindex="0"><code>systemctl disable --now firewalld
 </code></pre><p>關閉SELinux</p>
 <pre tabindex="0"><code>sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config
@@ -542,7 +543,9 @@ mv client client.tblk
     
     <a href="/tags/codeready-containers/">CodeReady Containers</a>
     
-    <a href="/tags/crc/">Crc</a>
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/docker/">Docker</a>
     
     <a href="/tags/ec2/">Ec2</a>
     
@@ -553,6 +556,10 @@ mv client client.tblk
     <a href="/tags/google-authenticator/">Google Authenticator</a>
     
     <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
     
     <a href="/tags/linux/">Linux</a>
     

@@ -10,18 +10,18 @@
     
   <title>AWS EC2 for Linux 擴充硬碟大小 | Polin‘s 技術筆記</title>
   <meta name="author" content="Polin">
-  <meta name="description" content="AWS EC2 for Linux 擴充硬碟大小">
+  <meta name="description" content="在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。">
   <meta name="keywords" content="aws,ec2,linux,cloud">
 
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="AWS EC2 for Linux 擴充硬碟大小">
-  <meta name="twitter:description" content="AWS EC2 for Linux 擴充硬碟大小">
+  <meta name="twitter:description" content="在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。">
 
   <meta property="og:url" content="https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
   <meta property="og:title" content="AWS EC2 for Linux 擴充硬碟大小">
-  <meta property="og:description" content="AWS EC2 for Linux 擴充硬碟大小">
+  <meta property="og:description" content="在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="tech">
@@ -213,6 +213,7 @@
         <div style="display: flex">
 <img src="https://img.shields.io/badge/AWS-EC2-blue.svg" style="margin: 2px;">
 </div>
+<p>在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。</p>
 <h3 id="檢查當前磁碟狀態">檢查當前磁碟狀態<a class="anchorjs-link" href="#%e6%aa%a2%e6%9f%a5%e7%95%b6%e5%89%8d%e7%a3%81%e7%a2%9f%e7%8b%80%e6%85%8b"></a></h3><p>進到AWS的Console中，進入系統內利用指令觀看目前使用的硬碟磁區大小，可以明顯看出來 /dev/xvda1 只有 8G</p>
 <pre tabindex="0"><code>df -h
 </code></pre><p><figure>
@@ -453,7 +454,9 @@
     
     <a href="/tags/codeready-containers/">CodeReady Containers</a>
     
-    <a href="/tags/crc/">Crc</a>
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/docker/">Docker</a>
     
     <a href="/tags/ec2/">Ec2</a>
     
@@ -464,6 +467,10 @@
     <a href="/tags/google-authenticator/">Google Authenticator</a>
     
     <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
     
     <a href="/tags/linux/">Linux</a>
     

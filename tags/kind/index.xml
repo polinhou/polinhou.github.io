@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>KinD on Polin‘s 技術筆記</title>
+    <link>https://polinhou.github.io/tags/kind/</link>
+    <description>Recent content in KinD on Polin‘s 技術筆記</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 10 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://polinhou.github.io/tags/kind/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在本機用KinD建立Kubernetes</title>
+      <link>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
+      <pubDate>Sun, 10 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
+      <description>KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便</description>
+    </item>
+  </channel>
+</rss>

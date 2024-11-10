@@ -13,7 +13,7 @@
       <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>檢查當前磁碟狀態進到AWS的Console中，進入系統內利用指令觀看目前使用的硬碟磁區大小，可以明顯看出來 /dev/xvda1 只有 8G df -h 使用 lsblk 列出目前主機上的</description>
+      <description>在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空</description>
     </item>
   </channel>
 </rss>

@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://polinhou.github.io/tags/docker/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/kind/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/kubernetes/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</loc>
+    <lastmod>2024-11-10T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://polinhou.github.io/tags/codeready-containers/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
@@ -11,16 +32,7 @@
     <loc>https://polinhou.github.io/tags/openshift/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://polinhou.github.io/</loc>
-    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://polinhou.github.io/tags/red-hat/</loc>
-    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://polinhou.github.io/tags/</loc>
-    <lastmod>2023-11-04T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://polinhou.github.io/tech/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</loc>

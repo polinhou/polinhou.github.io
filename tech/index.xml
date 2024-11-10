@@ -6,8 +6,15 @@
     <description>Recent content in Tech on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 Nov 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 10 Nov 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://polinhou.github.io/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在本機用KinD建立Kubernetes</title>
+      <link>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
+      <pubDate>Sun, 10 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
+      <description>KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便</description>
+    </item>
     <item>
       <title>在本機用CRC建立Opehshift</title>
       <link>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</link>
@@ -27,21 +34,21 @@
       <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>檢查當前磁碟狀態進到AWS的Console中，進入系統內利用指令觀看目前使用的硬碟磁區大小，可以明顯看出來 /dev/xvda1 只有 8G df -h 使用 lsblk 列出目前主機上的</description>
+      <description>在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空</description>
     </item>
     <item>
       <title>GCP Memorystore for Redis 升級</title>
       <link>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
-      <description>查看當前版號進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。 選擇更新版號點選 UPGRADE 的選項後</description>
+      <description>在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。 查看當前版號</description>
     </item>
     <item>
       <title>自建VPN並Google Authenticator MFA驗證</title>
       <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
-      <description>關閉所有防火牆 systemctl disable --now firewalld 關閉SELinux sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config reboot now 加入 sysctl.conf net.ipv4.ip_forward = 1 &amp;gt;&amp;gt; /etc/sysctl.conf 安裝OpenVPN首先安裝OpenVPN2.4 跟 easy-rsa 3 yum install epel-release -y yum install openvpn easy-rsa -y 複</description>
+      <description>在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更</description>
     </item>
   </channel>
 </rss>

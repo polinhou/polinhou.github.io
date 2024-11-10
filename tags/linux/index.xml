@@ -13,14 +13,14 @@
       <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>檢查當前磁碟狀態進到AWS的Console中，進入系統內利用指令觀看目前使用的硬碟磁區大小，可以明顯看出來 /dev/xvda1 只有 8G df -h 使用 lsblk 列出目前主機上的</description>
+      <description>在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空</description>
     </item>
     <item>
       <title>自建VPN並Google Authenticator MFA驗證</title>
       <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
-      <description>關閉所有防火牆 systemctl disable --now firewalld 關閉SELinux sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config reboot now 加入 sysctl.conf net.ipv4.ip_forward = 1 &amp;gt;&amp;gt; /etc/sysctl.conf 安裝OpenVPN首先安裝OpenVPN2.4 跟 easy-rsa 3 yum install epel-release -y yum install openvpn easy-rsa -y 複</description>
+      <description>在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更</description>
     </item>
   </channel>
 </rss>
