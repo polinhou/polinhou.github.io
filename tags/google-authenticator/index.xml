@@ -1,20 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Linux on Polin‘s 技術筆記</title>
-    <link>https://polinhou.github.io/tags/linux/</link>
-    <description>Recent content in Linux on Polin‘s 技術筆記</description>
+    <title>Google Authenticator on Polin‘s 技術筆記</title>
+    <link>https://polinhou.github.io/tags/google-authenticator/</link>
+    <description>Recent content in Google Authenticator on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 18 Jul 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://polinhou.github.io/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>AWS EC2 for Linux 擴充硬碟大小</title>
-      <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
-      <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>檢查當前磁碟狀態進到AWS的Console中，進入系統內利用指令觀看目前使用的硬碟磁區大小，可以明顯看出來 /dev/xvda1 只有 8G df -h 使用 lsblk 列出目前主機上的</description>
-    </item>
+    <lastBuildDate>Wed, 02 Feb 2022 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://polinhou.github.io/tags/google-authenticator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>自建VPN並Google Authenticator MFA驗證</title>
       <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>

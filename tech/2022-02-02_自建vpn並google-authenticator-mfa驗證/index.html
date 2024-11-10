@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -11,14 +11,14 @@
   <title>自建VPN並Google Authenticator MFA驗證 | Polin‘s 技術筆記</title>
   <meta name="author" content="Polin">
   <meta name="description" content="自建VPN並Google Authenticator MFA驗證">
-  <meta name="keywords" content="Polin,polin,polinhou,侯柏麟,cloud,雲端,雲原生,DevOps,Microservice,微服務,Kubernetes,developer,personal,blog,技術筆記">
+  <meta name="keywords" content="polin,侯柏麟,polinhou,polin hou,cloud,雲端,雲原生,DevOps,Microservice,微服務,Kubernetes,developer,personal,blog,技術筆記">
 
   
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="自建VPN並Google Authenticator MFA驗證">
   <meta name="twitter:description" content="自建VPN並Google Authenticator MFA驗證">
 
-  <meta property="og:url" content="http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A-copy/">
+  <meta property="og:url" content="https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
   <meta property="og:title" content="自建VPN並Google Authenticator MFA驗證">
   <meta property="og:description" content="自建VPN並Google Authenticator MFA驗證">
@@ -30,6 +30,7 @@
     <meta property="article:tag" content="Openvpn">
     <meta property="article:tag" content="Google Authenticator">
     <meta property="article:tag" content="Mfa">
+    <meta property="article:tag" content="Linux">
 
   <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
   
@@ -65,7 +66,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://localhost:1313/">Polin‘s 技術筆記</a>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
     </div>
     
     <div id="huxblog_navbar">
@@ -180,6 +181,8 @@
             <a class="tag" href="/tags/google-authenticator/" title="Google Authenticator">Google Authenticator</a>
             
             <a class="tag" href="/tags/mfa/" title="Mfa">Mfa</a>
+            
+            <a class="tag" href="/tags/linux/" title="Linux">Linux</a>
             
           </div>
           <h1>自建VPN並Google Authenticator MFA驗證</h1>
@@ -411,23 +414,26 @@ account   required    pam_permit.so
 <pre tabindex="0"><code>mkdir /etc/google-auth
 </code></pre><p>執行 google-authenticator 產生 QR-Code</p>
 <pre tabindex="0"><code>google-authenticator
-</code></pre><blockquote>
-<p>Do you want authentication tokens to be time-based (y/n) y
+</code></pre><pre tabindex="0"><code>Do you want authentication tokens to be time-based (y/n) y
 Warning: pasting the following URL into your browser exposes the OTP secret to Google:
-<a href="https://www.google.com/chart?chs=200x200&amp;chld=M" target="_blank">https://www.google.com/chart?chs=200x200&chld=M</a>|0&amp;cht=qr&amp;chl=otpauth://totp/root@Test1%3Fsecret%3DSSY64ZPQHPEGFRQIU4YNPOZQEU%26issuer%3DTest1
+
+https://www.google.com/chart?chs=200x200&amp;chld=M|0&amp;cht=qr&amp;chl=otpauth://totp/root@Test1%3Fsecret%3DSSY64ZPQHPEGFRQIU4YNPOZQEU%26issuer%3DTest1
 這裏是生成的二維碼圖片
 Your new secret key is: SSY64ZPQHPEGFRQIU4YNPOZQEU
 Your verification code is: 輸入OTP
 Your emergency scratch codes are:
-60320384
-44748688
-51040059
-54687098
-43300392
-Do you want me to update your &ldquo;/root/.google_authenticator&rdquo; file? (y/n) y
+  60320384
+  44748688
+  51040059
+  54687098
+  43300392
+
+Do you want me to update your &#34;/root/.google_authenticator&#34; file? (y/n) y
+
 Do you want to disallow multiple uses of the same authentication
 token? This restricts you to one login about every 30s, but it increases
 your chances to notice or even prevent man-in-the-middle attacks (y/n) y
+
 By default, a new token is generated every 30 seconds by the mobile app.
 In order to compensate for possible time-skew between the client and the server,
 we allow an extra token before and after the current time. This allows for a
@@ -437,13 +443,13 @@ from its default size of 3 permitted codes (one previous code, the current
 code, the next code) to 17 permitted codes (the 8 previous codes, the current
 code, and the 8 next codes). This will permit for a time skew of up to 4 minutes
 between client and server.
+
 Do you want to do so? (y/n) y
-If the computer that you are logging into isn&rsquo;t hardened against brute-force
+If the computer that you are logging into isn&#39;t hardened against brute-force
 login attempts, you can enable rate-limiting for the authentication module.
 By default, this limits attackers to no more than 3 login attempts every 30s.
-Do you want to enable rate-limiting? (y/n) y</p>
-</blockquote>
-<blockquote>
+Do you want to enable rate-limiting? (y/n) y
+</code></pre><blockquote>
 <p>QR-Code 請用 Authenticator APP掃描</p>
 </blockquote>
 <blockquote>
@@ -681,6 +687,28 @@ mv client client.tblk
 </script>
 
 
+
+
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-K5XHM4QCLL');
+        }
+      </script>
+    
+  
 
 
 

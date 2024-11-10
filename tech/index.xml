@@ -36,5 +36,12 @@
       <guid>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
       <description>查看當前版號進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。 選擇更新版號點選 UPGRADE 的選項後</description>
     </item>
+    <item>
+      <title>自建VPN並Google Authenticator MFA驗證</title>
+      <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
+      <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
+      <description>關閉所有防火牆 systemctl disable --now firewalld 關閉SELinux sed -i &amp;#39;s/SELINUX=enforcing/SELINUX=disabled/&amp;#39; /etc/selinux/config reboot now 加入 sysctl.conf net.ipv4.ip_forward = 1 &amp;gt;&amp;gt; /etc/sysctl.conf 安裝OpenVPN首先安裝OpenVPN2.4 跟 easy-rsa 3 yum install epel-release -y yum install openvpn easy-rsa -y 複</description>
+    </item>
   </channel>
 </rss>
