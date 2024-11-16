@@ -13,14 +13,14 @@
       <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空</description>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/AWS-EC2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。&lt;/p&gt;</description>
     </item>
     <item>
       <title>GCP Memorystore for Redis 升級</title>
       <link>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
       <guid>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
-      <description>在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。 查看當前版號</description>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Memorystore-4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。&lt;/p&gt;&#xA;&lt;h3 id=&#34;查看當前版號&#34;&gt;查看當前版號&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e6%9f%a5%e7%9c%8b%e7%95%b6%e5%89%8d%e7%89%88%e8%99%9f&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -8,29 +8,28 @@
   <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
   
     
-  <title>GCP Memorystore for Redis 升級 | Polin‘s 技術筆記</title>
+  <title>在本機用KinD建立Kubernetes | Polin‘s 技術筆記</title>
   <meta name="author" content="Polin">
-  <meta name="description" content="在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。">
-  <meta name="keywords" content="memorystore,redis,gcp,cloud">
+  <meta name="description" content="KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。">
+  <meta name="keywords" content="KinD,Kubernetes,Docker,k8s">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="GCP Memorystore for Redis 升級">
-  <meta name="twitter:description" content="在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。">
+  <meta name="twitter:title" content="在本機用KinD建立Kubernetes">
+  <meta name="twitter:description" content="KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。">
 
-  <meta property="og:url" content="https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/">
+  <meta property="og:url" content="https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes-copy/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
-  <meta property="og:title" content="GCP Memorystore for Redis 升級">
-  <meta property="og:description" content="在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。">
+  <meta property="og:title" content="在本機用KinD建立Kubernetes">
+  <meta property="og:description" content="KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="tech">
-    <meta property="article:published_time" content="2022-07-02T00:00:00+00:00">
-    <meta property="article:modified_time" content="2022-07-02T00:00:00+00:00">
-    <meta property="article:tag" content="Memorystore">
-    <meta property="article:tag" content="Redis">
-    <meta property="article:tag" content="Gcp">
-    <meta property="article:tag" content="Cloud">
+    <meta property="article:published_time" content="2024-11-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-10T00:00:00+00:00">
+    <meta property="article:tag" content="KinD">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Docker">
 
   <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
   
@@ -176,20 +175,18 @@
         <div class="post-heading">
           <div class="tags">
             
-            <a class="tag" href="/tags/memorystore/" title="Memorystore">Memorystore</a>
+            <a class="tag" href="/tags/kind/" title="KinD">KinD</a>
             
-            <a class="tag" href="/tags/redis/" title="Redis">Redis</a>
+            <a class="tag" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
             
-            <a class="tag" href="/tags/gcp/" title="Gcp">Gcp</a>
-            
-            <a class="tag" href="/tags/cloud/" title="Cloud">Cloud</a>
+            <a class="tag" href="/tags/docker/" title="Docker">Docker</a>
             
           </div>
-          <h1>GCP Memorystore for Redis 升級</h1>
+          <h1>在本機用KinD建立Kubernetes</h1>
           <h2 class="subheading"></h2>
           <span class="meta">
             Posted by  Polin 
-            on Sat, Jul 2, 2022
+            on Sun, Nov 10, 2024
           </span>
         </div>
       </div>
@@ -211,57 +208,67 @@
               col-md-10 col-md-offset-1
               post-container">
         <div style="display: flex">
-<img src="https://img.shields.io/badge/Memorystore-4.0-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
 </div>
-<p>在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。</p>
-<h3 id="查看當前版號">查看當前版號<a class="anchorjs-link" href="#%e6%9f%a5%e7%9c%8b%e7%95%b6%e5%89%8d%e7%89%88%e8%99%9f"></a></h3><p>進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。</p>
-<p><figure>
-  <a class="paragraph-image">
-    <img data-src="/img/2022-07-02-1.png" data-action="zoom" alt="當前版號"  class="lazyload">
-  </a>
-  
-</figure></p>
-<h3 id="選擇更新版號">選擇更新版號<a class="anchorjs-link" href="#%e9%81%b8%e6%93%87%e6%9b%b4%e6%96%b0%e7%89%88%e8%99%9f"></a></h3><p>點選 UPGRADE 的選項後會出現選擇要更新版本</p>
-<p><figure>
-  <a class="paragraph-image">
-    <img data-src="/img/2022-07-02-2.png" data-action="zoom" alt="選擇更新版號"  class="lazyload">
-  </a>
-  
-</figure></p>
-<p>選擇好要更新的版本後，點選 UPGRADE 的按鈕後，就會開始更新，並且會有預估的時間</p>
-<p><figure>
-  <a class="paragraph-image">
-    <img data-src="/img/2022-07-02-3.png" data-action="zoom" alt="預估更新時間"  class="lazyload">
-  </a>
-  
-</figure></p>
-<blockquote>
-<p>不過預估時間真的參考就好</p>
-</blockquote>
-<h3 id="更新完成">更新完成<a class="anchorjs-link" href="#%e6%9b%b4%e6%96%b0%e5%ae%8c%e6%88%90"></a></h3><p>更新完成後 Version 欄位的就會顯示您所選擇的版本號了</p>
-<p><figure>
-  <a class="paragraph-image">
-    <img data-src="/img/2022-07-02-4.png" data-action="zoom" alt="更新後版號"  class="lazyload">
-  </a>
-  
-</figure></p>
+<p>KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。</p>
+<h1 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h1><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
+<ol>
+<li>
+<p>Homebrew：macOS 的套件管理工具，用來安裝其他必要軟體。</p>
+</li>
+<li>
+<p>Docker Desktop for Mac：KinD 依賴於 Docker 容器運行，請確保 Docker 已經安裝並處於運行狀態。</p>
+<p>您可以使用以下命令來確認 Docker 是否已安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker --version
+</span></span></code></pre></div><p>如果尚未安裝 Docker，請到 Docker 官方網站 下載並安裝 Docker Desktop。</p>
+</li>
+</ol>
+<h1 id="安裝-kind">安裝 KinD<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-kind"></a></h1><p>使用 Homebrew 來安裝 KinD 是最便捷的方式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
+</span></span></code></pre></div><p>安裝完成後，您可以使用以下命令來驗證 KinD 是否安裝成功：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kind --version
+</span></span></code></pre></div><h1 id="建立-kubernetes-叢集">建立 Kubernetes 叢集<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-kubernetes-%e5%8f%a2%e9%9b%86"></a></h1><p>KinD 提供簡便的命令來建立 Kubernetes 叢集。以下是建立單節點叢集的命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kind create cluster --name my-cluster
+</span></span></code></pre></div><blockquote>
+<p>預設情況下，KinD 會下載並使用最新版的 Kubernetes。如果您希望使用特定版本的 Kubernetes，可以指定 &ndash;image 參數，例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kind create cluster --name my-cluster --image kindest/node:v1.21.1
+</span></span></code></pre></div></blockquote>
+<p>建立叢集後，您可以使用 kubectl 命令來檢查叢集狀態。KinD 會自動配置 kubectl 的上下文，因此直接執行以下命令即可：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl cluster-info --context kind-my-cluster
+</span></span></code></pre></div><h1 id="驗證叢集">驗證叢集<a class="anchorjs-link" href="#%e9%a9%97%e8%ad%89%e5%8f%a2%e9%9b%86"></a></h1><p>您可以使用指令來檢查叢集中節點的狀態，確認叢集是否正常啟動：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get nodes
+</span></span></code></pre></div><p>此命令應該會顯示一個 Ready 狀態的節點，表示叢集已成功啟動並準備就緒。</p>
+<h1 id="自訂叢集設定可選">自訂叢集設定（可選）<a class="anchorjs-link" href="#%e8%87%aa%e8%a8%82%e5%8f%a2%e9%9b%86%e8%a8%ad%e5%ae%9a%e5%8f%af%e9%81%b8"></a></h1><p>如果需要更複雜的叢集配置，例如多節點叢集或自訂網路設置，可以創建自訂配置檔案。以下是一個範例配置檔案，創建一個含有兩個工作節點和一個控制平面的叢集：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># kind-config.yaml</span>
+</span></span><span style="display:flex;"><span>kind: Cluster
+</span></span><span style="display:flex;"><span>apiVersion: kind.x-k8s.io/v1alpha4
+</span></span><span style="display:flex;"><span>nodes:
+</span></span><span style="display:flex;"><span>  - role: control-plane
+</span></span><span style="display:flex;"><span>  - role: worker
+</span></span><span style="display:flex;"><span>  - role: worker
+</span></span></code></pre></div><p>然後，使用此配置檔案來建立叢集：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kind create cluster --name custom-cluster --config kind-config.yaml
+</span></span></code></pre></div><h1 id="刪除叢集">刪除叢集<a class="anchorjs-link" href="#%e5%88%aa%e9%99%a4%e5%8f%a2%e9%9b%86"></a></h1><p>如果您不再需要該叢集，可以使用以下命令將其刪除：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kind delete cluster --name my-cluster
+</span></span></code></pre></div><h1 id="參考">參考<a class="anchorjs-link" href="#%e5%8f%83%e8%80%83"></a></h1><p><a href="https://kind.sigs.k8s.io/docs/user/quick-start" target="_blank">KinD 官方文件</a></p>
 
 
         <hr style="visibility: hidden;" />
         <ul class="pager">
           
           <li class="previous">
-            <a href="/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/" data-toggle="tooltip" data-placement="top" title="自建VPN並Google Authenticator MFA驗證">
+            <a href="/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/" data-toggle="tooltip" data-placement="top" title="在本機用CRC建立Opehshift">
               Previous<br>
-              <span>自建VPN並Google Authenticator MFA驗證</span>
+              <span>在本機用CRC建立Opehshift</span>
             </a>
           </li>
           
           
           <li class="next">
-            <a href="/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/" data-toggle="tooltip" data-placement="top" title="AWS EC2 for Linux 擴充硬碟大小">
+            <a href="/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/" data-toggle="tooltip" data-placement="top" title="Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret">
               Next<br>
-              <span>AWS EC2 for Linux 擴充硬碟大小</span>
+              <span>Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret</span>
             </a>
           </li>
           

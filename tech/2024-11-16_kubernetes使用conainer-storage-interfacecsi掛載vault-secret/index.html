@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
+  
+    
+  <title>Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret | Polin‘s 技術筆記</title>
+  <meta name="author" content="Polin">
+  <meta name="description" content="將介紹如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。">
+  <meta name="keywords" content="KinD,Kubernetes,k8s,Vault,CSI">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret">
+  <meta name="twitter:description" content="將介紹如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。">
+
+  <meta property="og:url" content="https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/">
+  <meta property="og:site_name" content="Polin‘s 技術筆記">
+  <meta property="og:title" content="Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret">
+  <meta property="og:description" content="將介紹如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2024-11-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-16T00:00:00+00:00">
+    <meta property="article:tag" content="KinD">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Vault">
+    <meta property="article:tag" content="CSI">
+    <meta property="article:tag" content="Container Storage Interface">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
+  
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/sass/main.css">
+
+  <link rel="stylesheet" href="/zoomjs/zoom.min.css">
+
+  <script src=/js/lazysizes.min.js></script>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+
+</head>
+
+
+
+<body ontouchstart="">
+  
+  
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+  <div class="container-fluid">
+    
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
+    </div>
+    
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li><a href="/" title="Home">Home</a></li>
+          
+          <li><a href="/archive/" title="Archive">Archive</a></li>
+          
+          <li><a href="/about" title="About">About</a></li>
+          
+          <li><a href="https://github.com/polinhou/" title="Github">Github</a></li>
+          
+
+          <li class="search-icon">
+            <a href="javascript:void(0)">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+</nav>
+<script>
+  
+  
+  
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#huxblog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  var __HuxNav__ = {
+    close: function () {
+      $navbar.className = " ";
+      
+      setTimeout(function () {
+        
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    },
+    open: function () {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    },
+  };
+
+  
+  $toggle.addEventListener("click", function (e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      __HuxNav__.close();
+    } else {
+      __HuxNav__.open();
+    }
+  });
+
+  
+
+  document.addEventListener("click", function (e) {
+    if (e.target == $toggle) return;
+    if (e.target.className == "icon-bar") return;
+    __HuxNav__.close();
+  });
+</script>
+  
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+
+<style type="text/css">
+  header.intro-header {
+    position: relative;
+    background-image: url('');
+  }
+</style>
+
+<header class="intro-header style-text">
+
+  <div class="header-mask"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/kind/" title="KinD">KinD</a>
+            
+            <a class="tag" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+            
+            <a class="tag" href="/tags/vault/" title="Vault">Vault</a>
+            
+            <a class="tag" href="/tags/csi/" title="CSI">CSI</a>
+            
+            <a class="tag" href="/tags/container-storage-interface/" title="Container Storage Interface">Container Storage Interface</a>
+            
+          </div>
+          <h1>Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by  Polin 
+            on Sat, Nov 16, 2024
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              post-container">
+        <div style="display: flex">
+<img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Vault-1.18.1-blue.svg" style="margin: 2px;">
+</div>
+<p>如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。</p>
+<h1 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h1><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
+<ol>
+<li>
+<p>Homebrew：macOS 的套件管理工具，用來安裝其他必要軟體。</p>
+</li>
+<li>
+<p>KinD: 一種基於 Docker 的本地 Kubernetes 集群工具，用於在本地開發與測試 Kubernetes 工作負載。 可以透過 Homebrew 安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
+</span></span></code></pre></div><p>更多詳細說明可參考 <a href="/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
+</li>
+<li>
+<p>Helm: Kubernetes 的應用程式包管理工具，用於簡化應用部署與管理。可以透過 Homebrew 安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install helm
+</span></span></code></pre></div></li>
+</ol>
+<h1 id="安裝-vault-helm-chart">安裝 Vault Helm Chart<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-vault-helm-chart"></a></h1><p>在 Kubernetes 中安裝 HashiCorp Vault，可以透過 Helm Chart 簡化部署流程。</p>
+<p>以下是安裝步驟：</p>
+<h3 id="1-新增-hashicorp-的-helm-chart-儲存庫">1. 新增 HashiCorp 的 Helm Chart 儲存庫：<a class="anchorjs-link" href="#1-%e6%96%b0%e5%a2%9e-hashicorp-%e7%9a%84-helm-chart-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><p>首先，將 HashiCorp 的官方 Helm Chart 儲存庫加入本地 Helm 設定：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add hashicorp https://helm.releases.hashicorp.com
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>&#34;hashicorp&#34; has been added to your repositories
+</code></pre><h3 id="2-更新-helm-chart-儲存庫">2. 更新 Helm Chart 儲存庫<a class="anchorjs-link" href="#2-%e6%9b%b4%e6%96%b0-helm-chart-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><p>確保您擁有最新的 Chart 資料：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo update hashicorp
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &#34;hashicorp&#34; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre><h3 id="3-安裝-vault">3. 安裝 Vault<a class="anchorjs-link" href="#3-%e5%ae%89%e8%a3%9d-vault"></a></h3><p>使用 Helm Chart 安裝 Vault 至指定的命名空間，例如 vault：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install vault hashicorp/vault <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --set <span style="color:#e6db74">&#34;server.dev.enabled=true&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --set <span style="color:#e6db74">&#34;injector.enabled=false&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --set <span style="color:#e6db74">&#34;csi.enabled=true&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace vault --create-namespace
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: vault
+LAST DEPLOYED: Sat Nov 16 19:26:31 2024
+NAMESPACE: vault
+STATUS: deployed
+REVISION: 1
+NOTES:
+Thank you for installing HashiCorp Vault!
+
+Now that you have deployed Vault, you should look over the docs on using
+Vault with Kubernetes available here:
+
+https://developer.hashicorp.com/vault/docs
+
+
+Your release is named vault. To learn more about the release, try:
+
+  $ helm status vault
+  $ helm get manifest vault
+</code></pre><h3 id="4-驗證部署">4. 驗證部署<a class="anchorjs-link" href="#4-%e9%a9%97%e8%ad%89%e9%83%a8%e7%bd%b2"></a></h3><p>確認 Vault Pod 是否成功啟動：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n vault get pod
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                                    READY   STATUS    RESTARTS   AGE
+vault-0                                 1/1     Running   0          10m
+vault-csi-provider-nkvpw                2/2     Running   0          10m
+</code></pre><h1 id="在-vault-中設定-secret">在 Vault 中設定 Secret<a class="anchorjs-link" href="#%e5%9c%a8-vault-%e4%b8%ad%e8%a8%ad%e5%ae%9a-secret"></a></h1><p>完成 Vault 部署後，可以開始設定 Secret。以下是設定 Secret 的基本流程：</p>
+<h3 id="1-進入vault-pod中">1. 進入Vault Pod中<a class="anchorjs-link" href="#1-%e9%80%b2%e5%85%a5vault-pod%e4%b8%ad"></a></h3><p>首先，啟動一個互動式的 shell session，進入 <code>vault-0</code> Pod：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n vault exec -it vault-0 -- /bin/sh
+</span></span></code></pre></div><p>成功進入後，提示字元會變為：</p>
+<pre tabindex="0"><code>/ $
+</code></pre><h3 id="2-在-vault-中新增-secret">2. 在 Vault 中新增 Secret<a class="anchorjs-link" href="#2-%e5%9c%a8-vault-%e4%b8%ad%e6%96%b0%e5%a2%9e-secret"></a></h3><p>在路徑 secret/db-pass 建立一個包含密碼的 Secret：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vault kv put secret/db-pass password<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;db-secret-password&#34;</span>
+</span></span></code></pre></div><p>執行後會顯示成功的輸出：</p>
+<pre tabindex="0"><code>=== Secret Path ===
+secret/data/db-pass
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2024-11-16T14:54:08.929095439Z
+custom_metadata    &lt;nil&gt;
+deletion_time      n/a
+destroyed          false
+version            1
+</code></pre><h3 id="3-驗證-secret-是否成功儲存">3. 驗證 Secret 是否成功儲存<a class="anchorjs-link" href="#3-%e9%a9%97%e8%ad%89-secret-%e6%98%af%e5%90%a6%e6%88%90%e5%8a%9f%e5%84%b2%e5%ad%98"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vault kv get secret/db-pass
+</span></span></code></pre></div><p>執行後會顯示儲存的密鑰內容：</p>
+<pre tabindex="0"><code>=== Secret Path ===
+secret/data/db-pass
+
+======= Metadata =======
+Key                Value
+---                -----
+created_time       2024-11-16T14:54:08.929095439Z
+custom_metadata    &lt;nil&gt;
+deletion_time      n/a
+destroyed          false
+version            1
+
+====== Data ======
+Key         Value
+---         -----
+password    db-secret-password
+</code></pre><h1 id="在-vault-中配置-kubernetes-驗證">在 Vault 中配置 Kubernetes 驗證<a class="anchorjs-link" href="#%e5%9c%a8-vault-%e4%b8%ad%e9%85%8d%e7%bd%ae-kubernetes-%e9%a9%97%e8%ad%89"></a></h1><p>Vault 支援 Kubernetes 驗證方法，允許 Kubernetes 的 Service Account 使用其 Token 與 Vault 進行認證。以下在 <code>vault-0</code> Pod中配置步驟：</p>
+<h3 id="1-啟用-kubernetes-驗證方法">1. 啟用 Kubernetes 驗證方法<a class="anchorjs-link" href="#1-%e5%95%9f%e7%94%a8-kubernetes-%e9%a9%97%e8%ad%89%e6%96%b9%e6%b3%95"></a></h3><p>在 Vault 中啟用 Kubernetes 驗證方法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vault auth enable kubernetes
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Success! Enabled kubernetes auth method at: kubernetes/
+</code></pre><h3 id="2-配置-kubernetes-驗證">2. 配置 Kubernetes 驗證<a class="anchorjs-link" href="#2-%e9%85%8d%e7%bd%ae-kubernetes-%e9%a9%97%e8%ad%89"></a></h3><p>設定 Kubernetes 驗證方法，使用 Vault Pod 自身的 Service Account Token：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vault write auth/kubernetes/config <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    kubernetes_host<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://</span>$KUBERNETES_PORT_443_TCP_ADDR<span style="color:#e6db74">:443&#34;</span>
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Success! Data written to: auth/kubernetes/config
+</code></pre><blockquote>
+<p>$KUBERNETES_PORT_443_TCP_ADDR 是 Kubernetes 主機的內部網址。</p>
+</blockquote>
+<blockquote>
+<p>如果是外部Vault就依照實際狀況改成實際Vault的網址</p>
+</blockquote>
+<h3 id="3-建立存取策略">3. 建立存取策略<a class="anchorjs-link" href="#3-%e5%bb%ba%e7%ab%8b%e5%ad%98%e5%8f%96%e7%ad%96%e7%95%a5"></a></h3><p>建立一個名為 internal-app 的策略，授權讀取 secret/data/db-pass：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vault policy write internal-app - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">path &#34;secret/data/db-pass&#34; {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  capabilities = [&#34;read&#34;]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Success! Uploaded policy: internal-app
+</code></pre><h3 id="4-建立-kubernetes-驗證角色">4. 建立 Kubernetes 驗證角色<a class="anchorjs-link" href="#4-%e5%bb%ba%e7%ab%8b-kubernetes-%e9%a9%97%e8%ad%89%e8%a7%92%e8%89%b2"></a></h3><p>建立一個名為 database 的 Kubernetes 驗證角色，綁定到指定的 Service Account 和策略：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vault write auth/kubernetes/role/database <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    bound_service_account_names<span style="color:#f92672">=</span>webapp-sa <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    bound_service_account_namespaces<span style="color:#f92672">=</span>default <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    policies<span style="color:#f92672">=</span>internal-app <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    ttl<span style="color:#f92672">=</span>20m
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Success! Data written to: auth/kubernetes/role/database
+</code></pre><p>此角色將 Service Account webapp-sa（位於 default 命名空間）與 Vault 策略 internal-app 綁定，並設定 Token 的有效期為 20 分鐘。
+完成以上步驟後，Vault 已經成功設定 Secret 並啟用 Kubernetes 驗證，供 Kubernetes 工作負載安全地存取所需的密鑰或敏感資訊。</p>
+<p>最後，確認沒問題後離開 Pod：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>exit
+</span></span></code></pre></div><h1 id="安裝-secrets-store-csi-driver">安裝 Secrets Store CSI Driver<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-secrets-store-csi-driver"></a></h1><p>Secrets Store CSI Driver (<code>secrets-store.csi.k8s.io</code>) 允許 Kubernetes 將外部密鑰管理系統中的多個 Secrets、金鑰和憑證以 Volume 的形式掛載到 Pod。</p>
+<h3 id="1-新增-helm-儲存庫">1. 新增 Helm 儲存庫<a class="anchorjs-link" href="#1-%e6%96%b0%e5%a2%9e-helm-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add secrets-store-csi-driver https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>&#34;secrets-store-csi-driver&#34; has been added to your repositories
+</code></pre><h3 id="2-安裝-secrets-store-csi-driver">2. 安裝 Secrets Store CSI Driver<a class="anchorjs-link" href="#2-%e5%ae%89%e8%a3%9d-secrets-store-csi-driver"></a></h3><p>使用 Helm 安裝最新版本的 Secrets Store CSI Driver：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install csi-secrets-store secrets-store-csi-driver/secrets-store-csi-driver -n kube-system
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: csi-secrets-store
+LAST DEPLOYED: Sat Nov 16 23:18:30 2024
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The Secrets Store CSI Driver is getting deployed to your cluster.
+
+To verify that Secrets Store CSI Driver has started, run:
+
+  kubectl --namespace=kube-system get pods -l &#34;app=secrets-store-csi-driver&#34;
+
+Now you can follow these steps https://secrets-store-csi-driver.sigs.k8s.io/getting-started/usage.html
+to create a SecretProviderClass resource, and a deployment using the SecretProviderClass.
+</code></pre><h3 id="3-驗證安裝是否成功">3. 驗證安裝是否成功<a class="anchorjs-link" href="#3-%e9%a9%97%e8%ad%89%e5%ae%89%e8%a3%9d%e6%98%af%e5%90%a6%e6%88%90%e5%8a%9f"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system get pods -l <span style="color:#e6db74">&#34;app=secrets-store-csi-driver&#34;</span> 
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                                               READY   STATUS    RESTARTS   AGE
+csi-secrets-store-secrets-store-csi-driver-xf4jj   3/3     Running   0          42s
+</code></pre><h1 id="驗證-vault-csi-provider-是否運行">驗證 Vault CSI Provider 是否運行<a class="anchorjs-link" href="#%e9%a9%97%e8%ad%89-vault-csi-provider-%e6%98%af%e5%90%a6%e9%81%8b%e8%a1%8c"></a></h1><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n vault get pod
+</span></span></code></pre></div><pre tabindex="0"><code>NAME                       READY   STATUS    RESTARTS   AGE
+vault-0                    1/1     Running   0          28m
+vault-csi-provider-6zxmz   2/2     Running   0          28m
+</code></pre><p>確認 Vault-csi-provider Pod 運行Container全部準備就緒</p>
+<h1 id="定義-secretproviderclass-資源">定義 SecretProviderClass 資源<a class="anchorjs-link" href="#%e5%ae%9a%e7%be%a9-secretproviderclass-%e8%b3%87%e6%ba%90"></a></h1><h3 id="1-建立-secretproviderclass">1. 建立 SecretProviderClass<a class="anchorjs-link" href="#1-%e5%bb%ba%e7%ab%8b-secretproviderclass"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; spc-vault-database.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: secrets-store.csi.x-k8s.io/v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: SecretProviderClass
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: vault-database
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  provider: vault
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  parameters:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    vaultAddress: &#34;http://vault.vault:8200&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    roleName: &#34;database&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    objects: |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      - objectName: &#34;db-password&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        secretPath: &#34;secret/data/db-pass&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        secretKey: &#34;password&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f spc-vault-database.yaml
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>secretproviderclass.secrets-store.csi.x-k8s.io/vault-database created
+</code></pre><h3 id="2-驗證配置是否成功">2. 驗證配置是否成功<a class="anchorjs-link" href="#2-%e9%a9%97%e8%ad%89%e9%85%8d%e7%bd%ae%e6%98%af%e5%90%a6%e6%88%90%e5%8a%9f"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl describe SecretProviderClass vault-database
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Name:         vault-database
+Namespace:    default
+Labels:       &lt;none&gt;
+Annotations:  &lt;none&gt;
+API Version:  secrets-store.csi.x-k8s.io/v1
+Kind:         SecretProviderClass
+Metadata:
+  Creation Timestamp:  2024-11-16T15:25:00Z
+  Generation:          1
+  Resource Version:    3536
+  UID:                 0225ef39-7761-4966-bdcd-d51f3f271bb1
+Spec:
+  Parameters:
+    Objects:  - objectName: &#34;db-password&#34;
+  secretPath: &#34;secret/data/db-pass&#34;
+  secretKey: &#34;password&#34;
+
+    Role Name:      database
+    Vault Address:  http://vault.default:8200
+  Provider:         vault
+Events:             &lt;none&gt;
+</code></pre><h1 id="建立-pod-並掛載-secret">建立 Pod 並掛載 Secret<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-pod-%e4%b8%a6%e6%8e%9b%e8%bc%89-secret"></a></h1><h3 id="1-創建-service-account">1. 創建 Service Account<a class="anchorjs-link" href="#1-%e5%89%b5%e5%bb%ba-service-account"></a></h3><p>使用名為 webapp-sa 的 Service Account：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create serviceaccount webapp-sa
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>serviceaccount/webapp-sa created
+</code></pre><h3 id="2-定義-webapp-pod">2. 定義 WebApp Pod<a class="anchorjs-link" href="#2-%e5%ae%9a%e7%be%a9-webapp-pod"></a></h3><p>創建一個 Pod，將 Secrets Volume 掛載至 /mnt/secrets-store：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; webapp-pod.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Pod
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: webapp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  serviceAccountName: webapp-sa
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  containers:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - image: polinhou/golang-http-headers:latest
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    name: webapp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    volumeMounts:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - name: secrets-store-inline
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      mountPath: &#34;/mnt/secrets-store&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      readOnly: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  volumes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - name: secrets-store-inline
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      csi:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        driver: secrets-store.csi.k8s.io
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        readOnly: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        volumeAttributes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          secretProviderClass: &#34;vault-database&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f webapp-pod.yaml
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>pod/webapp created
+</code></pre><h3 id="3-驗證-pod-是否成功啟動">3. 驗證 Pod 是否成功啟動<a class="anchorjs-link" href="#3-%e9%a9%97%e8%ad%89-pod-%e6%98%af%e5%90%a6%e6%88%90%e5%8a%9f%e5%95%9f%e5%8b%95"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pods
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>pod/webapp created
+</code></pre><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME     READY   STATUS    RESTARTS   AGE
+webapp   1/1     Running   0          3s
+</code></pre><h1 id="驗證掛載的-secret">驗證掛載的 Secret<a class="anchorjs-link" href="#%e9%a9%97%e8%ad%89%e6%8e%9b%e8%bc%89%e7%9a%84-secret"></a></h1><p>在 Pod 中檢查掛載的 Secret 文件內容：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl exec webapp -- cat /mnt/secrets-store/db-password
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>db-secret-password
+</code></pre><h1 id="參考">參考<a class="anchorjs-link" href="#%e5%8f%83%e8%80%83"></a></h1><p><a href="https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-secret-store-driver" target="_blank">Vault 官方文件</a></p>
+
+
+        <hr style="visibility: hidden;" />
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes-copy/" data-toggle="tooltip" data-placement="top" title="在本機用KinD建立Kubernetes">
+              Previous<br>
+              <span>在本機用KinD建立Kubernetes</span>
+            </a>
+          </li>
+          
+          
+        </ul>
+        <hr style="visibility: hidden;" />
+
+        
+        
+
+
+
+
+
+
+      </div>
+
+      
+      
+      
+      <div class="
+              col-lg-2 col-lg-offset-0
+              visible-lg-block
+              sidebar-container
+              catalog-container">
+        <div class="side-catalog">
+          <hr class="hidden-sm hidden-xs">
+          <h5>
+            <a class="catalog-toggle" href="#">CATALOG</a>
+          </h5>
+          <ul class="catalog-body"></ul>
+        </div>
+      </div>
+      
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              sidebar-container">
+
+        
+        
+        <section>
+  
+  
+  <hr class="hidden-sm hidden-xs">
+  
+  <h5>FEATURED TAGS</h5>
+  <div class="tags">
+    
+    <a href="/tags/aws/">Aws</a>
+    
+    <a href="/tags/blog/">Blog</a>
+    
+    <a href="/tags/cloud/">Cloud</a>
+    
+    <a href="/tags/codeready-containers/">CodeReady Containers</a>
+    
+    <a href="/tags/container-storage-interface/">Container Storage Interface</a>
+    
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/csi/">CSI</a>
+    
+    <a href="/tags/docker/">Docker</a>
+    
+    <a href="/tags/ec2/">Ec2</a>
+    
+    <a href="/tags/gcp/">Gcp</a>
+    
+    <a href="/tags/github/">Github</a>
+    
+    <a href="/tags/google-authenticator/">Google Authenticator</a>
+    
+    <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
+    
+    <a href="/tags/linux/">Linux</a>
+    
+    <a href="/tags/memorystore/">Memorystore</a>
+    
+    <a href="/tags/mfa/">Mfa</a>
+    
+    <a href="/tags/openshift/">Openshift</a>
+    
+    <a href="/tags/openvpn/">Openvpn</a>
+    
+    <a href="/tags/red-hat/">Red Hat</a>
+    
+    <a href="/tags/redis/">Redis</a>
+    
+    <a href="/tags/vault/">Vault</a>
+    
+    <a href="/tags/%E7%B4%85%E5%B8%BD/">紅帽</a>
+    
+  </div>
+</section>
+
+        
+        
+
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <ul class="list-inline text-center">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+        <p class="copyright text-muted">
+          Copyright &copy; Polin‘s 技術筆記 2024  
+          <br>
+          Powered by <a href="https://gohugo.io">Hugo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js crossorigin="anonymous"></script>
+
+
+
+<script src="/js/hux-blog.min.c4ea77041cd3edbfc8b2622cd887a9a5d8760a4162d14489e36d2a3fa4c90172.js"></script>
+
+
+<script src=/js/simple-jekyll-search.min.js></script>
+
+
+<script src="/js/search.min.53bce5da475b4d362500e5ce5dddfa22e20e1b9018777411d2020b4b839c9310.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+  function generateCatalog(selector) {
+    _containerSelector = 'div.post-container'
+    
+    var P = $(_containerSelector), a, n, t, l, i, c;
+    a = P.find('h1,h2,h3,h4');
+    
+    $(selector).html('')
+    
+    a.each(function () {
+      n = $(this).prop('tagName').toLowerCase();
+      i = "#" + $(this).prop('id');
+      t = $(this).text();
+      c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+      l = $('<li class="' + n + '_nav"></li>').append(c);
+      $(selector).append(l);
+    });
+    return true;
+  }
+
+  generateCatalog(".catalog-body");
+
+  
+  $(".catalog-toggle").click((function (e) {
+    e.preventDefault();
+    $('.side-catalog').toggleClass("fold")
+  }))
+</script>
+
+
+<script type="text/javascript" src='/js/jquery.nav.min.ade6bde8f9fcc6a4b40852cb892e9f5912340ab8fe1305149d917fdd16fffd8d.js'></script>
+<script>
+   $(document).ready( function () {
+    $('.catalog-body').onePageNav({
+      currentClass: "active",
+      changeHash: !1,
+      easing: "swing",
+      filter: "",
+      scrollSpeed: 700,
+      scrollOffset: 0,
+      scrollThreshold: .2,
+      begin: null,
+      end: null,
+      scrollChange: null,
+      padding: 80
+    });
+  });
+</script>
+
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-K5XHM4QCLL');
+        }
+      </script>
+
+
+
+<script src="/zoomjs/zoom.min.js"></script>
+
+</body>
+
+</html>
