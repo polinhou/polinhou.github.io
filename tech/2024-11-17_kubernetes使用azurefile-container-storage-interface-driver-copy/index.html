@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
+  
+    
+  <title>Kubernetes使用Azure File CSI Driver掛載Azure Files | Polin‘s 技術筆記</title>
+  <meta name="author" content="Polin">
+  <meta name="description" content="Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。">
+  <meta name="keywords" content="KinD,Kubernetes,k8s,CSI,Azure,Azurefile">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kubernetes使用Azure File CSI Driver掛載Azure Files">
+  <meta name="twitter:description" content="Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。">
+
+  <meta property="og:url" content="http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/">
+  <meta property="og:site_name" content="Polin‘s 技術筆記">
+  <meta property="og:title" content="Kubernetes使用Azure File CSI Driver掛載Azure Files">
+  <meta property="og:description" content="Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2024-11-17T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-17T00:00:00+00:00">
+    <meta property="article:tag" content="KinD">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="CSI">
+    <meta property="article:tag" content="Container Storage Interface">
+    <meta property="article:tag" content="Azurefile">
+    <meta property="article:tag" content="Azure">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
+  
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/sass/main.css">
+
+  <link rel="stylesheet" href="/zoomjs/zoom.min.css">
+
+  <script src=/js/lazysizes.min.js></script>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+
+</head>
+
+
+
+<body ontouchstart="">
+  
+  
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+  <div class="container-fluid">
+    
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:1313/">Polin‘s 技術筆記</a>
+    </div>
+    
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li><a href="/" title="Home">Home</a></li>
+          
+          <li><a href="/archive/" title="Archive">Archive</a></li>
+          
+          <li><a href="/about" title="About">About</a></li>
+          
+          <li><a href="https://github.com/polinhou/" title="Github">Github</a></li>
+          
+
+          <li class="search-icon">
+            <a href="javascript:void(0)">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+</nav>
+<script>
+  
+  
+  
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#huxblog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  var __HuxNav__ = {
+    close: function () {
+      $navbar.className = " ";
+      
+      setTimeout(function () {
+        
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    },
+    open: function () {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    },
+  };
+
+  
+  $toggle.addEventListener("click", function (e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      __HuxNav__.close();
+    } else {
+      __HuxNav__.open();
+    }
+  });
+
+  
+
+  document.addEventListener("click", function (e) {
+    if (e.target == $toggle) return;
+    if (e.target.className == "icon-bar") return;
+    __HuxNav__.close();
+  });
+</script>
+  
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+
+<style type="text/css">
+  header.intro-header {
+    position: relative;
+    background-image: url('');
+  }
+</style>
+
+<header class="intro-header style-text">
+
+  <div class="header-mask"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/kind/" title="KinD">KinD</a>
+            
+            <a class="tag" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+            
+            <a class="tag" href="/tags/csi/" title="CSI">CSI</a>
+            
+            <a class="tag" href="/tags/container-storage-interface/" title="Container Storage Interface">Container Storage Interface</a>
+            
+            <a class="tag" href="/tags/azurefile/" title="Azurefile">Azurefile</a>
+            
+            <a class="tag" href="/tags/azure/" title="Azure">Azure</a>
+            
+            <a class="tag" href="/tags/azure-file-csi-driver/" title="Azure File CSI Driver">Azure File CSI Driver</a>
+            
+          </div>
+          <h1>Kubernetes使用Azure File CSI Driver掛載Azure Files</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by  Polin 
+            on Sun, Nov 17, 2024
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              post-container">
+        <div style="display: flex">
+<img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Vault-1.18.1-blue.svg" style="margin: 2px;">
+</div>
+<p>Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。透過 CSI Driver，使用者可以利用 Kubernetes 的 PersistentVolume (PV) 和 PersistentVolumeClaim (PVC) 動態或靜態地配置 Azure Files，共享存儲資源，實現跨容器和跨 Pod 的數據共享，並支持企業級存儲需求，如高可用性、備份及權限控制等功能。</p>
+<h1 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h1><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
+<ol>
+<li>
+<p>Homebrew：macOS 的套件管理工具，用來安裝其他必要軟體。</p>
+</li>
+<li>
+<p>KinD: 一種基於 Docker 的本地 Kubernetes 集群工具，用於在本地開發與測試 Kubernetes 工作負載。 可以透過 Homebrew 安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
+</span></span></code></pre></div><p>更多詳細說明可參考 <a href="https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
+</li>
+<li>
+<p>Helm: Kubernetes 的應用程式包管理工具，用於簡化應用部署與管理。可以透過 Homebrew 安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install helm
+</span></span></code></pre></div></li>
+</ol>
+<h1 id="準備-azure-files-資源">準備 Azure Files 資源<a class="anchorjs-link" href="#%e6%ba%96%e5%82%99-azure-files-%e8%b3%87%e6%ba%90"></a></h1><p>登入 Azure Portal 或使用 Azure CLI 建立一個 Azure Storage Account。
+在 Storage Account 中建立一個 Azure Files 檔案共享。</p>
+<h3 id="建立-storage-account">建立 Storage Account<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-storage-account"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage account create --name &lt;storage-account-name&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --resource-group &lt;resource-group&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --location &lt;location&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --sku Standard_LRS
+</span></span></code></pre></div><ul>
+<li>storage-account-name: 指定建立的Storage Account名稱</li>
+<li>resource-group: 指定Storage Account存在的Resource Group</li>
+<li>location: 指定Storage Account位於的地區</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage account create --name stdemo20241117 --resource-group rg-demo-dev-01  --location japaneast  --sku Standard_LRS
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>{
+  &#34;accessTier&#34;: &#34;Hot&#34;,
+  &#34;accountMigrationInProgress&#34;: null,
+  &#34;allowBlobPublicAccess&#34;: false,
+  &#34;allowCrossTenantReplication&#34;: false,
+  &#34;allowSharedKeyAccess&#34;: null,
+  &#34;allowedCopyScope&#34;: null,
+  &#34;azureFilesIdentityBasedAuthentication&#34;: null,
+  &#34;blobRestoreStatus&#34;: null,
+  &#34;creationTime&#34;: &#34;2024-11-17T12:24:10.186484+00:00&#34;,
+  &#34;customDomain&#34;: null,
+  &#34;defaultToOAuthAuthentication&#34;: null,
+  &#34;dnsEndpointType&#34;: null,
+  &#34;enableExtendedGroups&#34;: null,
+  &#34;enableHttpsTrafficOnly&#34;: true,
+  &#34;enableNfsV3&#34;: null,
+  &#34;encryption&#34;: {
+    &#34;encryptionIdentity&#34;: null,
+    &#34;keySource&#34;: &#34;Microsoft.Storage&#34;,
+    &#34;keyVaultProperties&#34;: null,
+    &#34;requireInfrastructureEncryption&#34;: null,
+    &#34;services&#34;: {
+      &#34;blob&#34;: {
+        &#34;enabled&#34;: true,
+        &#34;keyType&#34;: &#34;Account&#34;,
+        &#34;lastEnabledTime&#34;: &#34;2024-11-17T12:24:10.264618+00:00&#34;
+      },
+      &#34;file&#34;: {
+        &#34;enabled&#34;: true,
+        &#34;keyType&#34;: &#34;Account&#34;,
+        &#34;lastEnabledTime&#34;: &#34;2024-11-17T12:24:10.264618+00:00&#34;
+      },
+      &#34;queue&#34;: null,
+      &#34;table&#34;: null
+    }
+  },
+  &#34;extendedLocation&#34;: null,
+  &#34;failoverInProgress&#34;: null,
+  &#34;geoReplicationStats&#34;: null,
+  &#34;id&#34;: &#34;/subscriptions/5393ecef-XXXX-XXXX-XXXX-8aa2c09d666b/resourceGroups/rg-demo-dev-01/providers/Microsoft.Storage/storageAccounts/stdemo20241117&#34;,
+  &#34;identity&#34;: null,
+  &#34;immutableStorageWithVersioning&#34;: null,
+  &#34;isHnsEnabled&#34;: null,
+  &#34;isLocalUserEnabled&#34;: null,
+  &#34;isSftpEnabled&#34;: null,
+  &#34;isSkuConversionBlocked&#34;: null,
+  &#34;keyCreationTime&#34;: {
+    &#34;key1&#34;: &#34;2024-11-17T12:24:10.264618+00:00&#34;,
+    &#34;key2&#34;: &#34;2024-11-17T12:24:10.264618+00:00&#34;
+  },
+  &#34;keyPolicy&#34;: null,
+  &#34;kind&#34;: &#34;StorageV2&#34;,
+  &#34;largeFileSharesState&#34;: null,
+  &#34;lastGeoFailoverTime&#34;: null,
+  &#34;location&#34;: &#34;japaneast&#34;,
+  &#34;minimumTlsVersion&#34;: &#34;TLS1_0&#34;,
+  &#34;name&#34;: &#34;stdemo20241117&#34;,
+  &#34;networkRuleSet&#34;: {
+    &#34;bypass&#34;: &#34;AzureServices&#34;,
+    &#34;defaultAction&#34;: &#34;Allow&#34;,
+    &#34;ipRules&#34;: [],
+    &#34;ipv6Rules&#34;: [],
+    &#34;resourceAccessRules&#34;: null,
+    &#34;virtualNetworkRules&#34;: []
+  },
+  &#34;primaryEndpoints&#34;: {
+    &#34;blob&#34;: &#34;https://stdemo20241117.blob.core.windows.net/&#34;,
+    &#34;dfs&#34;: &#34;https://stdemo20241117.dfs.core.windows.net/&#34;,
+    &#34;file&#34;: &#34;https://stdemo20241117.file.core.windows.net/&#34;,
+    &#34;internetEndpoints&#34;: null,
+    &#34;microsoftEndpoints&#34;: null,
+    &#34;queue&#34;: &#34;https://stdemo20241117.queue.core.windows.net/&#34;,
+    &#34;table&#34;: &#34;https://stdemo20241117.table.core.windows.net/&#34;,
+    &#34;web&#34;: &#34;https://stdemo20241117.z11.web.core.windows.net/&#34;
+  },
+  &#34;primaryLocation&#34;: &#34;japaneast&#34;,
+  &#34;privateEndpointConnections&#34;: [],
+  &#34;provisioningState&#34;: &#34;Succeeded&#34;,
+  &#34;publicNetworkAccess&#34;: null,
+  &#34;resourceGroup&#34;: &#34;rg-demo-dev-01&#34;,
+  &#34;routingPreference&#34;: null,
+  &#34;sasPolicy&#34;: null,
+  &#34;secondaryEndpoints&#34;: null,
+  &#34;secondaryLocation&#34;: null,
+  &#34;sku&#34;: {
+    &#34;name&#34;: &#34;Standard_LRS&#34;,
+    &#34;tier&#34;: &#34;Standard&#34;
+  },
+  &#34;statusOfPrimary&#34;: &#34;available&#34;,
+  &#34;statusOfSecondary&#34;: null,
+  &#34;storageAccountSkuConversionStatus&#34;: null,
+  &#34;tags&#34;: {},
+  &#34;type&#34;: &#34;Microsoft.Storage/storageAccounts&#34;
+}
+</code></pre><h3 id="建立-azure-file-shares">建立 Azure File Shares<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-azure-file-shares"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage share create --account-name &lt;storage-account-name&gt; --name &lt;share-name&gt;
+</span></span></code></pre></div><ul>
+<li>storage-account-name: Storage Account 名稱</li>
+<li>share-name: Share 名稱</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage share create --account-name stdemo20241117 --name share-demo20241117  
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>{
+  &#34;created&#34;: true
+}
+</code></pre><h1 id="建立-microsoft-entra-id-應用程式帳戶">建立 Microsoft Entra ID 應用程式帳戶<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-microsoft-entra-id-%e6%87%89%e7%94%a8%e7%a8%8b%e5%bc%8f%e5%b8%b3%e6%88%b6"></a></h1><h3 id="1-登入-azure-portal">1. 登入 Azure Portal<a class="anchorjs-link" href="#1-%e7%99%bb%e5%85%a5-azure-portal"></a></h3><p>確保您已登入 Azure CLI，若尚未登入，使用以下指令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az login
+</span></span></code></pre></div><h3 id="2-建立應用程式">2. 建立應用程式<a class="anchorjs-link" href="#2-%e5%bb%ba%e7%ab%8b%e6%87%89%e7%94%a8%e7%a8%8b%e5%bc%8f"></a></h3><p>使用以下指令來註冊應用程式：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az ad app create --display-name &lt;application-name&gt;
+</span></span></code></pre></div><ul>
+<li>application-name: 應用程式名稱。</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az ad app create --display-name <span style="color:#e6db74">&#34;k8s-azurefile-app&#34;</span>
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>{
+  &#34;@odata.context&#34;: &#34;https://graph.microsoft.com/v1.0/$metadata#applications/$entity&#34;,
+  &#34;addIns&#34;: [],
+  &#34;api&#34;: {
+    &#34;acceptMappedClaims&#34;: null,
+    &#34;knownClientApplications&#34;: [],
+    &#34;oauth2PermissionScopes&#34;: [],
+    &#34;preAuthorizedApplications&#34;: [],
+    &#34;requestedAccessTokenVersion&#34;: null
+  },
+  &#34;appId&#34;: &#34;d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f&#34;,
+  &#34;appRoles&#34;: [],
+  &#34;applicationTemplateId&#34;: null,
+  &#34;certification&#34;: null,
+  &#34;createdDateTime&#34;: &#34;2024-11-17T12:09:40.7297318Z&#34;,
+  &#34;defaultRedirectUri&#34;: null,
+  &#34;deletedDateTime&#34;: null,
+  &#34;description&#34;: null,
+  &#34;disabledByMicrosoftStatus&#34;: null,
+  &#34;displayName&#34;: &#34;k8s-azurefile-app&#34;,
+  &#34;groupMembershipClaims&#34;: null,
+  &#34;id&#34;: &#34;901a3026-XXXX-XXXX-XXXX-dc2ab32fada2&#34;,
+  &#34;identifierUris&#34;: [],
+  &#34;info&#34;: {
+    &#34;logoUrl&#34;: null,
+    &#34;marketingUrl&#34;: null,
+    &#34;privacyStatementUrl&#34;: null,
+    &#34;supportUrl&#34;: null,
+    &#34;termsOfServiceUrl&#34;: null
+  },
+  &#34;isDeviceOnlyAuthSupported&#34;: null,
+  &#34;isFallbackPublicClient&#34;: null,
+  &#34;keyCredentials&#34;: [],
+  &#34;nativeAuthenticationApisEnabled&#34;: null,
+  &#34;notes&#34;: null,
+  &#34;optionalClaims&#34;: null,
+  &#34;parentalControlSettings&#34;: {
+    &#34;countriesBlockedForMinors&#34;: [],
+    &#34;legalAgeGroupRule&#34;: &#34;Allow&#34;
+  },
+  &#34;passwordCredentials&#34;: [],
+  &#34;publicClient&#34;: {
+    &#34;redirectUris&#34;: []
+  },
+  &#34;publisherDomain&#34;: &#34;xxxxxxx.onmicrosoft.com&#34;,
+  &#34;requestSignatureVerification&#34;: null,
+  &#34;requiredResourceAccess&#34;: [],
+  &#34;samlMetadataUrl&#34;: null,
+  &#34;serviceManagementReference&#34;: null,
+  &#34;servicePrincipalLockConfiguration&#34;: null,
+  &#34;signInAudience&#34;: &#34;AzureADMyOrg&#34;,
+  &#34;spa&#34;: {
+    &#34;redirectUris&#34;: []
+  },
+  &#34;tags&#34;: [],
+  &#34;tokenEncryptionKeyId&#34;: null,
+  &#34;uniqueName&#34;: null,
+  &#34;verifiedPublisher&#34;: {
+    &#34;addedDateTime&#34;: null,
+    &#34;displayName&#34;: null,
+    &#34;verifiedPublisherId&#34;: null
+  },
+  &#34;web&#34;: {
+    &#34;homePageUrl&#34;: null,
+    &#34;implicitGrantSettings&#34;: {
+      &#34;enableAccessTokenIssuance&#34;: false,
+      &#34;enableIdTokenIssuance&#34;: false
+    },
+    &#34;logoutUrl&#34;: null,
+    &#34;redirectUriSettings&#34;: [],
+    &#34;redirectUris&#34;: []
+  }
+}
+</code></pre><p>記錄以下兩項：</p>
+<ol>
+<li>
+<p>appId (應用程式 ID / 用戶端 ID)</p>
+<pre tabindex="0"><code>&#34;appId&#34;: &#34;d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f&#34;,
+</code></pre></li>
+<li>
+<p>id (物件 ID)</p>
+<pre tabindex="0"><code>&#34;id&#34;: &#34;901a3026-XXXX-XXXX-XXXX-dc2ab32fada2&#34;,
+</code></pre></li>
+</ol>
+<h3 id="3-建立應用程式密碼">3. 建立應用程式密碼<a class="anchorjs-link" href="#3-%e5%bb%ba%e7%ab%8b%e6%87%89%e7%94%a8%e7%a8%8b%e5%bc%8f%e5%af%86%e7%a2%bc"></a></h3><p>生成用戶端密碼 (應用程式金鑰)：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az ad app credential reset --id &lt;appId&gt; --append --display-name <span style="color:#e6db74">&#34;k8s-secret&#34;</span> --years <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><ul>
+<li>appId: 替換為前一步中的應用程式 ID。</li>
+<li>&ndash;years 1 表示密碼有效期為 1 年，可根據需求調整。</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az ad app credential reset --id d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f --append --display-name <span style="color:#e6db74">&#34;k8s-secret&#34;</span> --years <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>指令執行成功後，會輸出一組新的密碼值 (即應用程式密碼)，請妥善記錄。</p>
+<pre tabindex="0"><code>{
+  &#34;appId&#34;: &#34;d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f&#34;,
+  &#34;password&#34;: &#34;SZW8Q~.........Owx8NvdxC&#34;,
+  &#34;tenant&#34;: &#34;645d4b1e-XXXX-XXXX-XXXX-21b9fa967537&#34;
+}
+</code></pre><h3 id="4-建立服務主體-service-principal">4. 建立服務主體 (Service Principal)<a class="anchorjs-link" href="#4-%e5%bb%ba%e7%ab%8b%e6%9c%8d%e5%8b%99%e4%b8%bb%e9%ab%94-service-principal"></a></h3><p>應用程式本身無法直接使用，需為其建立一個服務主體：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az ad sp create --id &lt;appId&gt;
+</span></span></code></pre></div><ul>
+<li>appId: 替換為前一步中的應用程式 ID。</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az ad sp create --id d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>{
+  &#34;@odata.context&#34;: &#34;https://graph.microsoft.com/v1.0/$metadata#servicePrincipals/$entity&#34;,
+  &#34;accountEnabled&#34;: true,
+  &#34;addIns&#34;: [],
+  &#34;alternativeNames&#34;: [],
+  &#34;appDescription&#34;: null,
+  &#34;appDisplayName&#34;: &#34;k8s-azurefile-app&#34;,
+  &#34;appId&#34;: &#34;d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f&#34;,
+  &#34;appOwnerOrganizationId&#34;: &#34;645d4b1e-XXXX-XXXX-XXXX-21b9fa967537&#34;,
+  &#34;appRoleAssignmentRequired&#34;: false,
+  &#34;appRoles&#34;: [],
+  &#34;applicationTemplateId&#34;: null,
+  &#34;createdDateTime&#34;: &#34;2024-11-17T12:35:24Z&#34;,
+  &#34;deletedDateTime&#34;: null,
+  &#34;description&#34;: null,
+  &#34;disabledByMicrosoftStatus&#34;: null,
+  &#34;displayName&#34;: &#34;k8s-azurefile-app&#34;,
+  &#34;homepage&#34;: null,
+  &#34;id&#34;: &#34;47489db9-XXXX-XXXX-XXXX-1e65ac1c1fa1&#34;,
+  &#34;info&#34;: {
+    &#34;logoUrl&#34;: null,
+    &#34;marketingUrl&#34;: null,
+    &#34;privacyStatementUrl&#34;: null,
+    &#34;supportUrl&#34;: null,
+    &#34;termsOfServiceUrl&#34;: null
+  },
+  &#34;keyCredentials&#34;: [],
+  &#34;loginUrl&#34;: null,
+  &#34;logoutUrl&#34;: null,
+  &#34;notes&#34;: null,
+  &#34;notificationEmailAddresses&#34;: [],
+  &#34;oauth2PermissionScopes&#34;: [],
+  &#34;passwordCredentials&#34;: [],
+  &#34;preferredSingleSignOnMode&#34;: null,
+  &#34;preferredTokenSigningKeyThumbprint&#34;: null,
+  &#34;replyUrls&#34;: [],
+  &#34;resourceSpecificApplicationPermissions&#34;: [],
+  &#34;samlSingleSignOnSettings&#34;: null,
+  &#34;servicePrincipalNames&#34;: [
+    &#34;d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f&#34;
+  ],
+  &#34;servicePrincipalType&#34;: &#34;Application&#34;,
+  &#34;signInAudience&#34;: &#34;AzureADMyOrg&#34;,
+  &#34;tags&#34;: [],
+  &#34;tokenEncryptionKeyId&#34;: null,
+  &#34;verifiedPublisher&#34;: {
+    &#34;addedDateTime&#34;: null,
+    &#34;displayName&#34;: null,
+    &#34;verifiedPublisherId&#34;: null
+  }
+}
+</code></pre><h3 id="5-分配存取權限">5. 分配存取權限<a class="anchorjs-link" href="#5-%e5%88%86%e9%85%8d%e5%ad%98%e5%8f%96%e6%ac%8a%e9%99%90"></a></h3><p>將服務主體指派至 Storage Account 的存取角色：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az role assignment create --assignee &lt;appId&gt; --role <span style="color:#e6db74">&#34;Storage Account Contributor&#34;</span> --scope /subscriptions/&lt;subscription-id&gt;/resourceGroups/&lt;resource-group&gt;/providers/Microsoft.Storage/storageAccounts/&lt;storage-account-name&gt;
+</span></span></code></pre></div><ul>
+<li>appId: 替換為應用程式 ID。</li>
+<li>subscription-id: 替換為您的訂閱 ID。</li>
+<li>resource-group: 替換為先前建立的Storage Account存在的Resource Group</li>
+<li>storage-account-name: 替換為先前建立的Storage Account名稱</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az role assignment create --assignee d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f --role <span style="color:#e6db74">&#34;Storage File Data SMB Share Contributor&#34;</span> --scope /subscriptions/5393ecef-XXXX-XXXX-XXXX-8aa2c09d666b/resourceGroups/rg-demo-dev-01/providers/Microsoft.Storage/storageAccounts/stdemo20241117
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>{
+  &#34;condition&#34;: null,
+  &#34;conditionVersion&#34;: null,
+  &#34;createdBy&#34;: null,
+  &#34;createdOn&#34;: &#34;2024-11-17T12:41:50.650679+00:00&#34;,
+  &#34;delegatedManagedIdentityResourceId&#34;: null,
+  &#34;description&#34;: null,
+  &#34;id&#34;: &#34;/subscriptions/5393ecef-XXXX-XXXX-XXXX-8aa2c09d666b/resourceGroups/rg-demo-dev-01/providers/Microsoft.Storage/storageAccounts/stdemo20241117/providers/Microsoft.Authorization/roleAssignments/4b26cf40-XXXX-XXXX-XXXX-259471832bfe&#34;,
+  &#34;name&#34;: &#34;4b26cf40-XXXX-XXXX-XXXX-259471832bfe&#34;,
+  &#34;principalId&#34;: &#34;47489db9-XXXX-XXXX-XXXX-1e65ac1c1fa1&#34;,
+  &#34;principalType&#34;: &#34;ServicePrincipal&#34;,
+  &#34;resourceGroup&#34;: &#34;rg-demo-dev-01&#34;,
+  &#34;roleDefinitionId&#34;: &#34;/subscriptions/5393ecef-XXXX-XXXX-XXXX-8aa2c09d666b/providers/Microsoft.Authorization/roleDefinitions/0c867c2a-1d8c-454a-a3db-ab2ea1bdc8bb&#34;,
+  &#34;scope&#34;: &#34;/subscriptions/5393ecef-XXXX-XXXX-XXXX-8aa2c09d666b/resourceGroups/rg-demo-dev-01/providers/Microsoft.Storage/storageAccounts/stdemo20241117&#34;,
+  &#34;type&#34;: &#34;Microsoft.Authorization/roleAssignments&#34;,
+  &#34;updatedBy&#34;: &#34;3e515418-XXXX-XXXX-XXXX-f24259c13744&#34;,
+  &#34;updatedOn&#34;: &#34;2024-11-17T12:41:51.025688+00:00&#34;
+}
+</code></pre><h1 id="建立-kubernetes-secret">建立 Kubernetes Secret<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-kubernetes-secret"></a></h1><p>為了讓 Kubernetes 認識 Azure Files，需建立一個 Secret 包含存取金鑰。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>STORAGE_KEY<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>az storage account keys list --resource-group &lt;resource-group&gt; --account-name &lt;storage-account-name&gt; --query <span style="color:#e6db74">&#34;[0].value&#34;</span> -o tsv<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>kubectl create secret generic azure-secret --from-literal<span style="color:#f92672">=</span>azurestorageaccountname<span style="color:#f92672">=</span>&lt;storage-account-name&gt; --from-literal<span style="color:#f92672">=</span>azurestorageaccountkey<span style="color:#f92672">=</span>$STORAGE_KEY
+</span></span></code></pre></div><p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>STORAGE_KEY<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>az storage account keys list --resource-group rg-demo-dev-01 --account-name stdemo20241117 --query <span style="color:#e6db74">&#34;[0].value&#34;</span> -o tsv<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>kubectl create secret generic azure-secret --from-literal<span style="color:#f92672">=</span>azurestorageaccountname<span style="color:#f92672">=</span>stdemo20241117 --from-literal<span style="color:#f92672">=</span>azurestorageaccountkey<span style="color:#f92672">=</span>$STORAGE_KEY
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>secret/azure-secret created
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; azure.json <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;cloud&#34;: &#34;AzureCloud&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;tenantId&#34;: &#34;645d4b1e-XXXX-XXXX-XXXX-21b9fa967537 &#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;subscriptionId&#34;: &#34;5393ecef-XXXX-XXXX-XXXX-8aa2c09d666b&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;aadClientId&#34;: &#34;d2cf9ec9-XXXX-XXXX-XXXX-ab4b87e3411f&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;aadClientSecret&#34;: &#34;SZW8Q~.........Owx8NvdxC&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;resourceGroup&#34;: &#34;rg-demo-dev-01&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  &#34;location&#34;: &#34;JapanEast&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create secret generic azure-cloud-provider --from-file<span style="color:#f92672">=</span>cloud-config<span style="color:#f92672">=</span><span style="color:#ae81ff">\a</span>zure.json -n kube-system
+</span></span></code></pre></div><h1 id="安裝-azure-file-csi-driver">安裝 Azure File CSI Driver<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-azure-file-csi-driver"></a></h1><p>在 Kubernetes 中安裝 Azure File CSI Driver，可以透過 Helm Chart 簡化部署流程。</p>
+<p>以下是安裝步驟：</p>
+<h3 id="1-新增-azure-file-csi-driver-儲存庫">1. 新增 Azure File CSI Driver 儲存庫：<a class="anchorjs-link" href="#1-%e6%96%b0%e5%a2%9e-azure-file-csi-driver-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><p>首先，將 Azure File CSI Driver 的 Helm Chart 儲存庫加入本地 Helm 設定：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add azurefile-csi-driver https://raw.githubusercontent.com/kubernetes-sigs/azurefile-csi-driver/master/charts
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>&#34;azurefile-csi-driver&#34; has been added to your repositories
+</code></pre><h3 id="2-更新-helm-chart-儲存庫">2. 更新 Helm Chart 儲存庫<a class="anchorjs-link" href="#2-%e6%9b%b4%e6%96%b0-helm-chart-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><p>確保您擁有最新的 Chart 資料：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo update azurefile-csi-driver
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &#34;azurefile-csi-driver&#34; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre><h3 id="3-安裝-azure-file-csi-driver">3. 安裝 Azure File CSI Driver<a class="anchorjs-link" href="#3-%e5%ae%89%e8%a3%9d-azure-file-csi-driver"></a></h3><p>使用 Helm Chart 安裝 Vault 至指定的命名空間，範例 vault：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install azurefile-csi-driver azurefile-csi-driver/azurefile-csi-driver <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace kube-system <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --version v1.31.0
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: azurefile-csi-driver
+LAST DEPLOYED: Sun Nov 17 20:59:52 2024
+NAMESPACE: kube-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+The Azure File CSI Driver is getting deployed to your cluster.
+
+To check Azure File CSI Driver pods status, please run:
+
+  kubectl --namespace=kube-system get pods --selector=&#34;app.kubernetes.io/name=azurefile-csi-driver&#34; --watch
+</code></pre><h3 id="4-驗證部署">4. 驗證部署<a class="anchorjs-link" href="#4-%e9%a9%97%e8%ad%89%e9%83%a8%e7%bd%b2"></a></h3><p>確認 Azure File CSI Driver Pod 是否成功啟動：</p>
+<p>檢查 csi-azurefile-node</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system get pod -l app<span style="color:#f92672">=</span>csi-azurefile-node      
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                       READY   STATUS    RESTARTS        AGE
+csi-azurefile-node-jbhmq   3/3     Running   1 (2m45s ago)   4m18s
+</code></pre><p>檢查 csi-azurefile-controller</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system get pod -l app<span style="color:#f92672">=</span>csi-azurefile-controller 
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                                       READY   STATUS    RESTARTS       AGE
+csi-azurefile-controller-78b7488ff-tn9xc   5/5     Running   2 (113s ago)   4m7s
+csi-azurefile-controller-78b7488ff-tsqbz   0/5     Pending   0              4m7s
+</code></pre><blockquote>
+<p>因為我們只有開一個 Node，所以有一個Pod會是處於Pending狀態，實屬正常<br>
+<code>kubectl -n kube-system scale deploy/csi-azurefile-controller --replicas 1</code><br>
+可以使用該指令將Pod調整為1</p>
+</blockquote>
+<h1 id="建立-storageclass">建立 StorageClass<a class="anchorjs-link" href="#%e5%bb%ba%e7%ab%8b-storageclass"></a></h1><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; storageclass.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: storage.k8s.io/v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: StorageClass
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: azurefile
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">provisioner: file.csi.azure.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">allowVolumeExpansion: true
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">parameters:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  skuName: Standard_LRS
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f storageclass.yaml
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>storageclass.storage.k8s.io/azurefile created
+</code></pre><h1 id="定義-persistentvolume-pv">定義 PersistentVolume (PV)<a class="anchorjs-link" href="#%e5%ae%9a%e7%be%a9-persistentvolume-pv"></a></h1><p>建立 PV 以配置存儲：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; pv.yaml &lt;&lt;EOF
+</span></span><span style="display:flex;"><span>apiVersion: v1
+</span></span><span style="display:flex;"><span>kind: PersistentVolume
+</span></span><span style="display:flex;"><span>metadata:
+</span></span><span style="display:flex;"><span>  name: azurefile-pv
+</span></span><span style="display:flex;"><span>spec:
+</span></span><span style="display:flex;"><span>  capacity:
+</span></span><span style="display:flex;"><span>    storage: 3Gi
+</span></span><span style="display:flex;"><span>  accessModes:
+</span></span><span style="display:flex;"><span>    - ReadWriteMany
+</span></span><span style="display:flex;"><span>  storageClassName: azurefile
+</span></span><span style="display:flex;"><span>  csi:
+</span></span><span style="display:flex;"><span>    driver: file.csi.azure.com
+</span></span><span style="display:flex;"><span>    volumeHandle: <span style="color:#e6db74">&#34;rg-demo-dev-01#stdemo20241117#share-demo20241117&#34;</span>  <span style="color:#75715e"># make sure this volumeid is unique for every identical share in the cluster</span>
+</span></span><span style="display:flex;"><span>    volumeAttributes:
+</span></span><span style="display:flex;"><span>      resourceGroup: rg-demo-dev-01  <span style="color:#75715e"># optional, only set this when storage account is not in the same resource group as node</span>
+</span></span><span style="display:flex;"><span>      shareName: share-demo20241117
+</span></span><span style="display:flex;"><span>  claimRef:
+</span></span><span style="display:flex;"><span>    kind: PersistentVolumeClaim
+</span></span><span style="display:flex;"><span>    namespace: default
+</span></span><span style="display:flex;"><span>    name: azurefile-pvc
+</span></span><span style="display:flex;"><span>    apiVersion: v1
+</span></span><span style="display:flex;"><span>  mountOptions:
+</span></span><span style="display:flex;"><span>    - dir_mode<span style="color:#f92672">=</span><span style="color:#ae81ff">0777</span>
+</span></span><span style="display:flex;"><span>    - file_mode<span style="color:#f92672">=</span><span style="color:#ae81ff">0777</span>
+</span></span><span style="display:flex;"><span>    - uid<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    - gid<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    - mfsymlinks
+</span></span><span style="display:flex;"><span>    - cache<span style="color:#f92672">=</span>strict
+</span></span><span style="display:flex;"><span>    - actimeo<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>    - noperm
+</span></span></code></pre></div><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f pv.yaml
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>persistentvolume/azurefile-pv created
+</code></pre><h1 id="定義-persistentvolumeclaim-pvc">定義 PersistentVolumeClaim (PVC)<a class="anchorjs-link" href="#%e5%ae%9a%e7%be%a9-persistentvolumeclaim-pvc"></a></h1><p>建立 PVC 以靜態配置存儲：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; pvc.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: PersistentVolumeClaim
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: azurefile-pvc
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  accessModes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - ReadWriteMany
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  storageClassName: azurefile
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  volumeName: azurefile-pv
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  resources:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    requests:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      storage: 5Gi
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f pvc.yaml
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>persistentvolumeclaim/azurefile-pvc created
+</code></pre><h1 id="掛載到-pod">掛載到 Pod<a class="anchorjs-link" href="#%e6%8e%9b%e8%bc%89%e5%88%b0-pod"></a></h1><p>修改 Pod 的定義檔案，將 PVC 掛載為 Volume。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; pod.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Pod
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: azurefile-pod
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  containers:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - name: webapp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    image: polinhou/golang-http-headers:latest
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    volumeMounts:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - name: azurefile-volume
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      mountPath: /mnt/azure
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  volumes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - name: azurefile-volume
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    persistentVolumeClaim:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      claimName: azurefile-pvc
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f pod.yaml
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>pod/azurefile-pod created
+</code></pre><h1 id="驗證掛載">驗證掛載<a class="anchorjs-link" href="#%e9%a9%97%e8%ad%89%e6%8e%9b%e8%bc%89"></a></h1><h3 id="1-在-pod-中建立檔案">1. 在 Pod 中建立檔案<a class="anchorjs-link" href="#1-%e5%9c%a8-pod-%e4%b8%ad%e5%bb%ba%e7%ab%8b%e6%aa%94%e6%a1%88"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl exec -ti azurefile-pod -- df -h
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Filesystem                Size      Used Available Use% Mounted on
+overlay                  39.1G     34.3G      2.8G  93% /
+tmpfs                    64.0M         0     64.0M   0% /dev
+//stdemo20241117.file.core.windows.net/share-demo20241117
+                          5.0G         0      5.0G   0% /mnt/azure
+/dev/vda1                39.1G     34.3G      2.8G  93% /etc/hosts
+/dev/vda1                39.1G     34.3G      2.8G  93% /dev/termination-log
+/dev/vda1                39.1G     34.3G      2.8G  93% /etc/hostname
+/dev/vda1                39.1G     34.3G      2.8G  93% /etc/resolv.conf
+shm                      64.0M         0     64.0M   0% /dev/shm
+tmpfs                     3.8G     12.0K      3.8G   0% /run/secrets/kubernetes.io/serviceaccount
+tmpfs                     1.9G         0      1.9G   0% /proc/acpi
+tmpfs                    64.0M         0     64.0M   0% /proc/kcore
+tmpfs                    64.0M         0     64.0M   0% /proc/keys
+tmpfs                    64.0M         0     64.0M   0% /proc/timer_list
+tmpfs                     1.9G         0      1.9G   0% /sys/firmware
+</code></pre><p>我們可以看到有成功掛載路徑</p>
+<pre tabindex="0"><code>//stdemo20241117.file.core.windows.net/share-demo20241117
+                          5.0G         0      5.0G   0% /mnt/azure
+</code></pre><p>新增一個test-demo的檔案</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl exec -ti azurefile-pod -- touch /mnt/azure/test-demo
+</span></span></code></pre></div><p>沒有出現錯誤訊息</p>
+<h3 id="2-查看-azurefile-檢查檔案">2. 查看 Azurefile 檢查檔案<a class="anchorjs-link" href="#2-%e6%9f%a5%e7%9c%8b-azurefile-%e6%aa%a2%e6%9f%a5%e6%aa%94%e6%a1%88"></a></h3><p>取得Azure File 使用金鑰進行驗證，需先獲取存取金鑰：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage account keys list --resource-group rg-demo-dev-01 --account-name stdemo20241117 --query <span style="color:#e6db74">&#34;[0].value&#34;</span> -o tsv
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Wmy5No6h.........StTRutCg==
+</code></pre><p>使用以下指令列出共享中的檔案：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage file list <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --account-name &lt;storage-account-name&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --account-key &lt;account-key&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --share-name &lt;file-share-name&gt; <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --output table
+</span></span></code></pre></div><ul>
+<li>storage-account-name：您的 Azure Storage Account 名稱。</li>
+<li>account-key：剛剛取得的存取金鑰。</li>
+<li>share-name：Azure File 共享名稱。</li>
+</ul>
+<p>範例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>az storage file list <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --account-name stdemo20241117 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --account-key Wmy5No6h.........StTRutCg<span style="color:#f92672">==</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --share-name share-demo20241117 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --output table
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Name       Content Length    Type    Last Modified
+---------  ----------------  ------  -------------------------
+test-demo  0                 file    2024-11-17T14:20:53+00:00
+</code></pre><p>檔案成功出現，驗證成功</p>
+<h1 id="參考">參考<a class="anchorjs-link" href="#%e5%8f%83%e8%80%83"></a></h1><p><a href="https://github.com/kubernetes-sigs/azurefile-csi-driver/tree/master" target="_blank">azurefile-csi-driver Github網址</a></p>
+
+
+        <hr style="visibility: hidden;" />
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/" data-toggle="tooltip" data-placement="top" title="Kubernetes使用Secrets Store CSI Driver掛載Vault Secret">
+              Previous<br>
+              <span>Kubernetes使用Secrets Store CSI Driver掛載Vault Secret</span>
+            </a>
+          </li>
+          
+          
+        </ul>
+        <hr style="visibility: hidden;" />
+
+        
+        
+
+
+
+
+
+
+      </div>
+
+      
+      
+      
+      <div class="
+              col-lg-2 col-lg-offset-0
+              visible-lg-block
+              sidebar-container
+              catalog-container">
+        <div class="side-catalog">
+          <hr class="hidden-sm hidden-xs">
+          <h5>
+            <a class="catalog-toggle" href="#">CATALOG</a>
+          </h5>
+          <ul class="catalog-body"></ul>
+        </div>
+      </div>
+      
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              sidebar-container">
+
+        
+        
+        <section>
+  
+  
+  <hr class="hidden-sm hidden-xs">
+  
+  <h5>FEATURED TAGS</h5>
+  <div class="tags">
+    
+    <a href="/tags/aws/">AWS</a>
+    
+    <a href="/tags/azure/">Azure</a>
+    
+    <a href="/tags/azure-file-csi-driver/">Azure File CSI Driver</a>
+    
+    <a href="/tags/azurefile/">Azurefile</a>
+    
+    <a href="/tags/cloud/">Cloud</a>
+    
+    <a href="/tags/codeready-containers/">CodeReady Containers</a>
+    
+    <a href="/tags/container-storage-interface/">Container Storage Interface</a>
+    
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/csi/">CSI</a>
+    
+    <a href="/tags/docker/">Docker</a>
+    
+    <a href="/tags/ec2/">EC2</a>
+    
+    <a href="/tags/gcp/">GCP</a>
+    
+    <a href="/tags/github/">Github</a>
+    
+    <a href="/tags/google-authenticator/">Google Authenticator</a>
+    
+    <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
+    
+    <a href="/tags/linux/">Linux</a>
+    
+    <a href="/tags/memorystore/">Memorystore</a>
+    
+    <a href="/tags/mfa/">MFA</a>
+    
+    <a href="/tags/openshift/">Openshift</a>
+    
+    <a href="/tags/openvpn/">Openvpn</a>
+    
+    <a href="/tags/redhat/">Redhat</a>
+    
+    <a href="/tags/redis/">Redis</a>
+    
+    <a href="/tags/secrets-store-csi-driver/">Secrets Store CSI Driver</a>
+    
+    <a href="/tags/sscsi/">SSCSI</a>
+    
+    <a href="/tags/vault/">Vault</a>
+    
+  </div>
+</section>
+
+        
+        
+
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <ul class="list-inline text-center">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+        <p class="copyright text-muted">
+          Copyright &copy; Polin‘s 技術筆記 2024  
+          <br>
+          Powered by <a href="https://gohugo.io">Hugo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js crossorigin="anonymous"></script>
+
+
+
+<script src="/js/hux-blog.min.c4ea77041cd3edbfc8b2622cd887a9a5d8760a4162d14489e36d2a3fa4c90172.js"></script>
+
+
+<script src=/js/simple-jekyll-search.min.js></script>
+
+
+<script src="/js/search.min.53bce5da475b4d362500e5ce5dddfa22e20e1b9018777411d2020b4b839c9310.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+  function generateCatalog(selector) {
+    _containerSelector = 'div.post-container'
+    
+    var P = $(_containerSelector), a, n, t, l, i, c;
+    a = P.find('h1,h2,h3,h4');
+    
+    $(selector).html('')
+    
+    a.each(function () {
+      n = $(this).prop('tagName').toLowerCase();
+      i = "#" + $(this).prop('id');
+      t = $(this).text();
+      c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+      l = $('<li class="' + n + '_nav"></li>').append(c);
+      $(selector).append(l);
+    });
+    return true;
+  }
+
+  generateCatalog(".catalog-body");
+
+  
+  $(".catalog-toggle").click((function (e) {
+    e.preventDefault();
+    $('.side-catalog').toggleClass("fold")
+  }))
+</script>
+
+
+<script type="text/javascript" src='/js/jquery.nav.min.ade6bde8f9fcc6a4b40852cb892e9f5912340ab8fe1305149d917fdd16fffd8d.js'></script>
+<script>
+   $(document).ready( function () {
+    $('.catalog-body').onePageNav({
+      currentClass: "active",
+      changeHash: !1,
+      easing: "swing",
+      filter: "",
+      scrollSpeed: 700,
+      scrollOffset: 0,
+      scrollThreshold: .2,
+      begin: null,
+      end: null,
+      scrollChange: null,
+      padding: 80
+    });
+  });
+</script>
+
+
+
+
+
+
+
+<script src="/zoomjs/zoom.min.js"></script>
+
+</body>
+
+</html>

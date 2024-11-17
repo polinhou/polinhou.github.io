@@ -2,164 +2,199 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Polin‘s 技術筆記</title>
-    <link>https://polinhou.github.io/tags/</link>
+    <link>http://localhost:1313/tags/</link>
     <description>Recent content in Tags on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 16 Nov 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://polinhou.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Azure</title>
+      <link>http://localhost:1313/tags/azure/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/azure/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Azure File CSI Driver</title>
+      <link>http://localhost:1313/tags/azure-file-csi-driver/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/azure-file-csi-driver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Azurefile</title>
+      <link>http://localhost:1313/tags/azurefile/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/azurefile/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Container Storage Interface</title>
-      <link>https://polinhou.github.io/tags/container-storage-interface/</link>
-      <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/container-storage-interface/</guid>
+      <link>http://localhost:1313/tags/container-storage-interface/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/container-storage-interface/</guid>
       <description></description>
     </item>
     <item>
       <title>CSI</title>
-      <link>https://polinhou.github.io/tags/csi/</link>
-      <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/csi/</guid>
+      <link>http://localhost:1313/tags/csi/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/csi/</guid>
       <description></description>
     </item>
     <item>
       <title>KinD</title>
-      <link>https://polinhou.github.io/tags/kind/</link>
-      <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/kind/</guid>
+      <link>http://localhost:1313/tags/kind/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/kind/</guid>
       <description></description>
     </item>
     <item>
       <title>Kubernetes</title>
-      <link>https://polinhou.github.io/tags/kubernetes/</link>
+      <link>http://localhost:1313/tags/kubernetes/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Secrets Store CSI Driver</title>
+      <link>http://localhost:1313/tags/secrets-store-csi-driver/</link>
       <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/kubernetes/</guid>
+      <guid>http://localhost:1313/tags/secrets-store-csi-driver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>SSCSI</title>
+      <link>http://localhost:1313/tags/sscsi/</link>
+      <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/sscsi/</guid>
       <description></description>
     </item>
     <item>
       <title>Vault</title>
-      <link>https://polinhou.github.io/tags/vault/</link>
+      <link>http://localhost:1313/tags/vault/</link>
       <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/vault/</guid>
+      <guid>http://localhost:1313/tags/vault/</guid>
       <description></description>
     </item>
     <item>
       <title>Docker</title>
-      <link>https://polinhou.github.io/tags/docker/</link>
+      <link>http://localhost:1313/tags/docker/</link>
       <pubDate>Sun, 10 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/docker/</guid>
+      <guid>http://localhost:1313/tags/docker/</guid>
       <description></description>
     </item>
     <item>
       <title>CodeReady Containers</title>
-      <link>https://polinhou.github.io/tags/codeready-containers/</link>
+      <link>http://localhost:1313/tags/codeready-containers/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/codeready-containers/</guid>
+      <guid>http://localhost:1313/tags/codeready-containers/</guid>
       <description></description>
     </item>
     <item>
       <title>CRC</title>
-      <link>https://polinhou.github.io/tags/crc/</link>
+      <link>http://localhost:1313/tags/crc/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/crc/</guid>
+      <guid>http://localhost:1313/tags/crc/</guid>
       <description></description>
     </item>
     <item>
       <title>Openshift</title>
-      <link>https://polinhou.github.io/tags/openshift/</link>
+      <link>http://localhost:1313/tags/openshift/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/openshift/</guid>
+      <guid>http://localhost:1313/tags/openshift/</guid>
       <description></description>
     </item>
     <item>
       <title>Redhat</title>
-      <link>https://polinhou.github.io/tags/redhat/</link>
+      <link>http://localhost:1313/tags/redhat/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/redhat/</guid>
+      <guid>http://localhost:1313/tags/redhat/</guid>
       <description></description>
     </item>
     <item>
       <title>Github</title>
-      <link>https://polinhou.github.io/tags/github/</link>
+      <link>http://localhost:1313/tags/github/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/github/</guid>
+      <guid>http://localhost:1313/tags/github/</guid>
       <description></description>
     </item>
     <item>
       <title>Hugo</title>
-      <link>https://polinhou.github.io/tags/hugo/</link>
+      <link>http://localhost:1313/tags/hugo/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/hugo/</guid>
+      <guid>http://localhost:1313/tags/hugo/</guid>
       <description></description>
     </item>
     <item>
       <title>AWS</title>
-      <link>https://polinhou.github.io/tags/aws/</link>
+      <link>http://localhost:1313/tags/aws/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/aws/</guid>
+      <guid>http://localhost:1313/tags/aws/</guid>
       <description></description>
     </item>
     <item>
       <title>Cloud</title>
-      <link>https://polinhou.github.io/tags/cloud/</link>
+      <link>http://localhost:1313/tags/cloud/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/cloud/</guid>
+      <guid>http://localhost:1313/tags/cloud/</guid>
       <description></description>
     </item>
     <item>
       <title>EC2</title>
-      <link>https://polinhou.github.io/tags/ec2/</link>
+      <link>http://localhost:1313/tags/ec2/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/ec2/</guid>
+      <guid>http://localhost:1313/tags/ec2/</guid>
       <description></description>
     </item>
     <item>
       <title>Linux</title>
-      <link>https://polinhou.github.io/tags/linux/</link>
+      <link>http://localhost:1313/tags/linux/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/linux/</guid>
+      <guid>http://localhost:1313/tags/linux/</guid>
       <description></description>
     </item>
     <item>
       <title>GCP</title>
-      <link>https://polinhou.github.io/tags/gcp/</link>
+      <link>http://localhost:1313/tags/gcp/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/gcp/</guid>
+      <guid>http://localhost:1313/tags/gcp/</guid>
       <description></description>
     </item>
     <item>
       <title>Memorystore</title>
-      <link>https://polinhou.github.io/tags/memorystore/</link>
+      <link>http://localhost:1313/tags/memorystore/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/memorystore/</guid>
+      <guid>http://localhost:1313/tags/memorystore/</guid>
       <description></description>
     </item>
     <item>
       <title>Redis</title>
-      <link>https://polinhou.github.io/tags/redis/</link>
+      <link>http://localhost:1313/tags/redis/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/redis/</guid>
+      <guid>http://localhost:1313/tags/redis/</guid>
       <description></description>
     </item>
     <item>
       <title>Google Authenticator</title>
-      <link>https://polinhou.github.io/tags/google-authenticator/</link>
+      <link>http://localhost:1313/tags/google-authenticator/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/google-authenticator/</guid>
+      <guid>http://localhost:1313/tags/google-authenticator/</guid>
       <description></description>
     </item>
     <item>
       <title>MFA</title>
-      <link>https://polinhou.github.io/tags/mfa/</link>
+      <link>http://localhost:1313/tags/mfa/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/mfa/</guid>
+      <guid>http://localhost:1313/tags/mfa/</guid>
       <description></description>
     </item>
     <item>
       <title>Openvpn</title>
-      <link>https://polinhou.github.io/tags/openvpn/</link>
+      <link>http://localhost:1313/tags/openvpn/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tags/openvpn/</guid>
+      <guid>http://localhost:1313/tags/openvpn/</guid>
       <description></description>
     </item>
   </channel>

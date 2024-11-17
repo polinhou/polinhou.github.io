@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Azurefile on Polin‘s 技術筆記</title>
+    <link>http://localhost:1313/tags/azurefile/</link>
+    <description>Recent content in Azurefile on Polin‘s 技術筆記</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/azurefile/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kubernetes使用Azure File CSI Driver掛載Azure Files</title>
+      <link>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</link>
+      <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。透過 CSI Driver，使用者可以利用 Kubernetes 的 PersistentVolume (PV) 和 PersistentVolumeClaim (PVC) 動態或靜態地配置 Azure Files，共享存儲資源，實現跨容器和跨 Pod 的數據共享，並支持企業級存儲需求，如高可用性、備份及權限控制等功能。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Openvpn on Polin‘s 技術筆記</title>
-    <link>https://polinhou.github.io/tags/openvpn/</link>
+    <link>http://localhost:1313/tags/openvpn/</link>
     <description>Recent content in Openvpn on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 02 Feb 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://polinhou.github.io/tags/openvpn/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/openvpn/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>自建VPN並Google Authenticator MFA驗證</title>
-      <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
+      <link>http://localhost:1313/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
+      <guid>http://localhost:1313/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
       <description>&lt;p&gt;在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。&lt;/p&gt;</description>
     </item>
   </channel>

@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
   
     
-  <title>Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret | Polin‘s 技術筆記</title>
+  <title>Kubernetes使用Secrets Store CSI Driver掛載Vault Secret | Polin‘s 技術筆記</title>
   <meta name="author" content="Polin">
   <meta name="description" content="將介紹如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。">
-  <meta name="keywords" content="KinD,Kubernetes,k8s,Vault,CSI">
+  <meta name="keywords" content="KinD,Kubernetes,k8s,Vault,CSI,SSCSI">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret">
+  <meta name="twitter:title" content="Kubernetes使用Secrets Store CSI Driver掛載Vault Secret">
   <meta name="twitter:description" content="將介紹如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。">
 
-  <meta property="og:url" content="https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/">
+  <meta property="og:url" content="http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
-  <meta property="og:title" content="Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret">
+  <meta property="og:title" content="Kubernetes使用Secrets Store CSI Driver掛載Vault Secret">
   <meta property="og:description" content="將介紹如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
@@ -32,6 +32,7 @@
     <meta property="article:tag" content="Vault">
     <meta property="article:tag" content="CSI">
     <meta property="article:tag" content="Container Storage Interface">
+    <meta property="article:tag" content="SSCSI">
 
   <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
   
@@ -67,7 +68,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
+      <a class="navbar-brand" href="http://localhost:1313/">Polin‘s 技術筆記</a>
     </div>
     
     <div id="huxblog_navbar">
@@ -187,8 +188,12 @@
             
             <a class="tag" href="/tags/container-storage-interface/" title="Container Storage Interface">Container Storage Interface</a>
             
+            <a class="tag" href="/tags/sscsi/" title="SSCSI">SSCSI</a>
+            
+            <a class="tag" href="/tags/secrets-store-csi-driver/" title="Secrets Store CSI Driver">Secrets Store CSI Driver</a>
+            
           </div>
-          <h1>Kubernetes使用Conainer Storage Interface(CSI)掛載Vault Secret</h1>
+          <h1>Kubernetes使用Secrets Store CSI Driver掛載Vault Secret</h1>
           <h2 class="subheading"></h2>
           <span class="meta">
             Posted by  Polin 
@@ -228,7 +233,7 @@
 <li>
 <p>KinD: 一種基於 Docker 的本地 Kubernetes 集群工具，用於在本地開發與測試 Kubernetes 工作負載。 可以透過 Homebrew 安裝：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
-</span></span></code></pre></div><p>更多詳細說明可參考 <a href="/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
+</span></span></code></pre></div><p>更多詳細說明可參考 <a href="https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
 </li>
 <li>
 <p>Helm: Kubernetes 的應用程式包管理工具，用於簡化應用部署與管理。可以透過 Homebrew 安裝</p>
@@ -479,6 +484,13 @@ webapp   1/1     Running   0          3s
           </li>
           
           
+          <li class="next">
+            <a href="/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/" data-toggle="tooltip" data-placement="top" title="Kubernetes使用Azure File CSI Driver掛載Azure Files">
+              Next<br>
+              <span>Kubernetes使用Azure File CSI Driver掛載Azure Files</span>
+            </a>
+          </li>
+          
         </ul>
         <hr style="visibility: hidden;" />
 
@@ -527,6 +539,12 @@ webapp   1/1     Running   0          3s
     
     <a href="/tags/aws/">AWS</a>
     
+    <a href="/tags/azure/">Azure</a>
+    
+    <a href="/tags/azure-file-csi-driver/">Azure File CSI Driver</a>
+    
+    <a href="/tags/azurefile/">Azurefile</a>
+    
     <a href="/tags/cloud/">Cloud</a>
     
     <a href="/tags/codeready-containers/">CodeReady Containers</a>
@@ -566,6 +584,10 @@ webapp   1/1     Running   0          3s
     <a href="/tags/redhat/">Redhat</a>
     
     <a href="/tags/redis/">Redis</a>
+    
+    <a href="/tags/secrets-store-csi-driver/">Secrets Store CSI Driver</a>
+    
+    <a href="/tags/sscsi/">SSCSI</a>
     
     <a href="/tags/vault/">Vault</a>
     
@@ -688,22 +710,6 @@ webapp   1/1     Running   0          3s
 
 
 
-
-
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
-      <script>
-        var doNotTrack = false;
-        if ( false ) {
-          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-          var doNotTrack = (dnt == "1" || dnt == "yes");
-        }
-        if (!doNotTrack) {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-K5XHM4QCLL');
-        }
-      </script>
 
 
 
