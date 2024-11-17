@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>紅帽 on Polin‘s 技術筆記</title>
-    <link>http://localhost:1313/tags/%E7%B4%85%E5%B8%BD/</link>
-    <description>Recent content in 紅帽 on Polin‘s 技術筆記</description>
+    <title>Redhat on Polin‘s 技術筆記</title>
+    <link>https://polinhou.github.io/tags/redhat/</link>
+    <description>Recent content in Redhat on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 04 Nov 2023 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/%E7%B4%85%E5%B8%BD/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://polinhou.github.io/tags/redhat/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>在本機用CRC建立Opehshift</title>
-      <link>http://localhost:1313/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</link>
+      <link>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</guid>
+      <guid>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</guid>
       <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.6.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Red Hat OpenShift Local-2.2.8-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;當你開始進行開發或測試基於 OpenShift 的容器應用程式時，一個快速、方便且低成本的方式是在你的本地環境中建立一個 OpenShift 環境。CodeReady Containers（CRC）是一個由紅帽（Red Hat）開發的強大工具，它使你能夠在你的個人電腦上輕鬆部署和運行 OpenShift，而無需訪問實際的 OpenShift 雲端或服務。這為開發人員和運維人員提供了一個理想的環境，可以在其中快速開發、測試和調試容器應用程式，而不必擔心破壞實際的生產環境。&lt;/p&gt;</description>
     </item>
   </channel>

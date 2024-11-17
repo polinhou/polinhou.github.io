@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Aws on Polin‘s 技術筆記</title>
+    <title>AWS on Polin‘s 技術筆記</title>
     <link>https://polinhou.github.io/tags/aws/</link>
-    <description>Recent content in Aws on Polin‘s 技術筆記</description>
+    <description>Recent content in AWS on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 18 Jul 2022 00:00:00 +0000</lastBuildDate>
