@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
+  
+    
+  <title>在Kubernetes中安裝OpenTelemetry | Polin‘s 技術筆記</title>
+  <meta name="author" content="Polin">
+  <meta name="description" content="OpenTelemetry 是一套開源的觀察性框架，用於收集分佈式系統的追蹤、指標和日誌數據。結合 Kubernetes，可實現從基礎架構到應用層的全面監控。本範例將介紹如何在 Kubernetes 中安裝 OpenTelemetry，並以範例演示數據收集，幫助你快速上手分佈式追蹤與性能監控。">
+  <meta name="keywords" content="KinD,Kubernetes,k8s,opentelemetry,observability">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在Kubernetes中安裝OpenTelemetry">
+  <meta name="twitter:description" content="OpenTelemetry 是一套開源的觀察性框架，用於收集分佈式系統的追蹤、指標和日誌數據。結合 Kubernetes，可實現從基礎架構到應用層的全面監控。本範例將介紹如何在 Kubernetes 中安裝 OpenTelemetry，並以範例演示數據收集，幫助你快速上手分佈式追蹤與性能監控。">
+
+  <meta property="og:url" content="https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry/">
+  <meta property="og:site_name" content="Polin‘s 技術筆記">
+  <meta property="og:title" content="在Kubernetes中安裝OpenTelemetry">
+  <meta property="og:description" content="OpenTelemetry 是一套開源的觀察性框架，用於收集分佈式系統的追蹤、指標和日誌數據。結合 Kubernetes，可實現從基礎架構到應用層的全面監控。本範例將介紹如何在 Kubernetes 中安裝 OpenTelemetry，並以範例演示數據收集，幫助你快速上手分佈式追蹤與性能監控。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2024-12-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-07T00:00:00+00:00">
+    <meta property="article:tag" content="KinD">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Opentelemetry">
+    <meta property="article:tag" content="Observability">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
+  
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/sass/main.css">
+
+  <link rel="stylesheet" href="/zoomjs/zoom.min.css">
+
+  <script src=/js/lazysizes.min.js></script>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+
+</head>
+
+
+
+<body ontouchstart="">
+  
+  
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+  <div class="container-fluid">
+    
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
+    </div>
+    
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li><a href="/" title="Home">Home</a></li>
+          
+          <li><a href="/archive/" title="Archive">Archive</a></li>
+          
+          <li><a href="/about" title="About">About</a></li>
+          
+          <li><a href="https://github.com/polinhou/" title="Github">Github</a></li>
+          
+
+          <li class="search-icon">
+            <a href="javascript:void(0)">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+</nav>
+<script>
+  
+  
+  
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#huxblog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  var __HuxNav__ = {
+    close: function () {
+      $navbar.className = " ";
+      
+      setTimeout(function () {
+        
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    },
+    open: function () {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    },
+  };
+
+  
+  $toggle.addEventListener("click", function (e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      __HuxNav__.close();
+    } else {
+      __HuxNav__.open();
+    }
+  });
+
+  
+
+  document.addEventListener("click", function (e) {
+    if (e.target == $toggle) return;
+    if (e.target.className == "icon-bar") return;
+    __HuxNav__.close();
+  });
+</script>
+  
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+
+<style type="text/css">
+  header.intro-header {
+    position: relative;
+    background-image: url('');
+  }
+</style>
+
+<header class="intro-header style-text">
+
+  <div class="header-mask"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/kind/" title="KinD">KinD</a>
+            
+            <a class="tag" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+            
+            <a class="tag" href="/tags/opentelemetry/" title="Opentelemetry">Opentelemetry</a>
+            
+            <a class="tag" href="/tags/observability/" title="Observability">Observability</a>
+            
+          </div>
+          <h1>在Kubernetes中安裝OpenTelemetry</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by  Polin 
+            on Sat, Dec 7, 2024
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              post-container">
+        <div style="display: flex">
+<img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/OpenTelemetry_Operator-0.74.3-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Cert_Manager-v1.16.2-blue.svg" style="margin: 2px;">
+</div>
+<h1 id="在kubernetes中安裝opentelemetry">在Kubernetes中安裝OpenTelemetry<a class="anchorjs-link" href="#%e5%9c%a8kubernetes%e4%b8%ad%e5%ae%89%e8%a3%9dopentelemetry"></a></h1><p>在現代微服務架構中，應用程式的可觀察性至關重要，而 OpenTelemetry 是目前業界採用的開源標準框架，用於收集分布式追蹤、指標和日誌數據。本範例將帶你快速實踐如何在 Kubernetes 中安裝 OpenTelemetry，並通過範例來演示數據收集的流程。</p>
+<h2 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h2><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
+<ol>
+<li>
+<p>Homebrew：macOS 的套件管理工具，用來安裝其他必要軟體。</p>
+</li>
+<li>
+<p>KinD: 一種基於 Docker 的本地 Kubernetes 集群工具，用於在本地開發與測試 Kubernetes 工作負載。 可以透過 Homebrew 安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
+</span></span></code></pre></div><p>更多詳細說明可參考 <a href="/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
+</li>
+<li>
+<p>Helm: Kubernetes 的應用程式包管理工具，用於簡化應用部署與管理。可以透過 Homebrew 安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install helm
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="安裝-cert-manager">安裝 Cert-Manager<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-cert-manager"></a></h2><p>Cert-Manager 是 OpenTelemetry Operator 的依賴項，用於管理證書。請確保 Cert-Manager 已安裝。</p>
+<p>以下是安裝步驟：</p>
+<h3 id="1-新增-cert-manager-儲存庫">1. 新增 Cert-Manager 儲存庫：<a class="anchorjs-link" href="#1-%e6%96%b0%e5%a2%9e-cert-manager-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add jetstack https://charts.jetstack.io
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>&#34;jetstack&#34; has been added to your repositories
+</code></pre><h3 id="2-更新-helm-chart-儲存庫">2. 更新 Helm Chart 儲存庫<a class="anchorjs-link" href="#2-%e6%9b%b4%e6%96%b0-helm-chart-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo update jetstack
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &#34;jetstack&#34; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre><h3 id="3-安裝-cert-manager">3. 安裝 Cert-Manager<a class="anchorjs-link" href="#3-%e5%ae%89%e8%a3%9d-cert-manager"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install cert-manager jetstack/cert-manager <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace cert-manager <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --create-namespace <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --set crds.enabled<span style="color:#f92672">=</span>true
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: cert-manager
+LAST DEPLOYED: Sat Dec  7 11:57:41 2024
+NAMESPACE: cert-manager
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+cert-manager v1.16.2 has been deployed successfully!
+
+In order to begin issuing certificates, you will need to set up a ClusterIssuer
+or Issuer resource (for example, by creating a &#39;letsencrypt-staging&#39; issuer).
+
+More information on the different types of issuers and how to configure them
+can be found in our documentation:
+
+https://cert-manager.io/docs/configuration/
+
+For information on how to configure cert-manager to automatically provision
+Certificates for Ingress resources, take a look at the `ingress-shim`
+documentation:
+
+https://cert-manager.io/docs/usage/ingress/
+</code></pre><h3 id="4驗證安裝">4.驗證安裝<a class="anchorjs-link" href="#4%e9%a9%97%e8%ad%89%e5%ae%89%e8%a3%9d"></a></h3><p>檢查 Cert-Manager 是否成功運行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pods -n cert-manager
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-b6fd485d9-58qmt              1/1     Running   0          100s
+cert-manager-cainjector-dcc5966bc-782sf   1/1     Running   0          100s
+cert-manager-webhook-dfb76c7bd-2sggz      1/1     Running   0          100s
+</code></pre><h2 id="安裝-opentelemetry-operator">安裝 OpenTelemetry Operator<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-opentelemetry-operator"></a></h2><p>OpenTelemetry Operator 用於幫助管理 Collector 和自動注入追蹤配置。</p>
+<p>以下是安裝步驟：</p>
+<h3 id="1-新增-opentelemetry-operator-儲存庫">1. 新增 OpenTelemetry Operator 儲存庫：<a class="anchorjs-link" href="#1-%e6%96%b0%e5%a2%9e-opentelemetry-operator-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><p>首先，將 OpenTelemetry Operator 的 Helm Chart 儲存庫加入本地 Helm 設定：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add open-telemetry <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  https://open-telemetry.github.io/opentelemetry-helm-charts
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>&#34;open-telemetry&#34; has been added to your repositories
+</code></pre><h3 id="2-更新-helm-chart-儲存庫-1">2. 更新 Helm Chart 儲存庫<a class="anchorjs-link" href="#2-%e6%9b%b4%e6%96%b0-helm-chart-%e5%84%b2%e5%ad%98%e5%ba%ab-1"></a></h3><p>確保您擁有最新的 Chart 資料：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo update open-telemetry
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &#34;open-telemetry&#34; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre><h3 id="3-安裝-opentelemetry-operator">3. 安裝 OpenTelemetry Operator<a class="anchorjs-link" href="#3-%e5%ae%89%e8%a3%9d-opentelemetry-operator"></a></h3><p>使用 Helm Chart 安裝 Vault 至指定的命名空間，範例 vault：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install opentelemetry-operator open-telemetry/opentelemetry-operator <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace opentelemetry-operator  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --create-namespace <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --set <span style="color:#e6db74">&#34;manager.collectorImage.repository=otel/opentelemetry-collector-k8s&#34;</span>
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: opentelemetry-operator
+LAST DEPLOYED: Sat Dec  7 12:04:10 2024
+NAMESPACE: opentelemetry-operator
+STATUS: deployed
+REVISION: 1
+NOTES:
+opentelemetry-operator has been installed. Check its status by running:
+  kubectl --namespace opentelemetry-operator get pods -l &#34;app.kubernetes.io/name=opentelemetry-operator&#34;
+
+Visit https://github.com/open-telemetry/opentelemetry-operator for instructions on how to create &amp; configure OpenTelemetryCollector and Instrumentation custom resources by using the Operator.
+</code></pre><h3 id="4-驗證部署">4. 驗證部署<a class="anchorjs-link" href="#4-%e9%a9%97%e8%ad%89%e9%83%a8%e7%bd%b2"></a></h3><p>確認 Operator 的 Pod 是否啟動：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pods -n opentelemetry-operator
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                                      READY   STATUS    RESTARTS   AGE
+opentelemetry-operator-6c58f7d968-4tqjc   2/2     Running   0          3m28s
+</code></pre><h2 id="配置-opentelemetry-collector">配置 OpenTelemetry Collector<a class="anchorjs-link" href="#%e9%85%8d%e7%bd%ae-opentelemetry-collector"></a></h2><p>Collector 是 OpenTelemetry 的核心組件，負責接收、處理和導出觀察性數據。</p>
+<h3 id="1創建-collector-yaml文件">1.創建 Collector YAML文件<a class="anchorjs-link" href="#1%e5%89%b5%e5%bb%ba-collector-yaml%e6%96%87%e4%bb%b6"></a></h3><p>創建名為 otel-collector.yaml 的文件：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; otel-collector.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: opentelemetry.io/v1beta1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: OpenTelemetryCollector
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: otel-collector
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: opentelemetry-operator
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  mode: sidecar
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  config:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    receivers:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      jaeger:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        protocols:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          thrift_compact:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    processors:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      batch: {}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    exporters:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      debug: 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        verbosity: detailed # 使用 debug 导出器替代 logging 导出器
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    service:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      pipelines:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        traces:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          receivers: [jaeger]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          processors: [batch]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          exporters: [debug]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><h3 id="2-套用yaml文件">2. 套用YAML文件<a class="anchorjs-link" href="#2-%e5%a5%97%e7%94%a8yaml%e6%96%87%e4%bb%b6"></a></h3><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f otel-collector.yaml
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>opentelemetrycollector.opentelemetry.io/otel-collector created
+</code></pre><h3 id="3-驗證部署">3. 驗證部署<a class="anchorjs-link" href="#3-%e9%a9%97%e8%ad%89%e9%83%a8%e7%bd%b2"></a></h3><p>確認 collectors 存在：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get  opentelemetrycollectors -n opentelemetry-operator
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAMESPACE                NAME             MODE      VERSION   READY   AGE   IMAGE   MANAGEMENT
+opentelemetry-operator   otel-collector   sidecar   0.114.0           44s           managed
+</code></pre><h2 id="部署範例程式並整合-opentelemetry">部署範例程式並整合 OpenTelemetry<a class="anchorjs-link" href="#%e9%83%a8%e7%bd%b2%e7%af%84%e4%be%8b%e7%a8%8b%e5%bc%8f%e4%b8%a6%e6%95%b4%e5%90%88-opentelemetry"></a></h2><p>我們使用jaegertracing提供的範例，以下展示如何將其部署並與 OpenTelemetry Collector 整合。</p>
+<h3 id="1-創建範例yaml文件">1. 創建範例YAML文件<a class="anchorjs-link" href="#1-%e5%89%b5%e5%bb%ba%e7%af%84%e4%be%8byaml%e6%96%87%e4%bb%b6"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; pod.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Pod
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: myapp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  annotations:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    sidecar.opentelemetry.io/inject: &#34;opentelemetry-operator/otel-collector&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  containers:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - name: myapp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    image: jaegertracing/vertx-create-span:operator-e2e-tests
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ports:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      - containerPort: 8080
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        protocol: TCP
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><h3 id="2-套用yaml文件-1">2. 套用YAML文件<a class="anchorjs-link" href="#2-%e5%a5%97%e7%94%a8yaml%e6%96%87%e4%bb%b6-1"></a></h3><p>套用此配置：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f pod.yaml
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>pod/myapp created
+</code></pre><h3 id="3-驗證部署-1">3. 驗證部署<a class="anchorjs-link" href="#3-%e9%a9%97%e8%ad%89%e9%83%a8%e7%bd%b2-1"></a></h3><h4 id="1-查看pod是否有正常啟動">1. 查看Pod是否有正常啟動<a class="anchorjs-link" href="#1-%e6%9f%a5%e7%9c%8bpod%e6%98%af%e5%90%a6%e6%9c%89%e6%ad%a3%e5%b8%b8%e5%95%9f%e5%8b%95"></a></h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pod
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME    READY   STATUS    RESTARTS   AGE
+myapp   2/2     Running   0          13s
+</code></pre><h4 id="2-開放-8080-port直接測試連線">2. 開放 8080 Port直接測試連線<a class="anchorjs-link" href="#2-%e9%96%8b%e6%94%be-8080-port%e7%9b%b4%e6%8e%a5%e6%b8%ac%e8%a9%a6%e9%80%a3%e7%b7%9a"></a></h4><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl port-forward pods/myapp 8080:8080
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Forwarding from 127.0.0.1:8080 -&gt; 8080
+Forwarding from [::1]:8080 -&gt; 8080
+</code></pre><h4 id="3-測試連線">3. 測試連線<a class="anchorjs-link" href="#3-%e6%b8%ac%e8%a9%a6%e9%80%a3%e7%b7%9a"></a></h4><p>使用cURL 指令測試</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl localhost:8080
+</span></span></code></pre></div><p>連線成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Hello from Vert.x!
+</code></pre><h4 id="4-查看pod的log">4. 查看Pod的Log<a class="anchorjs-link" href="#4-%e6%9f%a5%e7%9c%8bpod%e7%9a%84log"></a></h4><p>查看主要Pod的Log</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs pods/myapp myapp 
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>2024-12-07 05:05:51 INFO  MainVerticle:31 - Agent at: null
+2024-12-07 05:05:51 INFO  Configuration:248 - Initialized tracer=JaegerTracer(version=Java-0.35.5, serviceName=order, reporter=CompositeReporter(reporters=[RemoteReporter(sender=UdpSender(), closeEnqueueTimeout=1000), LoggingReporter(logger=org.slf4j.reload4j.Reload4jLoggerAdapter@4e594447)]), sampler=ConstSampler(decision=true, tags={sampler.type=const, sampler.param=true}), tags={hostname=myapp, jaeger.version=Java-0.35.5, ip=10.244.0.23}, zipkinSharedRpcSpan=false, expandExceptionLogs=false, useTraceId128Bit=false)
+2024-12-07 05:05:51 INFO  Configuration:248 - Initialized tracer=JaegerTracer(version=Java-0.35.5, serviceName=inventory, reporter=CompositeReporter(reporters=[RemoteReporter(sender=UdpSender(), closeEnqueueTimeout=1000), LoggingReporter(logger=org.slf4j.reload4j.Reload4jLoggerAdapter@4e594447)]), sampler=ConstSampler(decision=true, tags={sampler.type=const, sampler.param=true}), tags={hostname=myapp, jaeger.version=Java-0.35.5, ip=10.244.0.23}, zipkinSharedRpcSpan=false, expandExceptionLogs=false, useTraceId128Bit=false)
+2024-12-07 05:05:51 INFO  MainVerticle:49 - HTTP server started on port 8080
+2024-12-07 05:05:59 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:381500d6b91fea96:4f22b3136d0cd1cb:1 - getAccountFromCache
+2024-12-07 05:05:59 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:96b13d445554b087:4f22b3136d0cd1cb:1 - getAccountFromStorage
+2024-12-07 05:05:59 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:4f22b3136d0cd1cb:65054449879d93f5:1 - getAccount
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:9683a29070bad470:36b4834ef81162cf:1 - chargeCreditCard
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:36b4834ef81162cf:65054449879d93f5:1 - submitOrder
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:65054449879d93f5:0:1 - requestStarted
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:bb8711f5897dac9c:36b4834ef81162cf:1 - dispatchEventToInventory
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:c5f2e7088058515d:36b4834ef81162cf:1 - changeOrderStatus
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:7870df4211fc981c:a5bc4913627f045e:1 - checkInventoryStatus
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:60f8553b097346a7:a5bc4913627f045e:1 - updateInventory
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:c5d3c88f157f99c1:a5bc4913627f045e:1 - prepareOrderManifest
+2024-12-07 05:06:00 INFO  LoggingReporter:43 - Span reported: 65054449879d93f5:a5bc4913627f045e:bb8711f5897dac9c:1 - receiveEvent
+</code></pre><p>可以從Log看到都有Span都蹤跡</p>
+<p>接下來查看Sidecar的Log</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs pods/myapp otc-container 
+</span></span></code></pre></div><pre tabindex="0"><code>2024-12-07T05:05:51.060Z	info	service@v0.114.0/service.go:166	Setting up own telemetry...
+2024-12-07T05:05:51.060Z	warn	service@v0.114.0/service.go:221	service::telemetry::metrics::address is being deprecated in favor of service::telemetry::metrics::readers
+2024-12-07T05:05:51.060Z	info	telemetry/metrics.go:70	Serving metrics	{&#34;address&#34;: &#34;0.0.0.0:8888&#34;, &#34;metrics level&#34;: &#34;Normal&#34;}
+2024-12-07T05:05:51.061Z	info	builders/builders.go:26	Development component. May change in the future.	{&#34;kind&#34;: &#34;exporter&#34;, &#34;data_type&#34;: &#34;traces&#34;, &#34;name&#34;: &#34;debug&#34;}
+2024-12-07T05:05:51.062Z	warn	jaegerreceiver@v0.114.0/factory.go:49	jaeger receiver will deprecate Thrift-gen and replace it with Proto-gen to be compatbible to jaeger 1.42.0 and higher. See https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/18485 for more details.	{&#34;kind&#34;: &#34;receiver&#34;, &#34;name&#34;: &#34;jaeger&#34;, &#34;data_type&#34;: &#34;traces&#34;}
+2024-12-07T05:05:51.063Z	info	service@v0.114.0/service.go:238	Starting otelcol-k8s...	{&#34;Version&#34;: &#34;0.114.0&#34;, &#34;NumCPU&#34;: 4}
+2024-12-07T05:05:51.063Z	info	extensions/extensions.go:39	Starting extensions...
+2024-12-07T05:05:51.065Z	info	service@v0.114.0/service.go:261	Everything is ready. Begin running and processing data.
+2024-12-07T05:06:00.505Z	info	Traces	{&#34;kind&#34;: &#34;exporter&#34;, &#34;data_type&#34;: &#34;traces&#34;, &#34;name&#34;: &#34;debug&#34;, &#34;resource spans&#34;: 1, &#34;spans&#34;: 3}
+2024-12-07T05:06:00.505Z	info	ResourceSpans #0
+Resource SchemaURL: 
+Resource attributes:
+     -&gt; service.name: Str(order)
+     -&gt; host.name: Str(myapp)
+     -&gt; opencensus.exporterversion: Str(Jaeger-Java-0.35.5)
+     -&gt; ip: Str(10.244.0.23)
+ScopeSpans #0
+ScopeSpans SchemaURL: 
+InstrumentationScope  
+Span #0
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 4f22b3136d0cd1cb
+    ID             : 381500d6b91fea96
+    Name           : getAccountFromCache
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:05:59.551 +0000 UTC
+    End time       : 2024-12-07 05:05:59.615371 +0000 UTC
+    Status code    : Error
+    Status message : 
+Attributes:
+     -&gt; message: Str(Cache miss)
+Span #1
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 4f22b3136d0cd1cb
+    ID             : 96b13d445554b087
+    Name           : getAccountFromStorage
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:05:59.616 +0000 UTC
+    End time       : 2024-12-07 05:05:59.644533 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Span #2
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 65054449879d93f5
+    ID             : 4f22b3136d0cd1cb
+    Name           : getAccount
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:05:59.501 +0000 UTC
+    End time       : 2024-12-07 05:05:59.645381 +0000 UTC
+    Status code    : Unset
+    Status message : 
+	{&#34;kind&#34;: &#34;exporter&#34;, &#34;data_type&#34;: &#34;traces&#34;, &#34;name&#34;: &#34;debug&#34;}
+2024-12-07T05:06:01.509Z	info	Traces	{&#34;kind&#34;: &#34;exporter&#34;, &#34;data_type&#34;: &#34;traces&#34;, &#34;name&#34;: &#34;debug&#34;, &#34;resource spans&#34;: 2, &#34;spans&#34;: 9}
+2024-12-07T05:06:01.510Z	info	ResourceSpans #0
+Resource SchemaURL: 
+Resource attributes:
+     -&gt; service.name: Str(order)
+     -&gt; host.name: Str(myapp)
+     -&gt; opencensus.exporterversion: Str(Jaeger-Java-0.35.5)
+     -&gt; ip: Str(10.244.0.23)
+ScopeSpans #0
+ScopeSpans SchemaURL: 
+InstrumentationScope  
+Span #0
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 36b4834ef81162cf
+    ID             : 9683a29070bad470
+    Name           : chargeCreditCard
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:05:59.646 +0000 UTC
+    End time       : 2024-12-07 05:06:00.64654 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Attributes:
+     -&gt; card: Str(x123)
+Span #1
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 65054449879d93f5
+    ID             : 36b4834ef81162cf
+    Name           : submitOrder
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:05:59.646 +0000 UTC
+    End time       : 2024-12-07 05:06:00.650364 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Attributes:
+     -&gt; order-id: Str(c85b7644b6b5)
+Span #2
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 
+    ID             : 65054449879d93f5
+    Name           : requestStarted
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:05:59.5 +0000 UTC
+    End time       : 2024-12-07 05:06:00.656193 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Attributes:
+     -&gt; sampler.type: Str(const)
+     -&gt; account: Str(14a25bb1-c510-49b7-ac09-9f7f7f1cc354)
+     -&gt; sampler.param: Bool(true)
+Span #3
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 36b4834ef81162cf
+    ID             : bb8711f5897dac9c
+    Name           : dispatchEventToInventory
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:06:00.651 +0000 UTC
+    End time       : 2024-12-07 05:06:00.692278 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Span #4
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : 36b4834ef81162cf
+    ID             : c5f2e7088058515d
+    Name           : changeOrderStatus
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:06:00.649 +0000 UTC
+    End time       : 2024-12-07 05:06:00.720253 +0000 UTC
+    Status code    : Unset
+    Status message : 
+ResourceSpans #1
+Resource SchemaURL: 
+Resource attributes:
+     -&gt; service.name: Str(inventory)
+     -&gt; host.name: Str(myapp)
+     -&gt; opencensus.exporterversion: Str(Jaeger-Java-0.35.5)
+     -&gt; ip: Str(10.244.0.23)
+ScopeSpans #0
+ScopeSpans SchemaURL: 
+InstrumentationScope  
+Span #0
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : a5bc4913627f045e
+    ID             : 7870df4211fc981c
+    Name           : checkInventoryStatus
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:06:00.775 +0000 UTC
+    End time       : 2024-12-07 05:06:00.872212 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Span #1
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : a5bc4913627f045e
+    ID             : 60f8553b097346a7
+    Name           : updateInventory
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:06:00.873 +0000 UTC
+    End time       : 2024-12-07 05:06:00.897421 +0000 UTC
+    Status code    : Error
+    Status message : 
+Attributes:
+     -&gt; message: Str(Cannot open connection to storage. Queueing update.)
+Span #2
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : a5bc4913627f045e
+    ID             : c5d3c88f157f99c1
+    Name           : prepareOrderManifest
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:06:00.898 +0000 UTC
+    End time       : 2024-12-07 05:06:00.970265 +0000 UTC
+    Status code    : Unset
+    Status message : 
+Span #3
+    Trace ID       : 000000000000000065054449879d93f5
+    Parent ID      : bb8711f5897dac9c
+    ID             : a5bc4913627f045e
+    Name           : receiveEvent
+    Kind           : Unspecified
+    Start time     : 2024-12-07 05:06:00.692 +0000 UTC
+    End time       : 2024-12-07 05:06:00.970895 +0000 UTC
+    Status code    : Unset
+    Status message : 
+	{&#34;kind&#34;: &#34;exporter&#34;, &#34;data_type&#34;: &#34;traces&#34;, &#34;name&#34;: &#34;debug&#34;}
+</code></pre><p>因為我們設定Collector中直接把exporters顯示在Log中</p>
+<p>因此可以直接從Sidecar的Log中看到詳細的Trace</p>
+<p>實際使用上會在後面接集中位置</p>
+<h2 id="參考">參考<a class="anchorjs-link" href="#%e5%8f%83%e8%80%83"></a></h2><p><a href="https://opentelemetry.io/" target="_blank">OpenTelemetry 官網</a></p>
+<p><a href="https://github.com/open-telemetry/opentelemetry-helm-charts" target="_blank">OpenTelemetry Helm Charts Github網址</a></p>
+<p><a href="https://github.com/jaegertracing/vertx-create-span" target="_blank">Vert.x starter with Jaeger tracer 範例程式</a></p>
+
+
+        <hr style="visibility: hidden;" />
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/" data-toggle="tooltip" data-placement="top" title="Kubernetes使用Azure File CSI Driver掛載Azure Files">
+              Previous<br>
+              <span>Kubernetes使用Azure File CSI Driver掛載Azure Files</span>
+            </a>
+          </li>
+          
+          
+        </ul>
+        <hr style="visibility: hidden;" />
+
+        
+        
+
+
+
+
+
+
+      </div>
+
+      
+      
+      
+      <div class="
+              col-lg-2 col-lg-offset-0
+              visible-lg-block
+              sidebar-container
+              catalog-container">
+        <div class="side-catalog">
+          <hr class="hidden-sm hidden-xs">
+          <h5>
+            <a class="catalog-toggle" href="#">CATALOG</a>
+          </h5>
+          <ul class="catalog-body"></ul>
+        </div>
+      </div>
+      
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              sidebar-container">
+
+        
+        
+        <section>
+  
+  
+  <hr class="hidden-sm hidden-xs">
+  
+  <h5>FEATURED TAGS</h5>
+  <div class="tags">
+    
+    <a href="/tags/aws/">AWS</a>
+    
+    <a href="/tags/azure/">Azure</a>
+    
+    <a href="/tags/azure-file-csi-driver/">Azure File CSI Driver</a>
+    
+    <a href="/tags/azurefile/">Azurefile</a>
+    
+    <a href="/tags/cloud/">Cloud</a>
+    
+    <a href="/tags/codeready-containers/">CodeReady Containers</a>
+    
+    <a href="/tags/container-storage-interface/">Container Storage Interface</a>
+    
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/csi/">CSI</a>
+    
+    <a href="/tags/docker/">Docker</a>
+    
+    <a href="/tags/ec2/">EC2</a>
+    
+    <a href="/tags/gcp/">GCP</a>
+    
+    <a href="/tags/github/">Github</a>
+    
+    <a href="/tags/google-authenticator/">Google Authenticator</a>
+    
+    <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
+    
+    <a href="/tags/linux/">Linux</a>
+    
+    <a href="/tags/memorystore/">Memorystore</a>
+    
+    <a href="/tags/mfa/">MFA</a>
+    
+    <a href="/tags/observability/">Observability</a>
+    
+    <a href="/tags/openshift/">Openshift</a>
+    
+    <a href="/tags/opentelemetry/">Opentelemetry</a>
+    
+    <a href="/tags/openvpn/">Openvpn</a>
+    
+    <a href="/tags/redhat/">Redhat</a>
+    
+    <a href="/tags/redis/">Redis</a>
+    
+    <a href="/tags/secrets-store-csi-driver/">Secrets Store CSI Driver</a>
+    
+    <a href="/tags/sscsi/">SSCSI</a>
+    
+    <a href="/tags/vault/">Vault</a>
+    
+  </div>
+</section>
+
+        
+        
+
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <ul class="list-inline text-center">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+        <p class="copyright text-muted">
+          Copyright &copy; Polin‘s 技術筆記 2024  
+          <br>
+          Powered by <a href="https://gohugo.io">Hugo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js crossorigin="anonymous"></script>
+
+
+
+<script src="/js/hux-blog.min.c4ea77041cd3edbfc8b2622cd887a9a5d8760a4162d14489e36d2a3fa4c90172.js"></script>
+
+
+<script src=/js/simple-jekyll-search.min.js></script>
+
+
+<script src="/js/search.min.53bce5da475b4d362500e5ce5dddfa22e20e1b9018777411d2020b4b839c9310.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+  function generateCatalog(selector) {
+    _containerSelector = 'div.post-container'
+    
+    var P = $(_containerSelector), a, n, t, l, i, c;
+    a = P.find('h1,h2,h3,h4');
+    
+    $(selector).html('')
+    
+    a.each(function () {
+      n = $(this).prop('tagName').toLowerCase();
+      i = "#" + $(this).prop('id');
+      t = $(this).text();
+      c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+      l = $('<li class="' + n + '_nav"></li>').append(c);
+      $(selector).append(l);
+    });
+    return true;
+  }
+
+  generateCatalog(".catalog-body");
+
+  
+  $(".catalog-toggle").click((function (e) {
+    e.preventDefault();
+    $('.side-catalog').toggleClass("fold")
+  }))
+</script>
+
+
+<script type="text/javascript" src='/js/jquery.nav.min.ade6bde8f9fcc6a4b40852cb892e9f5912340ab8fe1305149d917fdd16fffd8d.js'></script>
+<script>
+   $(document).ready( function () {
+    $('.catalog-body').onePageNav({
+      currentClass: "active",
+      changeHash: !1,
+      easing: "swing",
+      filter: "",
+      scrollSpeed: 700,
+      scrollOffset: 0,
+      scrollThreshold: .2,
+      begin: null,
+      end: null,
+      scrollChange: null,
+      padding: 80
+    });
+  });
+</script>
+
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-K5XHM4QCLL');
+        }
+      </script>
+
+
+
+<script src="/zoomjs/zoom.min.js"></script>
+
+</body>
+
+</html>
