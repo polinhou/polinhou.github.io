@@ -2,67 +2,74 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tech on Polin‘s 技術筆記</title>
-    <link>http://localhost:1313/tech/</link>
+    <link>https://polinhou.github.io/tech/</link>
     <description>Recent content in Tech on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tech/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://polinhou.github.io/tech/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Kubernetes中安裝OpenTelemetry</title>
+      <link>https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry%E4%BB%A5nginx%E7%82%BA%E4%BE%8B%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/</link>
+      <pubDate>Sat, 07 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry%E4%BB%A5nginx%E7%82%BA%E4%BE%8B%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/OpenTelemetry_Operator-0.74.3-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Cert_Manager-v1.16.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在kubernetes中安裝opentelemetry以-nginx-為例快速上手&#34;&gt;在Kubernetes中安裝OpenTelemetry：以 Nginx 為例快速上手&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8kubernetes%e4%b8%ad%e5%ae%89%e8%a3%9dopentelemetry%e4%bb%a5-nginx-%e7%82%ba%e4%be%8b%e5%bf%ab%e9%80%9f%e4%b8%8a%e6%89%8b&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在現代微服務架構中，應用程式的可觀察性至關重要，而 OpenTelemetry 是目前業界採用的開源標準框架，用於收集分布式追蹤、指標和日誌數據。本範例將帶你快速實踐如何在 Kubernetes 中安裝 OpenTelemetry，並通過範例來演示數據收集的流程。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Kubernetes使用Azure File CSI Driver掛載Azure Files</title>
-      <link>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</link>
+      <link>https://polinhou.github.io/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/</link>
       <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。透過 CSI Driver，使用者可以利用 Kubernetes 的 PersistentVolume (PV) 和 PersistentVolumeClaim (PVC) 動態或靜態地配置 Azure Files，共享存儲資源，實現跨容器和跨 Pod 的數據共享，並支持企業級存儲需求，如高可用性、備份及權限控制等功能。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Azurefile_CSI_Driver-v1.31.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;kubernetes使用azure-file-csi-driver掛載azure-files&#34;&gt;Kubernetes使用Azure File CSI Driver掛載Azure Files&lt;a class=&#34;anchorjs-link&#34; href=&#34;#kubernetes%e4%bd%bf%e7%94%a8azure-file-csi-driver%e6%8e%9b%e8%bc%89azure-files&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。透過 CSI Driver，使用者可以利用 Kubernetes 的 PersistentVolume (PV) 和 PersistentVolumeClaim (PVC) 動態或靜態地配置 Azure Files，共享存儲資源，實現跨容器和跨 Pod 的數據共享，並支持企業級存儲需求，如高可用性、備份及權限控制等功能。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes使用Secrets Store CSI Driver掛載Vault Secret</title>
-      <link>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</link>
+      <link>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</link>
       <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;kubernetes使用secrets-store-csi-driver掛載vault-secret&#34;&gt;Kubernetes使用Secrets Store CSI Driver掛載Vault Secret&lt;a class=&#34;anchorjs-link&#34; href=&#34;#kubernetes%e4%bd%bf%e7%94%a8secrets-store-csi-driver%e6%8e%9b%e8%bc%89vault-secret&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>在本機用KinD建立Kubernetes</title>
-      <link>http://localhost:1313/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
+      <link>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
       <pubDate>Sun, 10 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在本機用kind建立kubernetes&#34;&gt;在本機用KinD建立Kubernetes&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8kind%e5%bb%ba%e7%ab%8bkubernetes&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。&lt;/p&gt;</description>
     </item>
     <item>
       <title>在本機用CRC建立Opehshift</title>
-      <link>http://localhost:1313/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</link>
+      <link>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</link>
       <pubDate>Sat, 04 Nov 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.6.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Red Hat OpenShift Local-2.2.8-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;當你開始進行開發或測試基於 OpenShift 的容器應用程式時，一個快速、方便且低成本的方式是在你的本地環境中建立一個 OpenShift 環境。CodeReady Containers（CRC）是一個由紅帽（Red Hat）開發的強大工具，它使你能夠在你的個人電腦上輕鬆部署和運行 OpenShift，而無需訪問實際的 OpenShift 雲端或服務。這為開發人員和運維人員提供了一個理想的環境，可以在其中快速開發、測試和調試容器應用程式，而不必擔心破壞實際的生產環境。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.6.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Red Hat OpenShift Local-2.2.8-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在本機用crc建立opehshift&#34;&gt;在本機用CRC建立Opehshift&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8crc%e5%bb%ba%e7%ab%8bopehshift&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;當你開始進行開發或測試基於 OpenShift 的容器應用程式時，一個快速、方便且低成本的方式是在你的本地環境中建立一個 OpenShift 環境。CodeReady Containers（CRC）是一個由紅帽（Red Hat）開發的強大工具，它使你能夠在你的個人電腦上輕鬆部署和運行 OpenShift，而無需訪問實際的 OpenShift 雲端或服務。這為開發人員和運維人員提供了一個理想的環境，可以在其中快速開發、測試和調試容器應用程式，而不必擔心破壞實際的生產環境。&lt;/p&gt;</description>
     </item>
     <item>
       <title>使用Hugo&#43;Github製作Blog</title>
-      <link>http://localhost:1313/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</link>
+      <link>https://polinhou.github.io/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</link>
       <pubDate>Sun, 29 Oct 2023 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.6.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Hugo-0.120.3-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;當你希望分享自己的知識、經驗，或創建一個靜態網頁時，GitHub Pages 是一個強大的平台。它允許你輕鬆地將你的靜態網頁託管在 GitHub 上，而且是免費的。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.6.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Hugo-0.120.3-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;使用hugogithub製作blog&#34;&gt;使用Hugo+Github製作Blog&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e4%bd%bf%e7%94%a8hugogithub%e8%a3%bd%e4%bd%9cblog&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;當你希望分享自己的知識、經驗，或創建一個靜態網頁時，GitHub Pages 是一個強大的平台。它允許你輕鬆地將你的靜態網頁託管在 GitHub 上，而且是免費的。&lt;/p&gt;&#xA;&lt;p&gt;特別是，如果你想要開始自己的部落格，並希望以專業和個性化的方式展示內容，Hugo 是一個絕佳的選擇。Hugo 是一個快速、靈活、現代的靜態網頁生成器，它可以幫助你建立漂亮、可定製的部落格，而不需要太多的技術知識。&lt;/p&gt;</description>
     </item>
     <item>
       <title>AWS EC2 for Linux 擴充硬碟大小</title>
-      <link>http://localhost:1313/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
+      <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/AWS-EC2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/AWS-EC2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;aws-ec2-for-linux-擴充硬碟大小&#34;&gt;AWS EC2 for Linux 擴充硬碟大小&lt;a class=&#34;anchorjs-link&#34; href=&#34;#aws-ec2-for-linux-%e6%93%b4%e5%85%85%e7%a1%ac%e7%a2%9f%e5%a4%a7%e5%b0%8f&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。&lt;/p&gt;</description>
     </item>
     <item>
       <title>GCP Memorystore for Redis 升級</title>
-      <link>http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
+      <link>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Memorystore-4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。&lt;/p&gt;&#xA;&lt;h3 id=&#34;查看當前版號&#34;&gt;查看當前版號&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e6%9f%a5%e7%9c%8b%e7%95%b6%e5%89%8d%e7%89%88%e8%99%9f&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Memorystore-4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;gcp-memorystore-for-redis-升級&#34;&gt;GCP Memorystore for Redis 升級&lt;a class=&#34;anchorjs-link&#34; href=&#34;#gcp-memorystore-for-redis-%e5%8d%87%e7%b4%9a&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。&lt;/p&gt;</description>
     </item>
     <item>
       <title>自建VPN並Google Authenticator MFA驗證</title>
-      <link>http://localhost:1313/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
+      <link>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</link>
       <pubDate>Wed, 02 Feb 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
-      <description>&lt;p&gt;在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</guid>
+      <description>&lt;h1 id=&#34;自建vpn並google-authenticator-mfa驗證&#34;&gt;自建VPN並Google Authenticator MFA驗證&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e8%87%aa%e5%bb%bavpn%e4%b8%a6google-authenticator-mfa%e9%a9%97%e8%ad%89&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在 Linux 系統上自建 OpenVPN 伺服器，並結合 Google Authenticator 進行多重身份驗證（MFA），增強 VPN 連線的安全性。通過詳細步驟，您可以實現雙重驗證的 VPN 連接，為遠端訪問提供更高的保護層級。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

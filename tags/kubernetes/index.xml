@@ -2,32 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kubernetes on Polin‘s 技術筆記</title>
-    <link>http://localhost:1313/tags/kubernetes/</link>
+    <link>https://polinhou.github.io/tags/kubernetes/</link>
     <description>Recent content in Kubernetes on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 17 Nov 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 07 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://polinhou.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Kubernetes中安裝OpenTelemetry</title>
+      <link>https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry%E4%BB%A5nginx%E7%82%BA%E4%BE%8B%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/</link>
+      <pubDate>Sat, 07 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry%E4%BB%A5nginx%E7%82%BA%E4%BE%8B%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/OpenTelemetry_Operator-0.74.3-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Cert_Manager-v1.16.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在kubernetes中安裝opentelemetry以-nginx-為例快速上手&#34;&gt;在Kubernetes中安裝OpenTelemetry：以 Nginx 為例快速上手&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8kubernetes%e4%b8%ad%e5%ae%89%e8%a3%9dopentelemetry%e4%bb%a5-nginx-%e7%82%ba%e4%be%8b%e5%bf%ab%e9%80%9f%e4%b8%8a%e6%89%8b&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在現代微服務架構中，應用程式的可觀察性至關重要，而 OpenTelemetry 是目前業界採用的開源標準框架，用於收集分布式追蹤、指標和日誌數據。本範例將帶你快速實踐如何在 Kubernetes 中安裝 OpenTelemetry，並通過範例來演示數據收集的流程。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Kubernetes使用Azure File CSI Driver掛載Azure Files</title>
-      <link>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</link>
+      <link>https://polinhou.github.io/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/</link>
       <pubDate>Sun, 17 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。透過 CSI Driver，使用者可以利用 Kubernetes 的 PersistentVolume (PV) 和 PersistentVolumeClaim (PVC) 動態或靜態地配置 Azure Files，共享存儲資源，實現跨容器和跨 Pod 的數據共享，並支持企業級存儲需求，如高可用性、備份及權限控制等功能。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Azurefile_CSI_Driver-v1.31.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;kubernetes使用azure-file-csi-driver掛載azure-files&#34;&gt;Kubernetes使用Azure File CSI Driver掛載Azure Files&lt;a class=&#34;anchorjs-link&#34; href=&#34;#kubernetes%e4%bd%bf%e7%94%a8azure-file-csi-driver%e6%8e%9b%e8%bc%89azure-files&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;Azure File CSI Driver 是 Kubernetes 上一種用於掛載 Azure Files 的解決方案，能夠在容器中提供簡單、高效且可擴展的文件存儲功能。透過 CSI Driver，使用者可以利用 Kubernetes 的 PersistentVolume (PV) 和 PersistentVolumeClaim (PVC) 動態或靜態地配置 Azure Files，共享存儲資源，實現跨容器和跨 Pod 的數據共享，並支持企業級存儲需求，如高可用性、備份及權限控制等功能。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Kubernetes使用Secrets Store CSI Driver掛載Vault Secret</title>
-      <link>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</link>
+      <link>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</link>
       <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;kubernetes使用secrets-store-csi-driver掛載vault-secret&#34;&gt;Kubernetes使用Secrets Store CSI Driver掛載Vault Secret&lt;a class=&#34;anchorjs-link&#34; href=&#34;#kubernetes%e4%bd%bf%e7%94%a8secrets-store-csi-driver%e6%8e%9b%e8%bc%89vault-secret&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
     </item>
     <item>
       <title>在本機用KinD建立Kubernetes</title>
-      <link>http://localhost:1313/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
+      <link>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
       <pubDate>Sun, 10 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在本機用kind建立kubernetes&#34;&gt;在本機用KinD建立Kubernetes&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8kind%e5%bb%ba%e7%ab%8bkubernetes&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

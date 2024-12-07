@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Secrets Store CSI Driver on Polin‘s 技術筆記</title>
-    <link>http://localhost:1313/tags/secrets-store-csi-driver/</link>
+    <link>https://polinhou.github.io/tags/secrets-store-csi-driver/</link>
     <description>Recent content in Secrets Store CSI Driver on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 16 Nov 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/secrets-store-csi-driver/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://polinhou.github.io/tags/secrets-store-csi-driver/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Kubernetes使用Secrets Store CSI Driver掛載Vault Secret</title>
-      <link>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</link>
+      <link>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</link>
       <pubDate>Sat, 16 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;kubernetes使用secrets-store-csi-driver掛載vault-secret&#34;&gt;Kubernetes使用Secrets Store CSI Driver掛載Vault Secret&lt;a class=&#34;anchorjs-link&#34; href=&#34;#kubernetes%e4%bd%bf%e7%94%a8secrets-store-csi-driver%e6%8e%9b%e8%bc%89vault-secret&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

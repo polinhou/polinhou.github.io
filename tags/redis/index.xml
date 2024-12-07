@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Redis on Polin‘s 技術筆記</title>
-    <link>http://localhost:1313/tags/redis/</link>
+    <link>https://polinhou.github.io/tags/redis/</link>
     <description>Recent content in Redis on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 02 Jul 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://polinhou.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>GCP Memorystore for Redis 升級</title>
-      <link>http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
+      <link>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</link>
       <pubDate>Sat, 02 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Memorystore-4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。&lt;/p&gt;&#xA;&lt;h3 id=&#34;查看當前版號&#34;&gt;查看當前版號&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e6%9f%a5%e7%9c%8b%e7%95%b6%e5%89%8d%e7%89%88%e8%99%9f&#34;&gt;&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Memorystore-4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;gcp-memorystore-for-redis-升級&#34;&gt;GCP Memorystore for Redis 升級&lt;a class=&#34;anchorjs-link&#34; href=&#34;#gcp-memorystore-for-redis-%e5%8d%87%e7%b4%9a&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

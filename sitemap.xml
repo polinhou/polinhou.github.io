@@ -2,126 +2,135 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/azure/</loc>
+    <loc>https://polinhou.github.io/tags/kind/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/kubernetes/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/observability/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/opentelemetry/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry%E4%BB%A5nginx%E7%82%BA%E4%BE%8B%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B/</loc>
+    <lastmod>2024-12-07T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/azure/</loc>
     <lastmod>2024-11-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/azure-file-csi-driver/</loc>
+    <loc>https://polinhou.github.io/tags/azure-file-csi-driver/</loc>
     <lastmod>2024-11-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/azurefile/</loc>
+    <loc>https://polinhou.github.io/tags/azurefile/</loc>
     <lastmod>2024-11-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/container-storage-interface/</loc>
+    <loc>https://polinhou.github.io/tags/container-storage-interface/</loc>
     <lastmod>2024-11-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/csi/</loc>
+    <loc>https://polinhou.github.io/tags/csi/</loc>
     <lastmod>2024-11-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/kind/</loc>
+    <loc>https://polinhou.github.io/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/</loc>
     <lastmod>2024-11-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/kubernetes/</loc>
-    <lastmod>2024-11-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azurefile-container-storage-interface-driver-copy/</loc>
-    <lastmod>2024-11-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2024-11-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2024-11-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tech/</loc>
-    <lastmod>2024-11-17T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</loc>
+    <loc>https://polinhou.github.io/tech/2024-11-16_kubernetes%E4%BD%BF%E7%94%A8conainer-storage-interfacecsi%E6%8E%9B%E8%BC%89vault-secret/</loc>
     <lastmod>2024-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/secrets-store-csi-driver/</loc>
+    <loc>https://polinhou.github.io/tags/secrets-store-csi-driver/</loc>
     <lastmod>2024-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/sscsi/</loc>
+    <loc>https://polinhou.github.io/tags/sscsi/</loc>
     <lastmod>2024-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/vault/</loc>
+    <loc>https://polinhou.github.io/tags/vault/</loc>
     <lastmod>2024-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/docker/</loc>
+    <loc>https://polinhou.github.io/tags/docker/</loc>
     <lastmod>2024-11-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</loc>
+    <loc>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</loc>
     <lastmod>2024-11-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/codeready-containers/</loc>
+    <loc>https://polinhou.github.io/tags/codeready-containers/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/crc/</loc>
+    <loc>https://polinhou.github.io/tags/crc/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/openshift/</loc>
+    <loc>https://polinhou.github.io/tags/openshift/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/redhat/</loc>
+    <loc>https://polinhou.github.io/tags/redhat/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</loc>
+    <loc>https://polinhou.github.io/tech/2023-11-04_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E4%BD%BF%E7%94%A8crc%E5%BB%BA%E7%AB%8Bopehshift/</loc>
     <lastmod>2023-11-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/github/</loc>
+    <loc>https://polinhou.github.io/tags/github/</loc>
     <lastmod>2023-10-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/hugo/</loc>
+    <loc>https://polinhou.github.io/tags/hugo/</loc>
     <lastmod>2023-10-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</loc>
+    <loc>https://polinhou.github.io/tech/2023-10-29_%E4%BD%BF%E7%94%A8hugo&#43;github%E8%A3%BD%E4%BD%9Cblog/</loc>
     <lastmod>2023-10-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/aws/</loc>
+    <loc>https://polinhou.github.io/tags/aws/</loc>
     <lastmod>2022-07-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</loc>
+    <loc>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</loc>
     <lastmod>2022-07-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/cloud/</loc>
+    <loc>https://polinhou.github.io/tags/cloud/</loc>
     <lastmod>2022-07-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/ec2/</loc>
+    <loc>https://polinhou.github.io/tags/ec2/</loc>
     <lastmod>2022-07-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/linux/</loc>
+    <loc>https://polinhou.github.io/tags/linux/</loc>
     <lastmod>2022-07-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/gcp/</loc>
+    <loc>https://polinhou.github.io/tags/gcp/</loc>
     <lastmod>2022-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</loc>
+    <loc>https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/</loc>
     <lastmod>2022-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/memorystore/</loc>
+    <loc>https://polinhou.github.io/tags/memorystore/</loc>
     <lastmod>2022-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/redis/</loc>
+    <loc>https://polinhou.github.io/tags/redis/</loc>
     <lastmod>2022-07-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/google-authenticator/</loc>
+    <loc>https://polinhou.github.io/tags/google-authenticator/</loc>
     <lastmod>2022-02-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/mfa/</loc>
+    <loc>https://polinhou.github.io/tags/mfa/</loc>
     <lastmod>2022-02-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/openvpn/</loc>
+    <loc>https://polinhou.github.io/tags/openvpn/</loc>
     <lastmod>2022-02-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</loc>
+    <loc>https://polinhou.github.io/tech/2022-02-02_%E8%87%AA%E5%BB%BAvpn%E4%B8%A6google-authenticator-mfa%E9%A9%97%E8%AD%89/</loc>
     <lastmod>2022-02-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://polinhou.github.io/about/</loc>
   </url><url>
-    <loc>http://localhost:1313/archive/</loc>
+    <loc>https://polinhou.github.io/archive/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://polinhou.github.io/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/series/</loc>
+    <loc>https://polinhou.github.io/series/</loc>
   </url>
 </urlset>

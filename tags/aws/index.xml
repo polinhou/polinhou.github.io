@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>AWS on Polin‘s 技術筆記</title>
-    <link>http://localhost:1313/tags/aws/</link>
+    <link>https://polinhou.github.io/tags/aws/</link>
     <description>Recent content in AWS on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 18 Jul 2022 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/aws/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://polinhou.github.io/tags/aws/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>AWS EC2 for Linux 擴充硬碟大小</title>
-      <link>http://localhost:1313/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
+      <link>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</link>
       <pubDate>Mon, 18 Jul 2022 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/AWS-EC2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;p&gt;在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2022-07-18_aws-ec2-for-linux-%E6%93%B4%E5%85%85%E7%A1%AC%E7%A2%9F%E5%A4%A7%E5%B0%8F/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/AWS-EC2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;aws-ec2-for-linux-擴充硬碟大小&#34;&gt;AWS EC2 for Linux 擴充硬碟大小&lt;a class=&#34;anchorjs-link&#34; href=&#34;#aws-ec2-for-linux-%e6%93%b4%e5%85%85%e7%a1%ac%e7%a2%9f%e5%a4%a7%e5%b0%8f&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;在 AWS EC2 上運行的 Linux 實例中，隨著資料需求增長，擴充 EBS 磁碟空間變得必要。本指南將介紹如何安全地擴充磁碟，包括從 AWS Console 調整磁碟大小到 Linux 系統內重新分配空間的步驟，幫助您有效管理 EC2 的儲存需求。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

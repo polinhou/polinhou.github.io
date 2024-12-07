@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -18,7 +18,7 @@
   <meta name="twitter:title" content="GCP Memorystore for Redis 升級">
   <meta name="twitter:description" content="在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。">
 
-  <meta property="og:url" content="http://localhost:1313/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/">
+  <meta property="og:url" content="https://polinhou.github.io/tech/2022-07-02_gcp-memorystore-for-redis%E5%8D%87%E7%B4%9A/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
   <meta property="og:title" content="GCP Memorystore for Redis 升級">
   <meta property="og:description" content="在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。">
@@ -66,7 +66,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://localhost:1313/">Polin‘s 技術筆記</a>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
     </div>
     
     <div id="huxblog_navbar">
@@ -213,15 +213,15 @@
         <div style="display: flex">
 <img src="https://img.shields.io/badge/Memorystore-4.0-blue.svg" style="margin: 2px;">
 </div>
-<p>在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。</p>
-<h3 id="查看當前版號">查看當前版號<a class="anchorjs-link" href="#%e6%9f%a5%e7%9c%8b%e7%95%b6%e5%89%8d%e7%89%88%e8%99%9f"></a></h3><p>進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。</p>
+<h1 id="gcp-memorystore-for-redis-升級">GCP Memorystore for Redis 升級<a class="anchorjs-link" href="#gcp-memorystore-for-redis-%e5%8d%87%e7%b4%9a"></a></h1><p>在 Google Cloud Platform (GCP) 上對 Memorystore for Redis 進行版本升級。從 GCP Console 中檢視 Redis 版本，到選擇目標更新版本並啟動升級過程，詳細展示了每個步驟的操作畫面和注意事項。</p>
+<h2 id="查看當前版號">查看當前版號<a class="anchorjs-link" href="#%e6%9f%a5%e7%9c%8b%e7%95%b6%e5%89%8d%e7%89%88%e8%99%9f"></a></h2><p>進到 GCP Console 中，點選要更新的 Memorystore instance，在 CONFIGURATION 的 tab 中可以看到 Version 的欄位有現在的版本號，後面有 UPGRADE 的選項。</p>
 <p><figure>
   <a class="paragraph-image">
     <img data-src="/img/2022-07-02-1.png" data-action="zoom" alt="當前版號"  class="lazyload">
   </a>
   
 </figure></p>
-<h3 id="選擇更新版號">選擇更新版號<a class="anchorjs-link" href="#%e9%81%b8%e6%93%87%e6%9b%b4%e6%96%b0%e7%89%88%e8%99%9f"></a></h3><p>點選 UPGRADE 的選項後會出現選擇要更新版本</p>
+<h2 id="選擇更新版號">選擇更新版號<a class="anchorjs-link" href="#%e9%81%b8%e6%93%87%e6%9b%b4%e6%96%b0%e7%89%88%e8%99%9f"></a></h2><p>點選 UPGRADE 的選項後會出現選擇要更新版本</p>
 <p><figure>
   <a class="paragraph-image">
     <img data-src="/img/2022-07-02-2.png" data-action="zoom" alt="選擇更新版號"  class="lazyload">
@@ -238,7 +238,7 @@
 <blockquote>
 <p>不過預估時間真的參考就好</p>
 </blockquote>
-<h3 id="更新完成">更新完成<a class="anchorjs-link" href="#%e6%9b%b4%e6%96%b0%e5%ae%8c%e6%88%90"></a></h3><p>更新完成後 Version 欄位的就會顯示您所選擇的版本號了</p>
+<h2 id="更新完成">更新完成<a class="anchorjs-link" href="#%e6%9b%b4%e6%96%b0%e5%ae%8c%e6%88%90"></a></h2><p>更新完成後 Version 欄位的就會顯示您所選擇的版本號了</p>
 <p><figure>
   <a class="paragraph-image">
     <img data-src="/img/2022-07-02-4.png" data-action="zoom" alt="更新後版號"  class="lazyload">
@@ -351,7 +351,11 @@
     
     <a href="/tags/mfa/">MFA</a>
     
+    <a href="/tags/observability/">Observability</a>
+    
     <a href="/tags/openshift/">Openshift</a>
+    
+    <a href="/tags/opentelemetry/">Opentelemetry</a>
     
     <a href="/tags/openvpn/">Openvpn</a>
     
@@ -484,6 +488,22 @@
 
 
 
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-K5XHM4QCLL');
+        }
+      </script>
 
 
 
