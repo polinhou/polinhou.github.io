@@ -9,6 +9,13 @@
     <lastBuildDate>Sun, 08 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://polinhou.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD</title>
+      <link>https://polinhou.github.io/tech/2024-12-08_%E7%94%A8kind%E5%BB%BA%E7%AB%8B%E7%9A%84kubernetes%E4%B8%AD%E5%BB%BA%E7%AB%8Bload-balancer-service/</link>
+      <pubDate>Sun, 08 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2024-12-08_%E7%94%A8kind%E5%BB%BA%E7%AB%8B%E7%9A%84kubernetes%E4%B8%AD%E5%BB%BA%E7%AB%8Bload-balancer-service/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Cloud_Provider_KinD-v0.4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在-kindkubernetes-in-docker-中建立-loadbalancer-service使用-cloud-provider-kind&#34;&gt;在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8-kindkubernetes-in-docker-%e4%b8%ad%e5%bb%ba%e7%ab%8b-loadbalancer-service%e4%bd%bf%e7%94%a8-cloud-provider-kind&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;KinD 是 Kubernetes 社區開發者最常用的本地集群工具之一，因為它基於 Docker，默認情況下並不支持 LoadBalancer 類型的 Service。而 Cloud-Provider-KinD 是一個專為 KinD 集群設計的插件，提供模擬的 LoadBalancer 功能，使開發者能夠更接近雲端環境進行測試。&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>在Kubernetes中安裝Service Mesh：以Istio Sidecar為例</title>
       <link>https://polinhou.github.io/tech/2024-12-08_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dservice-mesh%E4%BB%A5istio-sidecar%E7%82%BA%E4%BE%8B/</link>
       <pubDate>Sun, 08 Dec 2024 00:00:00 +0000</pubDate>
@@ -37,11 +44,11 @@
       <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Vault-1.18.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;kubernetes使用secrets-store-csi-driver掛載vault-secret&#34;&gt;Kubernetes使用Secrets Store CSI Driver掛載Vault Secret&lt;a class=&#34;anchorjs-link&#34; href=&#34;#kubernetes%e4%bd%bf%e7%94%a8secrets-store-csi-driver%e6%8e%9b%e8%bc%89vault-secret&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;如何透過 Vault CSI 驅動實現 Kubernetes 工作負載的動態密鑰管理。該筆記涵蓋 Vault CSI 的架構、安裝配置步驟，以及實際案例展示如何安全地將密鑰或機密資料掛載至 Pod，從而提升應用程式的安全性與合規性。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>在本機用KinD建立Kubernetes</title>
-      <link>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</link>
+      <title>在本機用KinD(Kubernetes in Docker)建立Kubernetes</title>
+      <link>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kindkubernetes-in-docker%E5%BB%BA%E7%AB%8Bkubernetes/</link>
       <pubDate>Sun, 10 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
-      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在本機用kind建立kubernetes&#34;&gt;在本機用KinD建立Kubernetes&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8kind%e5%bb%ba%e7%ab%8bkubernetes&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。&lt;/p&gt;</description>
+      <guid>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kindkubernetes-in-docker%E5%BB%BA%E7%AB%8Bkubernetes/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在本機用kindkubernetes-in-docker建立kubernetes&#34;&gt;在本機用KinD(Kubernetes in Docker)建立Kubernetes&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8kindkubernetes-in-docker%e5%bb%ba%e7%ab%8bkubernetes&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

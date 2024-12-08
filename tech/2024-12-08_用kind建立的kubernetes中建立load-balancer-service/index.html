@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
+  
+    
+  <title>在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD | Polin‘s 技術筆記</title>
+  <meta name="author" content="Polin">
+  <meta name="description" content="KinD 是 Kubernetes 社區開發者最常用的本地集群工具之一，因為它基於 Docker，默認情況下並不支持 LoadBalancer 類型的 Service。而 Cloud-Provider-KinD 是一個專為 KinD 集群設計的插件，提供模擬的 LoadBalancer 功能，使開發者能夠更接近雲端環境進行測試。">
+  <meta name="keywords" content="KinD,Kubernetes,k8s,cloud_provider_kinD,loadbalancer">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD">
+  <meta name="twitter:description" content="KinD 是 Kubernetes 社區開發者最常用的本地集群工具之一，因為它基於 Docker，默認情況下並不支持 LoadBalancer 類型的 Service。而 Cloud-Provider-KinD 是一個專為 KinD 集群設計的插件，提供模擬的 LoadBalancer 功能，使開發者能夠更接近雲端環境進行測試。">
+
+  <meta property="og:url" content="https://polinhou.github.io/tech/2024-12-08_%E7%94%A8kind%E5%BB%BA%E7%AB%8B%E7%9A%84kubernetes%E4%B8%AD%E5%BB%BA%E7%AB%8Bload-balancer-service/">
+  <meta property="og:site_name" content="Polin‘s 技術筆記">
+  <meta property="og:title" content="在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD">
+  <meta property="og:description" content="KinD 是 Kubernetes 社區開發者最常用的本地集群工具之一，因為它基於 Docker，默認情況下並不支持 LoadBalancer 類型的 Service。而 Cloud-Provider-KinD 是一個專為 KinD 集群設計的插件，提供模擬的 LoadBalancer 功能，使開發者能夠更接近雲端環境進行測試。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2024-12-08T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-08T00:00:00+00:00">
+    <meta property="article:tag" content="KinD">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Cloud Provider KinD">
+    <meta property="article:tag" content="LoadBalancer">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
+  
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/sass/main.css">
+
+  <link rel="stylesheet" href="/zoomjs/zoom.min.css">
+
+  <script src=/js/lazysizes.min.js></script>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+
+</head>
+
+
+
+<body ontouchstart="">
+  
+  
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+  <div class="container-fluid">
+    
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
+    </div>
+    
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li><a href="/archive/" title="Archive">Archive</a></li>
+          
+          <li><a href="/about" title="About">About</a></li>
+          
+          <li><a href="https://github.com/polinhou/" title="Github">Github</a></li>
+          
+
+          <li class="search-icon">
+            <a href="javascript:void(0)">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+</nav>
+<script>
+  
+  
+  
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#huxblog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  var __HuxNav__ = {
+    close: function () {
+      $navbar.className = " ";
+      
+      setTimeout(function () {
+        
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    },
+    open: function () {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    },
+  };
+
+  
+  $toggle.addEventListener("click", function (e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      __HuxNav__.close();
+    } else {
+      __HuxNav__.open();
+    }
+  });
+
+  
+
+  document.addEventListener("click", function (e) {
+    if (e.target == $toggle) return;
+    if (e.target.className == "icon-bar") return;
+    __HuxNav__.close();
+  });
+</script>
+  
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+
+<style type="text/css">
+  header.intro-header {
+    position: relative;
+    background-image: url('');
+  }
+</style>
+
+<header class="intro-header style-text">
+
+  <div class="header-mask"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/kind/" title="KinD">KinD</a>
+            
+            <a class="tag" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+            
+            <a class="tag" href="/tags/cloud-provider-kind/" title="Cloud Provider KinD">Cloud Provider KinD</a>
+            
+            <a class="tag" href="/tags/loadbalancer/" title="LoadBalancer">LoadBalancer</a>
+            
+          </div>
+          <h1>在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by  Polin 
+            on Sun, Dec 8, 2024
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              post-container">
+        <div style="display: flex">
+<img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Cloud_Provider_KinD-v0.4.0-blue.svg" style="margin: 2px;">
+</div>
+<h1 id="在-kindkubernetes-in-docker-中建立-loadbalancer-service使用-cloud-provider-kind">在 KinD(Kubernetes in Docker) 中建立 LoadBalancer Service：使用 Cloud-Provider-KinD<a class="anchorjs-link" href="#%e5%9c%a8-kindkubernetes-in-docker-%e4%b8%ad%e5%bb%ba%e7%ab%8b-loadbalancer-service%e4%bd%bf%e7%94%a8-cloud-provider-kind"></a></h1><p>KinD 是 Kubernetes 社區開發者最常用的本地集群工具之一，因為它基於 Docker，默認情況下並不支持 LoadBalancer 類型的 Service。而 Cloud-Provider-KinD 是一個專為 KinD 集群設計的插件，提供模擬的 LoadBalancer 功能，使開發者能夠更接近雲端環境進行測試。</p>
+<h2 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h2><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
+<ol>
+<li>
+<p>Homebrew：macOS 的套件管理工具，用來安裝其他必要軟體。</p>
+</li>
+<li>
+<p>KinD: 一種基於 Docker 的本地 Kubernetes 集群工具，用於在本地開發與測試 Kubernetes 工作負載。 可以透過 Homebrew 安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
+</span></span></code></pre></div><p>更多詳細說明可參考 <a href="/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
+</li>
+<li>
+<p>Golang: 使用 cloud-provider-kind，需要先安裝 Go (Golang) 開發環境，因為這個工具是用 Go 編寫的，並需要通過 Go 的包管理器進行安裝。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install go
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="安裝-cloud-provider-kind">安裝 Cloud-Provider-KinD<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-cloud-provider-kind"></a></h2><p>下載並安裝 Cloud-Provider-KinD</p>
+<p>Cloud-Provider-KinD 是一個獨立的二進制文件，需要在主機上運行，並連接到 KinD 集群。可以使用以下命令安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install sigs.k8s.io/cloud-provider-kind@latest
+</span></span></code></pre></div><p>啟動 Cloud-Provider-KinD</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cloud-provider-kind
+</span></span></code></pre></div><blockquote>
+<p>請注意，Cloud-Provider-KinD 需要獲取系統權限以打開端口並連接到容器運行時，因此需要使用 sudo。
+啟動後，Cloud-Provider-KinD 會監控所有 KinD 集群中的 LoadBalancer 類型的服務，並為其配置對應的負載均衡器容器。</p>
+</blockquote>
+<h2 id="驗證配置">驗證配置<a class="anchorjs-link" href="#%e9%a9%97%e8%ad%89%e9%85%8d%e7%bd%ae"></a></h2><h3 id="部署-loadbalancer-類型的服務">部署 LoadBalancer 類型的服務<a class="anchorjs-link" href="#%e9%83%a8%e7%bd%b2-loadbalancer-%e9%a1%9e%e5%9e%8b%e7%9a%84%e6%9c%8d%e5%8b%99"></a></h3><p>現在，可以在 KinD 集群中創建 LoadBalancer 類型的服務。以下是一個範例，創建一個回顯 &ldquo;foo&rdquo; 的服務：</p>
+<p>創建<code>foo-service.yaml</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; foo-service.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Pod
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: foo-app
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  labels:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    app: http-echo
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  containers:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - name: foo-app
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      image: hashicorp/http-echo:0.2.3
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      args:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        - &#34;-text=foo&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Service
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: foo-service
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  type: LoadBalancer
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  selector:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    app: http-echo
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  ports:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - port: 5678
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f foo-service.yaml
+</span></span></code></pre></div><h3 id="使用curl驗證服務">使用cURL驗證服務<a class="anchorjs-link" href="#%e4%bd%bf%e7%94%a8curl%e9%a9%97%e8%ad%89%e6%9c%8d%e5%8b%99"></a></h3><p>Cloud-Provider-KinD 會自動為該服務創建對應的負載均衡器容器，並分配一個外部 IP。可以使用以下命令查看服務的外部 IP：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get svc foo-service
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME          TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGE
+foo-service   LoadBalancer   10.96.53.15   172.19.0.3    5678:31524/TCP   15s
+</code></pre><p>一旦外部 IP 分配完成，可以使用 curl 測試服務</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://&lt;EXTERNAL-IP&gt;:5678
+</span></span></code></pre></div><p>這邊範例的EXTERNAL-IP會變成是<code>172.19.0.3</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl http://172.19.0.3:5678
+</span></span></code></pre></div><pre tabindex="0"><code>foo
+</code></pre><p>如果配置正確，應該會看到 &ldquo;foo&rdquo; 的響應。</p>
+<h2 id="參考">參考<a class="anchorjs-link" href="#%e5%8f%83%e8%80%83"></a></h2><p><a href="https://kind.sigs.k8s.io/docs/user/loadbalancer/" target="_blank">KinD 官網</a></p>
+<p><a href="https://github.com/kubernetes-sigs/cloud-provider-kind" target="_blank">Cloud-Provider-KinD Github網址</a></p>
+
+
+        <hr style="visibility: hidden;" />
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/tech/2024-12-08_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dservice-mesh%E4%BB%A5istio-sidecar%E7%82%BA%E4%BE%8B/" data-toggle="tooltip" data-placement="top" title="在Kubernetes中安裝Service Mesh：以Istio Sidecar為例">
+              Previous<br>
+              <span>在Kubernetes中安裝Service Mesh：以Istio Sidecar為例</span>
+            </a>
+          </li>
+          
+          
+        </ul>
+        <hr style="visibility: hidden;" />
+
+        
+        
+
+
+
+
+
+
+      </div>
+
+      
+      
+      
+      <div class="
+              col-lg-2 col-lg-offset-0
+              visible-lg-block
+              sidebar-container
+              catalog-container">
+        <div class="side-catalog">
+          <hr class="hidden-sm hidden-xs">
+          <h5>
+            <a class="catalog-toggle" href="#">CATALOG</a>
+          </h5>
+          <ul class="catalog-body"></ul>
+        </div>
+      </div>
+      
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              sidebar-container">
+
+        
+        
+        <section>
+  
+  
+  <hr class="hidden-sm hidden-xs">
+  
+  <h5>FEATURED TAGS</h5>
+  <div class="tags">
+    
+    <a href="/tags/aws/">AWS</a>
+    
+    <a href="/tags/azure/">Azure</a>
+    
+    <a href="/tags/azure-file-csi-driver/">Azure File CSI Driver</a>
+    
+    <a href="/tags/azurefile/">Azurefile</a>
+    
+    <a href="/tags/cloud/">Cloud</a>
+    
+    <a href="/tags/cloud-provider-kind/">Cloud Provider KinD</a>
+    
+    <a href="/tags/codeready-containers/">CodeReady Containers</a>
+    
+    <a href="/tags/container-storage-interface/">Container Storage Interface</a>
+    
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/csi/">CSI</a>
+    
+    <a href="/tags/docker/">Docker</a>
+    
+    <a href="/tags/ec2/">EC2</a>
+    
+    <a href="/tags/gcp/">GCP</a>
+    
+    <a href="/tags/github/">Github</a>
+    
+    <a href="/tags/google-authenticator/">Google Authenticator</a>
+    
+    <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/istio/">Istio</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
+    
+    <a href="/tags/linux/">Linux</a>
+    
+    <a href="/tags/loadbalancer/">LoadBalancer</a>
+    
+    <a href="/tags/memorystore/">Memorystore</a>
+    
+    <a href="/tags/mfa/">MFA</a>
+    
+    <a href="/tags/observability/">Observability</a>
+    
+    <a href="/tags/openshift/">Openshift</a>
+    
+    <a href="/tags/opentelemetry/">Opentelemetry</a>
+    
+    <a href="/tags/openvpn/">Openvpn</a>
+    
+    <a href="/tags/redhat/">Redhat</a>
+    
+    <a href="/tags/redis/">Redis</a>
+    
+    <a href="/tags/secrets-store-csi-driver/">Secrets Store CSI Driver</a>
+    
+    <a href="/tags/service-mesh/">Service Mesh</a>
+    
+    <a href="/tags/sscsi/">SSCSI</a>
+    
+    <a href="/tags/vault/">Vault</a>
+    
+  </div>
+</section>
+
+        
+        
+
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <ul class="list-inline text-center">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+        <p class="copyright text-muted">
+          Copyright &copy; Polin‘s 技術筆記 2024  
+          <br>
+          Powered by <a href="https://gohugo.io">Hugo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js crossorigin="anonymous"></script>
+
+
+
+<script src="/js/hux-blog.min.c4ea77041cd3edbfc8b2622cd887a9a5d8760a4162d14489e36d2a3fa4c90172.js"></script>
+
+
+<script src=/js/simple-jekyll-search.min.js></script>
+
+
+<script src="/js/search.min.53bce5da475b4d362500e5ce5dddfa22e20e1b9018777411d2020b4b839c9310.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+  function generateCatalog(selector) {
+    _containerSelector = 'div.post-container'
+    
+    var P = $(_containerSelector), a, n, t, l, i, c;
+    a = P.find('h1,h2,h3,h4');
+    
+    $(selector).html('')
+    
+    a.each(function () {
+      n = $(this).prop('tagName').toLowerCase();
+      i = "#" + $(this).prop('id');
+      t = $(this).text();
+      c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+      l = $('<li class="' + n + '_nav"></li>').append(c);
+      $(selector).append(l);
+    });
+    return true;
+  }
+
+  generateCatalog(".catalog-body");
+
+  
+  $(".catalog-toggle").click((function (e) {
+    e.preventDefault();
+    $('.side-catalog').toggleClass("fold")
+  }))
+</script>
+
+
+<script type="text/javascript" src='/js/jquery.nav.min.ade6bde8f9fcc6a4b40852cb892e9f5912340ab8fe1305149d917fdd16fffd8d.js'></script>
+<script>
+   $(document).ready( function () {
+    $('.catalog-body').onePageNav({
+      currentClass: "active",
+      changeHash: !1,
+      easing: "swing",
+      filter: "",
+      scrollSpeed: 700,
+      scrollOffset: 0,
+      scrollThreshold: .2,
+      begin: null,
+      end: null,
+      scrollChange: null,
+      padding: 80
+    });
+  });
+</script>
+
+
+
+
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-K5XHM4QCLL');
+        }
+      </script>
+
+
+
+<script src="/zoomjs/zoom.min.js"></script>
+
+</body>
+
+</html>

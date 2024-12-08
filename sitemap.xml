@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://polinhou.github.io/tags/cloud-provider-kind/</loc>
+    <lastmod>2024-12-08T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://polinhou.github.io/tags/istio/</loc>
     <lastmod>2024-12-08T00:00:00+00:00</lastmod>
   </url><url>
@@ -9,6 +12,9 @@
     <lastmod>2024-12-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tags/kubernetes/</loc>
+    <lastmod>2024-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tags/loadbalancer/</loc>
     <lastmod>2024-12-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tags/observability/</loc>
@@ -24,6 +30,9 @@
     <lastmod>2024-12-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tech/</loc>
+    <lastmod>2024-12-08T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://polinhou.github.io/tech/2024-12-08_%E7%94%A8kind%E5%BB%BA%E7%AB%8B%E7%9A%84kubernetes%E4%B8%AD%E5%BB%BA%E7%AB%8Bload-balancer-service/</loc>
     <lastmod>2024-12-08T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tech/2024-12-08_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dservice-mesh%E4%BB%A5istio-sidecar%E7%82%BA%E4%BE%8B/</loc>
@@ -68,7 +77,7 @@
     <loc>https://polinhou.github.io/tags/docker/</loc>
     <lastmod>2024-11-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/</loc>
+    <loc>https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kindkubernetes-in-docker%E5%BB%BA%E7%AB%8Bkubernetes/</loc>
     <lastmod>2024-11-10T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://polinhou.github.io/tags/codeready-containers/</loc>

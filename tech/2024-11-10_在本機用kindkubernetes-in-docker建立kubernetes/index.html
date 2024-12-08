@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
   
     
-  <title>在本機用KinD建立Kubernetes | Polin‘s 技術筆記</title>
+  <title>在本機用KinD(Kubernetes in Docker)建立Kubernetes | Polin‘s 技術筆記</title>
   <meta name="author" content="Polin">
   <meta name="description" content="KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。">
   <meta name="keywords" content="KinD,Kubernetes,Docker,k8s">
 
   
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="在本機用KinD建立Kubernetes">
+  <meta name="twitter:title" content="在本機用KinD(Kubernetes in Docker)建立Kubernetes">
   <meta name="twitter:description" content="KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。">
 
-  <meta property="og:url" content="http://localhost:1313/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/">
+  <meta property="og:url" content="https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kindkubernetes-in-docker%E5%BB%BA%E7%AB%8Bkubernetes/">
   <meta property="og:site_name" content="Polin‘s 技術筆記">
-  <meta property="og:title" content="在本機用KinD建立Kubernetes">
+  <meta property="og:title" content="在本機用KinD(Kubernetes in Docker)建立Kubernetes">
   <meta property="og:description" content="KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
@@ -65,7 +65,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="http://localhost:1313/">Polin‘s 技術筆記</a>
+      <a class="navbar-brand" href="https://polinhou.github.io/">Polin‘s 技術筆記</a>
     </div>
     
     <div id="huxblog_navbar">
@@ -180,7 +180,7 @@
             <a class="tag" href="/tags/docker/" title="Docker">Docker</a>
             
           </div>
-          <h1>在本機用KinD建立Kubernetes</h1>
+          <h1>在本機用KinD(Kubernetes in Docker)建立Kubernetes</h1>
           <h2 class="subheading"></h2>
           <span class="meta">
             Posted by  Polin 
@@ -209,7 +209,7 @@
 <img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
 <img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
 </div>
-<h1 id="在本機用kind建立kubernetes">在本機用KinD建立Kubernetes<a class="anchorjs-link" href="#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8kind%e5%bb%ba%e7%ab%8bkubernetes"></a></h1><p>KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。</p>
+<h1 id="在本機用kindkubernetes-in-docker建立kubernetes">在本機用KinD(Kubernetes in Docker)建立Kubernetes<a class="anchorjs-link" href="#%e5%9c%a8%e6%9c%ac%e6%a9%9f%e7%94%a8kindkubernetes-in-docker%e5%bb%ba%e7%ab%8bkubernetes"></a></h1><p>KinD (Kubernetes in Docker) 是一種便捷的本地開發工具，可以在 Docker 容器中運行 Kubernetes 叢集，適合用於本地測試和開發 Kubernetes 應用。本指南詳細說明了如何在 macOS 上安裝和配置 KinD，以便快速建立一個本地的 Kubernetes 叢集。</p>
 <h2 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h2><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
 <ol>
 <li>
@@ -326,6 +326,8 @@
     
     <a href="/tags/cloud/">Cloud</a>
     
+    <a href="/tags/cloud-provider-kind/">Cloud Provider KinD</a>
+    
     <a href="/tags/codeready-containers/">CodeReady Containers</a>
     
     <a href="/tags/container-storage-interface/">Container Storage Interface</a>
@@ -353,6 +355,8 @@
     <a href="/tags/kubernetes/">Kubernetes</a>
     
     <a href="/tags/linux/">Linux</a>
+    
+    <a href="/tags/loadbalancer/">LoadBalancer</a>
     
     <a href="/tags/memorystore/">Memorystore</a>
     
@@ -497,6 +501,22 @@
 
 
 
+
+
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5XHM4QCLL"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-K5XHM4QCLL');
+        }
+      </script>
 
 
 

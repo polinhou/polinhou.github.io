@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloud_Provider KinD on Polin‘s 技術筆記</title>
+    <link>http://localhost:1313/tags/cloud_provider-kind/</link>
+    <description>Recent content in Cloud_Provider KinD on Polin‘s 技術筆記</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 08 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cloud_provider-kind/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在 KinD(Kubernetes in Docker)中使用 LoadBalancer Service：使用 cloud-provider-kind</title>
+      <link>http://localhost:1313/tech/2024-12-08_%E7%94%A8kind%E5%BB%BA%E7%AB%8B%E7%9A%84kubernetes%E4%B8%AD%E4%BD%BF%E7%94%A8load-balancer-service/</link>
+      <pubDate>Sun, 08 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tech/2024-12-08_%E7%94%A8kind%E5%BB%BA%E7%AB%8B%E7%9A%84kubernetes%E4%B8%AD%E4%BD%BF%E7%94%A8load-balancer-service/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Cloud_Provider_KinD-v0.4.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在-kindkubernetes-in-docker中使用-loadbalancer-service使用-cloud-provider-kind&#34;&gt;在 KinD(Kubernetes in Docker)中使用 LoadBalancer Service：使用 cloud-provider-kind&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8-kindkubernetes-in-docker%e4%b8%ad%e4%bd%bf%e7%94%a8-loadbalancer-service%e4%bd%bf%e7%94%a8-cloud-provider-kind&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;KinD 是 Kubernetes 社區開發者最常用的本地集群工具之一，因為它基於 Docker，默認情況下並不支持 LoadBalancer 類型的 Service。而 cloud-provider-kind 是一個專為 KinD 集群設計的插件，提供模擬的 LoadBalancer 功能，使開發者能夠更接近雲端環境進行測試。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
