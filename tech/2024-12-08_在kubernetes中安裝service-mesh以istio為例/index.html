@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="google-site-verification" content="xtnyg0_DhQMZF5Bnim26QYzN1u_D45SjfBJH0Kk1lJM" />
+  
+    
+  <title>在Kubernetes中安裝Service Mesh：以Istio為例 | Polin‘s 技術筆記</title>
+  <meta name="author" content="Polin">
+  <meta name="description" content="Service Mesh 是一個專門處理微服務間通信的基礎設施層，提供功能如流量管理、負載均衡、安全加密、服務發現和觀察性。Istio 是目前最流行的 Service Mesh 解決方案之一，具有強大的功能和靈活的架構。">
+  <meta name="keywords" content="KinD,Kubernetes,k8s,servicemesh,istio,observability">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="在Kubernetes中安裝Service Mesh：以Istio為例">
+  <meta name="twitter:description" content="Service Mesh 是一個專門處理微服務間通信的基礎設施層，提供功能如流量管理、負載均衡、安全加密、服務發現和觀察性。Istio 是目前最流行的 Service Mesh 解決方案之一，具有強大的功能和靈活的架構。">
+
+  <meta property="og:url" content="http://localhost:1313/tech/2024-12-08_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dservice-mesh%E4%BB%A5istio%E7%82%BA%E4%BE%8B/">
+  <meta property="og:site_name" content="Polin‘s 技術筆記">
+  <meta property="og:title" content="在Kubernetes中安裝Service Mesh：以Istio為例">
+  <meta property="og:description" content="Service Mesh 是一個專門處理微服務間通信的基礎設施層，提供功能如流量管理、負載均衡、安全加密、服務發現和觀察性。Istio 是目前最流行的 Service Mesh 解決方案之一，具有強大的功能和靈活的架構。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="tech">
+    <meta property="article:published_time" content="2024-12-07T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-07T00:00:00+00:00">
+    <meta property="article:tag" content="KinD">
+    <meta property="article:tag" content="Kubernetes">
+    <meta property="article:tag" content="Service Mesh">
+    <meta property="article:tag" content="Observability">
+    <meta property="article:tag" content="Istio">
+
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  crossorigin="anonymous">
+  
+  <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="/sass/main.css">
+
+  <link rel="stylesheet" href="/zoomjs/zoom.min.css">
+
+  <script src=/js/lazysizes.min.js></script>
+
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+
+</head>
+
+
+
+<body ontouchstart="">
+  
+  
+  <nav class="navbar navbar-default navbar-custom navbar-fixed-top invert">
+  <div class="container-fluid">
+    
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://localhost:1313/">Polin‘s 技術筆記</a>
+    </div>
+    
+    <div id="huxblog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          
+          <li><a href="/archive/" title="Archive">Archive</a></li>
+          
+          <li><a href="/about" title="About">About</a></li>
+          
+          <li><a href="https://github.com/polinhou/" title="Github">Github</a></li>
+          
+
+          <li class="search-icon">
+            <a href="javascript:void(0)">
+              <i class="fa fa-search"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+  
+</nav>
+<script>
+  
+  
+  
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#huxblog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  var __HuxNav__ = {
+    close: function () {
+      $navbar.className = " ";
+      
+      setTimeout(function () {
+        
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    },
+    open: function () {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    },
+  };
+
+  
+  $toggle.addEventListener("click", function (e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      __HuxNav__.close();
+    } else {
+      __HuxNav__.open();
+    }
+  });
+
+  
+
+  document.addEventListener("click", function (e) {
+    if (e.target == $toggle) return;
+    if (e.target.className == "icon-bar") return;
+    __HuxNav__.close();
+  });
+</script>
+  
+<div class="search-page">
+  <div class="search-icon-close-container">
+    <span class="search-icon-close">
+      <i class="fa fa-chevron-down"></i>
+    </span>
+  </div>
+  <div class="search-main container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <form></form>
+        <input type="text" id="search-input" placeholder="$ grep...">
+        </form>
+        <div id="search-results" class="mini-post-list"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+  
+
+
+<style type="text/css">
+  header.intro-header {
+    position: relative;
+    background-image: url('');
+  }
+</style>
+
+<header class="intro-header style-text">
+
+  <div class="header-mask"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <div class="tags">
+            
+            <a class="tag" href="/tags/kind/" title="KinD">KinD</a>
+            
+            <a class="tag" href="/tags/kubernetes/" title="Kubernetes">Kubernetes</a>
+            
+            <a class="tag" href="/tags/service-mesh/" title="Service Mesh">Service Mesh</a>
+            
+            <a class="tag" href="/tags/observability/" title="Observability">Observability</a>
+            
+            <a class="tag" href="/tags/istio/" title="Istio">Istio</a>
+            
+          </div>
+          <h1>在Kubernetes中安裝Service Mesh：以Istio為例</h1>
+          <h2 class="subheading"></h2>
+          <span class="meta">
+            Posted by  Polin 
+            on Sat, Dec 7, 2024
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  
+
+
+<article>
+  <div class="container">
+    <div class="row">
+
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              post-container">
+        <div style="display: flex">
+<img src="https://img.shields.io/badge/MacOS-13.7.1-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/KinD-0.25.0-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg" style="margin: 2px;">
+<img src="https://img.shields.io/badge/Istio-v1.24.1-blue.svg" style="margin: 2px;">
+</div>
+<h1 id="在kubernetes中安裝service-mesh以istio為例">在Kubernetes中安裝Service Mesh：以Istio為例<a class="anchorjs-link" href="#%e5%9c%a8kubernetes%e4%b8%ad%e5%ae%89%e8%a3%9dservice-mesh%e4%bb%a5istio%e7%82%ba%e4%be%8b"></a></h1><p>Service Mesh 是一個專門處理微服務間通信的基礎設施層，提供功能如流量管理、負載均衡、安全加密、服務發現和觀察性。Istio 是目前最流行的 Service Mesh 解決方案之一，具有強大的功能和靈活的架構。</p>
+<h2 id="先決條件">先決條件<a class="anchorjs-link" href="#%e5%85%88%e6%b1%ba%e6%a2%9d%e4%bb%b6"></a></h2><p>在開始之前，請確保您的 macOS 環境已經具備以下軟體：</p>
+<ol>
+<li>
+<p>Homebrew：macOS 的套件管理工具，用來安裝其他必要軟體。</p>
+</li>
+<li>
+<p>KinD: 一種基於 Docker 的本地 Kubernetes 集群工具，用於在本地開發與測試 Kubernetes 工作負載。 可以透過 Homebrew 安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install kind
+</span></span></code></pre></div><p>更多詳細說明可參考 <a href="https://polinhou.github.io/tech/2024-11-10_%E5%9C%A8%E6%9C%AC%E6%A9%9F%E7%94%A8kind%E5%BB%BA%E7%AB%8Bkubernetes/" target="_blank">在本機用 KinD 建立 Kubernetes</a>。</p>
+</li>
+<li>
+<p>Helm: Kubernetes 的應用程式包管理工具，用於簡化應用部署與管理。可以透過 Homebrew 安裝</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install helm
+</span></span></code></pre></div></li>
+</ol>
+<h2 id="安裝-istio">安裝 Istio<a class="anchorjs-link" href="#%e5%ae%89%e8%a3%9d-istio"></a></h2><h3 id="1-新增-istio-儲存庫">1. 新增 Istio 儲存庫：<a class="anchorjs-link" href="#1-%e6%96%b0%e5%a2%9e-istio-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add istio https://istio-release.storage.googleapis.com/charts
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>&#34;istio&#34; has been added to your repositories
+</code></pre><h3 id="2-更新-helm-chart-儲存庫">2. 更新 Helm Chart 儲存庫<a class="anchorjs-link" href="#2-%e6%9b%b4%e6%96%b0-helm-chart-%e5%84%b2%e5%ad%98%e5%ba%ab"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo update istio
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the &#34;istio&#34; chart repository
+Update Complete. ⎈Happy Helming!⎈
+</code></pre><h3 id="3-安裝-istio-base">3. 安裝 Istio Base<a class="anchorjs-link" href="#3-%e5%ae%89%e8%a3%9d-istio-base"></a></h3><p>它包含了叢集範圍的自訂資源定義 (CRD)，這些資源必須在部署 Istio 控制平面之前安裝：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install istio-base istio/base <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace istio-system <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --create-namespace <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --set defaultRevision<span style="color:#f92672">=</span>default
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: istio-base
+LAST DEPLOYED: Sun Dec  8 02:26:51 2024
+NAMESPACE: istio-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+Istio base successfully installed!
+
+To learn more about the release, try:
+  $ helm status istio-base -n istio-system
+  $ helm get all istio-base -n istio-system
+</code></pre><h3 id="4-安裝-istio-cni">4. 安裝 Istio CNI<a class="anchorjs-link" href="#4-%e5%ae%89%e8%a3%9d-istio-cni"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install istio-cni istio/cni <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace istio-system
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>W1208 02:36:54.288065   89890 warnings.go:70] spec.template.metadata.annotations[container.apparmor.security.beta.kubernetes.io/install-cni]: deprecated since v1.30; use the &#34;appArmorProfile&#34; field instead
+NAME: istio-cni
+LAST DEPLOYED: Sun Dec  8 02:36:54 2024
+NAMESPACE: istio-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+&#34;istio-cni&#34; successfully installed!
+
+To learn more about the release, try:
+  $ helm status istio-cni -n istio-system
+  $ helm get all istio-cni -n istio-system
+</code></pre><h3 id="5-安裝-istio-discovery">5. 安裝 Istio Discovery<a class="anchorjs-link" href="#5-%e5%ae%89%e8%a3%9d-istio-discovery"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install istiod istio/istiod -n istio-system --set pilot.cni.enabled<span style="color:#f92672">=</span>true
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME: istiod
+LAST DEPLOYED: Sun Dec  8 02:36:59 2024
+NAMESPACE: istio-system
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+&#34;istiod&#34; successfully installed!
+
+To learn more about the release, try:
+  $ helm status istiod -n istio-system
+  $ helm get all istiod -n istio-system
+
+Next steps:
+  * Deploy a Gateway: https://istio.io/latest/docs/setup/additional-setup/gateway/
+  * Try out our tasks to get started on common configurations:
+    * https://istio.io/latest/docs/tasks/traffic-management
+    * https://istio.io/latest/docs/tasks/security/
+    * https://istio.io/latest/docs/tasks/policy-enforcement/
+  * Review the list of actively supported releases, CVE publications and our hardening guide:
+    * https://istio.io/latest/docs/releases/supported-releases/
+    * https://istio.io/latest/news/security/
+    * https://istio.io/latest/docs/ops/best-practices/security/
+
+For further documentation see https://istio.io website
+</code></pre><h3 id="4驗證安裝">4.驗證安裝<a class="anchorjs-link" href="#4%e9%a9%97%e8%ad%89%e5%ae%89%e8%a3%9d"></a></h3><p>檢查 Istio 是否成功運行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pod -n istio-system
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                      READY   STATUS    RESTARTS   AGE
+istio-cni-node-lsz47      1/1     Running   0          99s
+istiod-596bfd454f-ksww4   1/1     Running   0          94s
+</code></pre><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm list -n istio-system
+</span></span></code></pre></div><p>指令執行成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME      	NAMESPACE   	REVISION	UPDATED                             	STATUS  	CHART        	APP VERSION
+istio-base	istio-system	1       	2024-12-08 02:26:51.598058 +0800 CST	deployed	base-1.24.1  	1.24.1     
+istio-cni 	istio-system	1       	2024-12-08 02:36:54.026448 +0800 CST	deployed	cni-1.24.1   	1.24.1     
+istiod    	istio-system	1       	2024-12-08 02:36:59.365702 +0800 CST	deployed	istiod-1.24.1	1.24.1    
+</code></pre></blockquote>
+<h3 id="可選安装-istio-gateway">（可選）安装 Istio Gateway<a class="anchorjs-link" href="#%e5%8f%af%e9%81%b8%e5%ae%89%e8%a3%85-istio-gateway"></a></h3><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm install istio-ingress istio/gateway <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --namespace istio-ingress <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --create-namespace
+</span></span></code></pre></div><pre tabindex="0"><code>NAME: istio-ingress
+LAST DEPLOYED: Sun Dec  8 02:43:30 2024
+NAMESPACE: istio-ingress
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+&#34;istio-ingress&#34; successfully installed!
+
+To learn more about the release, try:
+  $ helm status istio-ingress -n istio-ingress
+  $ helm get all istio-ingress -n istio-ingress
+
+Next steps:
+  * Deploy an HTTP Gateway: https://istio.io/latest/docs/tasks/traffic-management/ingress/ingress-control/
+  * Deploy an HTTPS Gateway: https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/
+</code></pre><blockquote>
+<p>網關被部署的命名空間不得具有 istio-injection=disabled 標籤。</p>
+</blockquote>
+<h2 id="部署範例程式並整合-istio">部署範例程式並整合 Istio<a class="anchorjs-link" href="#%e9%83%a8%e7%bd%b2%e7%af%84%e4%be%8b%e7%a8%8b%e5%bc%8f%e4%b8%a6%e6%95%b4%e5%90%88-istio"></a></h2><h3 id="下載-istio-範例">下載 Istio 範例<a class="anchorjs-link" href="#%e4%b8%8b%e8%bc%89-istio-%e7%af%84%e4%be%8b"></a></h3><p>我們要使用Istio官方提供的範例，因此下載Istio範例</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -L https://istio.io/downloadIstio | sh -
+</span></span></code></pre></div><pre tabindex="0"><code>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100   101  100   101    0     0    217      0 --:--:-- --:--:-- --:--:--   219
+100  5124  100  5124    0     0   5217      0 --:--:-- --:--:-- --:--:-- 23722
+
+Downloading istio-1.24.1 from https://github.com/istio/istio/releases/download/1.24.1/istio-1.24.1-osx.tar.gz ...
+Istio 1.24.1 download complete!
+
+The Istio release archive has been downloaded to the istio-1.24.1 directory.
+
+To configure the istioctl client tool for your workstation,
+add the /Users/houpolin/IT/istio/istio-1.24.1/bin directory to your environment path variable with:
+	 export PATH=&#34;$PATH:/Users/houpolin/IT/istio/istio-1.24.1/bin&#34;
+
+Begin the Istio pre-installation check by running:
+	 istioctl x precheck 
+
+Try Istio in ambient mode
+	https://istio.io/latest/docs/ambient/getting-started/
+Try Istio in sidecar mode
+	https://istio.io/latest/docs/setup/getting-started/
+Install guides for ambient mode
+	https://istio.io/latest/docs/ambient/install/
+Install guides for sidecar mode
+	https://istio.io/latest/docs/setup/install/
+
+Need more information? Visit https://istio.io/latest/docs/ 
+</code></pre><p>接下來在目錄中應該就會看到 <code>istio-1.24.1</code> 的資料夾</p>
+<h3 id="為namespace啟用sidecar-injection">為Namespace啟用Sidecar Injection<a class="anchorjs-link" href="#%e7%82%banamespace%e5%95%9f%e7%94%a8sidecar-injection"></a></h3><p>假設應用部署在<code>default</code>命名空間，可以使用以下命令啟用自動 Sidecar Injection：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl label namespace default istio-injection<span style="color:#f92672">=</span>enabled
+</span></span></code></pre></div><h3 id="驗證配置">驗證配置<a class="anchorjs-link" href="#%e9%a9%97%e8%ad%89%e9%85%8d%e7%bd%ae"></a></h3><p>部署測試應用並驗證 Pod 是否包含 Istio Sidecar 容器：</p>
+<p>我們進到剛下載的範例程式資料夾</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd istio-1.24.1
+</span></span></code></pre></div><p>套用範例程式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+</span></span></code></pre></div><p>一段時間後，查看Pod狀態</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get pods
+</span></span></code></pre></div><p>成功後會顯示以下類似訊息</p>
+<pre tabindex="0"><code>NAME                             READY   STATUS    RESTARTS   AGE
+details-v1-79dfbd6fff-fp6fn      2/2     Running   0          17s
+productpage-v1-dffc47f64-gj5dq   2/2     Running   0          17s
+ratings-v1-65f797b499-qjjhb      2/2     Running   0          17s
+reviews-v1-5c4d6d447c-q987v      2/2     Running   0          17s
+reviews-v2-65cb66b45c-55tbl      2/2     Running   0          17s
+reviews-v3-f68f94645-6blsl       2/2     Running   0          17s
+</code></pre><blockquote>
+<p>我們可以看到每個Pod中都有一個是Istio的Sidecar</p>
+</blockquote>
+<h2 id="參考">參考<a class="anchorjs-link" href="#%e5%8f%83%e8%80%83"></a></h2><p><a href="https://opentelemetry.io/" target="_blank">Istio 官網</a></p>
+<p><a href="https://github.com/open-telemetry/opentelemetry-helm-charts" target="_blank">OpenTelemetry Helm Charts Github網址</a></p>
+<p><a href="https://github.com/jaegertracing/vertx-create-span" target="_blank">Vert.x starter with Jaeger tracer 範例程式</a></p>
+
+
+        <hr style="visibility: hidden;" />
+        <ul class="pager">
+          
+          <li class="previous">
+            <a href="/tech/2024-11-17_kubernetes%E4%BD%BF%E7%94%A8azure-file-csi-driver%E6%8E%9B%E8%BC%89azure-files/" data-toggle="tooltip" data-placement="top" title="Kubernetes使用Azure File CSI Driver掛載Azure Files">
+              Previous<br>
+              <span>Kubernetes使用Azure File CSI Driver掛載Azure Files</span>
+            </a>
+          </li>
+          
+          
+          <li class="next">
+            <a href="/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry/" data-toggle="tooltip" data-placement="top" title="在Kubernetes中安裝OpenTelemetry">
+              Next<br>
+              <span>在Kubernetes中安裝OpenTelemetry</span>
+            </a>
+          </li>
+          
+        </ul>
+        <hr style="visibility: hidden;" />
+
+        
+        
+
+
+
+
+
+
+      </div>
+
+      
+      
+      
+      <div class="
+              col-lg-2 col-lg-offset-0
+              visible-lg-block
+              sidebar-container
+              catalog-container">
+        <div class="side-catalog">
+          <hr class="hidden-sm hidden-xs">
+          <h5>
+            <a class="catalog-toggle" href="#">CATALOG</a>
+          </h5>
+          <ul class="catalog-body"></ul>
+        </div>
+      </div>
+      
+      
+      <div class="
+              col-lg-8 col-lg-offset-2
+              col-md-10 col-md-offset-1
+              sidebar-container">
+
+        
+        
+        <section>
+  
+  
+  <hr class="hidden-sm hidden-xs">
+  
+  <h5>FEATURED TAGS</h5>
+  <div class="tags">
+    
+    <a href="/tags/aws/">AWS</a>
+    
+    <a href="/tags/azure/">Azure</a>
+    
+    <a href="/tags/azure-file-csi-driver/">Azure File CSI Driver</a>
+    
+    <a href="/tags/azurefile/">Azurefile</a>
+    
+    <a href="/tags/cloud/">Cloud</a>
+    
+    <a href="/tags/codeready-containers/">CodeReady Containers</a>
+    
+    <a href="/tags/container-storage-interface/">Container Storage Interface</a>
+    
+    <a href="/tags/crc/">CRC</a>
+    
+    <a href="/tags/csi/">CSI</a>
+    
+    <a href="/tags/docker/">Docker</a>
+    
+    <a href="/tags/ec2/">EC2</a>
+    
+    <a href="/tags/gcp/">GCP</a>
+    
+    <a href="/tags/github/">Github</a>
+    
+    <a href="/tags/google-authenticator/">Google Authenticator</a>
+    
+    <a href="/tags/hugo/">Hugo</a>
+    
+    <a href="/tags/istio/">Istio</a>
+    
+    <a href="/tags/kind/">KinD</a>
+    
+    <a href="/tags/kubernetes/">Kubernetes</a>
+    
+    <a href="/tags/linux/">Linux</a>
+    
+    <a href="/tags/memorystore/">Memorystore</a>
+    
+    <a href="/tags/mfa/">MFA</a>
+    
+    <a href="/tags/observability/">Observability</a>
+    
+    <a href="/tags/openshift/">Openshift</a>
+    
+    <a href="/tags/opentelemetry/">Opentelemetry</a>
+    
+    <a href="/tags/openvpn/">Openvpn</a>
+    
+    <a href="/tags/redhat/">Redhat</a>
+    
+    <a href="/tags/redis/">Redis</a>
+    
+    <a href="/tags/secrets-store-csi-driver/">Secrets Store CSI Driver</a>
+    
+    <a href="/tags/service-mesh/">Service Mesh</a>
+    
+    <a href="/tags/sscsi/">SSCSI</a>
+    
+    <a href="/tags/vault/">Vault</a>
+    
+  </div>
+</section>
+
+        
+        
+
+      </div>
+    </div>
+  </div>
+</article>
+
+
+
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        
+        <ul class="list-inline text-center">
+
+<li>
+  <a href="https://github.com/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li>
+
+<li>
+  <a href="https://linkedin.com/in/polinhou" target="_blank">
+    <span class="fa-stack fa-lg">
+      <i class="fa fa-circle fa-stack-2x"></i>
+      <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+    </span>
+  </a>
+</li></ul>
+
+        <p class="copyright text-muted">
+          Copyright &copy; Polin‘s 技術筆記 2024  
+          <br>
+          Powered by <a href="https://gohugo.io">Hugo</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src=/js/jquery.min.js></script>
+<script src=/js/bootstrap.min.js crossorigin="anonymous"></script>
+
+
+
+<script src="/js/hux-blog.min.c4ea77041cd3edbfc8b2622cd887a9a5d8760a4162d14489e36d2a3fa4c90172.js"></script>
+
+
+<script src=/js/simple-jekyll-search.min.js></script>
+
+
+<script src="/js/search.min.53bce5da475b4d362500e5ce5dddfa22e20e1b9018777411d2020b4b839c9310.js"></script>
+
+
+
+
+
+
+<script type="text/javascript">
+  function generateCatalog(selector) {
+    _containerSelector = 'div.post-container'
+    
+    var P = $(_containerSelector), a, n, t, l, i, c;
+    a = P.find('h1,h2,h3,h4');
+    
+    $(selector).html('')
+    
+    a.each(function () {
+      n = $(this).prop('tagName').toLowerCase();
+      i = "#" + $(this).prop('id');
+      t = $(this).text();
+      c = $('<a href="' + i + '" rel="nofollow">' + t + '</a>');
+      l = $('<li class="' + n + '_nav"></li>').append(c);
+      $(selector).append(l);
+    });
+    return true;
+  }
+
+  generateCatalog(".catalog-body");
+
+  
+  $(".catalog-toggle").click((function (e) {
+    e.preventDefault();
+    $('.side-catalog').toggleClass("fold")
+  }))
+</script>
+
+
+<script type="text/javascript" src='/js/jquery.nav.min.ade6bde8f9fcc6a4b40852cb892e9f5912340ab8fe1305149d917fdd16fffd8d.js'></script>
+<script>
+   $(document).ready( function () {
+    $('.catalog-body').onePageNav({
+      currentClass: "active",
+      changeHash: !1,
+      easing: "swing",
+      filter: "",
+      scrollSpeed: 700,
+      scrollOffset: 0,
+      scrollThreshold: .2,
+      begin: null,
+      end: null,
+      scrollChange: null,
+      padding: 80
+    });
+  });
+</script>
+
+
+
+
+
+
+
+<script src="/zoomjs/zoom.min.js"></script>
+
+</body>
+
+</html>

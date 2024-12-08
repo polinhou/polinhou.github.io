@@ -6,8 +6,15 @@
     <description>Recent content in Polin&#39;s 技術筆記 on Polin‘s 技術筆記</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 07 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://polinhou.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Kubernetes中安裝Service Mesh：以Istio Sidecar為例</title>
+      <link>https://polinhou.github.io/tech/2024-12-08_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dservice-mesh%E4%BB%A5istio-sidecar%E7%82%BA%E4%BE%8B/</link>
+      <pubDate>Sun, 08 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://polinhou.github.io/tech/2024-12-08_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dservice-mesh%E4%BB%A5istio-sidecar%E7%82%BA%E4%BE%8B/</guid>
+      <description>&lt;div style=&#34;display: flex&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/MacOS-13.7.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/KinD-0.25.0-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Kubernetes-1.31.2-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;img src=&#34;https://img.shields.io/badge/Istio-v1.24.1-blue.svg&#34; style=&#34;margin: 2px;&#34;&gt;&#xA;&lt;/div&gt;&#xA;&lt;h1 id=&#34;在kubernetes中安裝service-mesh以istio-sidecar為例&#34;&gt;在Kubernetes中安裝Service Mesh：以Istio Sidecar為例&lt;a class=&#34;anchorjs-link&#34; href=&#34;#%e5%9c%a8kubernetes%e4%b8%ad%e5%ae%89%e8%a3%9dservice-mesh%e4%bb%a5istio-sidecar%e7%82%ba%e4%be%8b&#34;&gt;&lt;/a&gt;&lt;/h1&gt;&lt;p&gt;Service Mesh 是一個專門處理微服務間通信的基礎設施層，提供功能如流量管理、負載均衡、安全加密、服務發現和觀察性。Istio 是目前最流行的 Service Mesh 解決方案之一，具有強大的功能和靈活的架構。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>在Kubernetes中安裝OpenTelemetry</title>
       <link>https://polinhou.github.io/tech/2024-12-07_%E5%9C%A8kubernetes%E4%B8%AD%E5%AE%89%E8%A3%9Dopentelemetry/</link>
